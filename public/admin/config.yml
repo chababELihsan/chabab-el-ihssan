@@ -5,9 +5,9 @@
 # =============================================================================
 backend:
   name: github
-    repo: chababELihsan/chabab-el-ihssan
+  repo: chababELihsan/chabab-el-ihssan
   branch: main
-local_backend: true
+local_backend:  true
 locale: fr
 media_folder: public/images/uploads
 public_folder: /images/uploads
