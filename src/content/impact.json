@@ -1,0 +1,50 @@
+{
+  "title": {
+    "ar": "أثرنا في المجتمع",
+    "fr": "Notre Impact dans la Communauté",
+    "en": "Our Impact in the Community"
+  },
+  "description": {
+    "ar": "بعض إنجازات شباب الإحسان في 2025",
+    "fr": "Quelques réalisations de Chabab El Ihssane en 2025",
+    "en": "Some achievements of Chabab El Ihssane in 2025"
+  },
+  "stats": [
+    {
+      "icon": "meals",
+      "number": "13,000+",
+      "label": {
+        "ar": "وجبة ساخنة وُزّعت على عمّال الليل والمشرّدين",
+        "fr": "Repas chauds distribués aux travailleurs de nuit et aux sans-abris",
+        "en": "Hot meals distributed to night workers and the homeless"
+      }
+    },
+    {
+      "icon": "clothes",
+      "number": "318",
+      "label": {
+        "ar": "طفل محتاج كُسي في «ملابس العيد 2025»",
+        "fr": "Enfants démunis habillés (Vêtements de l'Aïd 2025)",
+        "en": "Needy children clothed (Eid Clothes 2025)"
+      }
+    },
+    {
+      "icon": "moon",
+      "number": "28",
+      "label": {
+        "ar": "ليلة رمضانية لحملة «وجبة السحور»",
+        "fr": "Nuits de Ramadan de la campagne « Repas du Suhoor »",
+        "en": "Ramadan nights of the “Suhoor Meals” campaign"
+      }
+    },
+    {
+      "icon": "caravan",
+      "number": "2",
+      "label": {
+        "ar": "وجهتان لقوافل الجنوب الكبير (تمنراست وأدرار)",
+        "fr": "Destinations des caravanes du Grand Sud (Tamanrasset et Adrar)",
+        "en": "Great South caravan destinations (Tamanrasset and Adrar)"
+      }
+    }
+  ]
+}
