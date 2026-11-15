@@ -1,8 +1,8 @@
 {
   "enabled": true,
-  "endDate": "2027-03-01T23:59:59",
-  "goal": 6000000,
-  "raised": 999995,
+  "endDate": "2027-03-10T23:00:00",
+  "goal": 199998,
+  "raised": 996,
   "title": {
     "ar": "حملة سيارات إسعاف",
     "fr": "Campagne : Ambulances",
