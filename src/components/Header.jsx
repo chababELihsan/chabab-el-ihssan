@@ -72,7 +72,7 @@ const Header = () => {
                     </p>
                 </div>
                 <h1 dir="rtl" className="mt-2 text-center font-display text-2xl sm:text-3xl md:text-4xl text-[var(--brand-red)]">
-                    الجمعية الخيرية شباب الإحسان
+                    الجمعية الولائية شباب الإحسان
                 </h1>
             </div>
 
