@@ -5,6 +5,7 @@ import { FaCalendarAlt, FaArrowRight, FaMapMarkerAlt } from 'react-icons/fa';
 import Modal from '../components/Modal';
 import { formatDateRange, calculateDuration } from '../utils/dateUtils';
 import PageHeader from '../components/PageHeader';
+import { PLACEHOLDER } from '../utils/placeholder';
 
 const NewsPage = () => {
     const { news, events, getLocalizedContent } = useData();
@@ -31,8 +32,8 @@ const NewsPage = () => {
                             {news.map((item) => {
                                 return (
                                     <div key={item.id} className="bg-transparent rounded-xl flex flex-col hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 overflow-hidden">
-                                        <img
-                                            src={item.image_url || item.image || "https://via.placeholder.com/400x300"}
+                                        <img loading="lazy" decoding="async"
+                                            src={item.image_url || item.image || PLACEHOLDER}
                                             alt={getLocalizedContent(item.title, language)}
                                             className="h-48 w-full object-cover"
                                         />
@@ -83,8 +84,8 @@ const NewsPage = () => {
                             {events.map((item) => {
                                 return (
                                     <div key={item.id} className="bg-transparent rounded-xl flex flex-col hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 overflow-hidden">
-                                        <img
-                                            src={item.image_url || item.image || "https://via.placeholder.com/400x300"}
+                                        <img loading="lazy" decoding="async"
+                                            src={item.image_url || item.image || PLACEHOLDER}
                                             alt={getLocalizedContent(item.title, language)}
                                             className="h-48 w-full object-cover"
                                         />

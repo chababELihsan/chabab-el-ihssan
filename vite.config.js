@@ -10,6 +10,10 @@ const siteMeta = () => {
     fs.readFileSync(new URL('./src/content/settings.json', import.meta.url), 'utf8')
   )
   const base = (process.env.SITE_URL || settings.site_url || '').replace(/\/+$/, '')
+  // Logo : accepte une adresse complète OU un chemin local (ex. /images/logo.png)
+  const logo = /^https?:/.test(settings.logo_url || '') ? settings.logo_url : base + (settings.logo_url || '')
+  // Téléphone pour Google (JSON-LD) : pris dans settings.json (champ whatsapp, format international)
+  const phone = settings.whatsapp ? '+' + String(settings.whatsapp).replace(/\D/g, '') : ''
   const social = Object.values(settings.social || {}).filter(Boolean)
   const pages = ['', '/donate', '/volunteer', '/news', '/programs', '/gallery',
     '/sadaqa-jariya', '/privacy-policy', '/terms-of-use', '/report-problem']
@@ -20,7 +24,8 @@ const siteMeta = () => {
       order: 'pre',
       handler: (html) => html
         .replaceAll('__SITE_URL__', base)
-        .replaceAll('__LOGO_URL__', settings.logo_url || '')
+        .replaceAll('__LOGO_URL__', logo)
+        .replaceAll('__PHONE__', phone)
         .replaceAll('__EMAIL__', settings.email || '')
         .replaceAll('__SAME_AS__', JSON.stringify(social)),
     },

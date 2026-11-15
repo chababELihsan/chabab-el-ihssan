@@ -6,6 +6,7 @@ import { FaCalendarAlt, FaArrowRight, FaThumbtack, FaMapMarkerAlt } from 'react-
 import Modal from '../components/Modal';
 import { formatDateRange, calculateDuration, isExpired } from '../utils/dateUtils';
 import PageHeader from '../components/PageHeader';
+import { PLACEHOLDER } from '../utils/placeholder';
 
 const ProgramsPage = () => {
     const { programs, projects, getLocalizedContent } = useData();
@@ -47,8 +48,8 @@ const ProgramsPage = () => {
                 onClick={() => setModalState({ id: item.id, type })}
             >
                 <div className="relative md:w-1/3 shrink-0">
-                    <img
-                        src={item.image_url || "https://via.placeholder.com/400"}
+                    <img loading="lazy" decoding="async"
+                        src={item.image_url || PLACEHOLDER}
                         alt={getLocalizedContent(item.title, language)}
                         className="h-64 w-full md:h-full object-cover"
                     />

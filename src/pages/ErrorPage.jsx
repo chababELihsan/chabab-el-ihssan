@@ -1,21 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import settings from '../data/settings';
-import { translations } from '../translations';
+import { LanguageContext } from '../context/LanguageContext';
 import { Link } from 'react-router-dom';
 import { FaExclamationTriangle, FaEnvelope, FaCode } from 'react-icons/fa';
 
 const ErrorPage = ({ error, resetErrorBoundary, is404 = false }) => {
-    // Safe language detection without hooks (to prevent crashes outside Provider)
-    const getLanguage = () => {
-        try {
-            return localStorage.getItem('language') || 'en';
-        } catch {
-            return 'en';
-        }
+    // useContext (et non useLanguage) : renvoie undefined hors du Provider au lieu de planter.
+    const ctx = useContext(LanguageContext);
+    const stored = (() => { try { return localStorage.getItem('language'); } catch { return null; } })();
+    const language = ctx?.language || stored || 'en';
+    // Textes de secours (le Provider peut lui-même être la cause de l'erreur)
+    const FALLBACK = {
+        ar: { page_not_found: 'الصفحة غير موجودة', error_title: 'حدث خطأ ما', home: 'الرئيسية', try_again: 'إعادة المحاولة' },
+        fr: { page_not_found: 'Page introuvable', error_title: 'Une erreur est survenue', home: 'Accueil', try_again: 'Réessayer' },
+        en: { page_not_found: 'Page not found', error_title: 'Something went wrong', home: 'Home', try_again: 'Try again' },
     };
-
-    const language = getLanguage();
-    const t = translations[language] || translations['en'];
+    const t = { ...(FALLBACK[language] || FALLBACK.en), ...(ctx?.t || {}) };
 
     // Default translations if keys missing (or if fallback used above with limited keys)
     const title = is404 ? t.page_not_found : t.error_title;

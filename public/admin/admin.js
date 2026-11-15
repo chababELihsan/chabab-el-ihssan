@@ -220,21 +220,8 @@
     buildGuide();
     var btn = document.createElement('button');
     btn.id = 'cei-help-btn'; btn.type = 'button'; btn.textContent = '❓ كيف أغيّر الصور؟';
-    btn.style.display = 'none';
     btn.onclick = openGuide;
     document.body.appendChild(btn);
-    var autoDone = false;
-    // الزر والدليل لا يظهران إلا بعد تسجيل الدخول (عندما تظهر القائمة الجانبية)
-    setInterval(function () {
-      var logged = !!document.querySelector('[class*="SidebarContainer"]');
-      btn.style.display = logged ? 'block' : 'none';
-      if (logged && !autoDone) {
-        autoDone = true;
-        var seen = false;
-        try { seen = localStorage.getItem('cei_guide_seen') === '1'; } catch (e) {}
-        /* الصفحة الرئيسية الجديدة تظهر تلقائياً بدل الدليل */
-      }
-    }, 500);
   }
 
   /* ---------------------------------------------------------------
@@ -384,20 +371,23 @@
   }
   function kb(n) { return n > 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.round(n / 1024) + ' KB'; }
 
-  function shrink(file) {
+  // تحويل كل صورة (JPG/PNG) إلى WebP مع تصغير أكبر ضلع إلى 1600px.
+  // إن لم يكن الناتج أصغر من الأصل أو لم يدعم المتصفح WebP تبقى الصورة الأصلية.
+  // quiet=true: لا رسالة لكل صورة (تُستعمل عند رفع عدّة صور دفعة واحدة).
+  var shrinkStats = null;
+  function shrink(file, quiet) {
     if (!/^image\/(jpeg|png|webp)$/.test(file.type) || file.size < MIN_BYTES || !window.createImageBitmap) return Promise.resolve(file);
     return createImageBitmap(file).then(function (bmp) {
       var s = Math.min(1, MAX_SIDE / Math.max(bmp.width, bmp.height));
       var w = Math.round(bmp.width * s), hh = Math.round(bmp.height * s);
       var c = document.createElement('canvas'); c.width = w; c.height = hh;
       c.getContext('2d').drawImage(bmp, 0, 0, w, hh);
-      var wantType = file.type === 'image/jpeg' ? 'image/jpeg' : 'image/webp';
-      return new Promise(function (res) { c.toBlob(res, wantType, 0.85); }).then(function (blob) {
-        if (!blob || blob.size >= file.size) return file;          // لا فائدة من التصغير
-        var ext = blob.type === 'image/jpeg' ? '.jpg' : blob.type === 'image/webp' ? '.webp' : '.png';
-        var name = file.name.replace(/\.[^.]+$/, '') + ext;
-        toast('✅ تم تصغير الصورة تلقائياً: ' + kb(file.size) + ' ← ' + kb(blob.size));
-        return new File([blob], name, { type: blob.type, lastModified: Date.now() });
+      return new Promise(function (res) { c.toBlob(res, 'image/webp', 0.82); }).then(function (blob) {
+        if (!blob || blob.type !== 'image/webp' || blob.size >= file.size) return file;   // لا فائدة من التحويل
+        var name = file.name.replace(/\.[^.]+$/, '') + '.webp';
+        if (shrinkStats) { shrinkStats.n++; shrinkStats.from += file.size; shrinkStats.to += blob.size; }
+        else if (!quiet) toast('✅ تم تحويل الصورة إلى WebP: ' + kb(file.size) + ' ← ' + kb(blob.size));
+        return new File([blob], name, { type: 'image/webp', lastModified: Date.now() });
       });
     }).catch(function () { return file; });
   }
@@ -408,7 +398,10 @@
       if (!inp || inp.type !== 'file' || e._cei || !inp.files || !inp.files.length) return;
       e.stopImmediatePropagation();
       var files = Array.prototype.slice.call(inp.files);
-      Promise.all(files.map(shrink)).then(function (out) {
+      shrinkStats = { n: 0, from: 0, to: 0 };
+      Promise.all(files.map(function (f) { return shrink(f, true); })).then(function (out) {
+        var st = shrinkStats; shrinkStats = null;
+        if (st && st.n) toast('✅ تم تحويل ' + st.n + (st.n === 1 ? ' صورة' : ' صور') + ' إلى WebP: ' + kb(st.from) + ' ← ' + kb(st.to));
         try {
           var dt = new DataTransfer();
           out.forEach(function (f) { dt.items.add(f); });
@@ -701,7 +694,7 @@
 
   function initHome() {
     var wrap = document.createElement('div'); wrap.id = 'cei-home-wrap'; wrap.innerHTML = '<div id="cei-home"></div>'; document.body.appendChild(wrap);
-    var fab = document.createElement('button'); fab.id = 'cei-home-btn'; fab.type = 'button'; fab.textContent = '🏠 الرئيسية'; fab.style.display = 'none'; fab.onclick = openHome; document.body.appendChild(fab);
+    var fab = document.createElement('button'); fab.id = 'cei-home-btn'; fab.type = 'button'; fab.textContent = '🏠 الرئيسية'; fab.onclick = openHome; document.body.appendChild(fab);
 
     wrap.addEventListener('click', function (e) {
       var t = e.target, q = function (s) { return t.closest && t.closest(s); };
@@ -767,16 +760,27 @@
     try { if (localStorage.getItem('cei_dark') === '1') wrap.classList.add('dark'); } catch (x) {}
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { var l = document.getElementById('cei-live'); if (l && l.classList.contains('open')) l.classList.remove('open'); else closeHome(); } });
 
-    var auto = false;
-    setInterval(function () {
-      var logged = !!document.querySelector('[class*="SidebarContainer"]');
-      fab.style.display = logged ? 'block' : 'none';
-      if (logged && !auto) { auto = true; openHome(); }
-    }, 500);
     if (window.CMS && CMS.registerEventListener) {
       var last = 0;
       ['postSave', 'postPublish'].forEach(function (n) { try { CMS.registerEventListener({ name: n, handler: function () { if (Date.now() - last > 3000) { last = Date.now(); deployBanner(); } } }); } catch (e) {} });
     }
+  }
+
+  /* ---------------------------------------------------------------
+   * واجهة مستقرّة: شاشة تحميل تختفي مرة واحدة عندما تصبح اللوحة جاهزة،
+   * والأزرار العائمة تظهر بنعومة (CSS) بعد تسجيل الدخول — بدون قفزات.
+   * ------------------------------------------------------------- */
+  function watchUi() {
+    var root = document.documentElement, t0 = Date.now();
+    var iv = setInterval(function () {
+      var logged = !!document.querySelector('[class*="SidebarContainer"]');
+      var login = !!document.querySelector('[class*="AuthenticationPage"]');
+      document.body.classList.toggle('cei-in', logged);
+      if (!root.classList.contains('cei-ready') && (logged || login || Date.now() - t0 > 10000)) {
+        setTimeout(function () { root.classList.add('cei-ready'); }, 120);
+      }
+    }, 200);
+    return iv;
   }
 
   /* ------------------------------------------------------------- */
@@ -788,6 +792,7 @@
     initGuide();
     initShrink();
     initHome();
+    watchUi();
     // Decap يعرّف window.CMS و window.h بعد تحميل السكربت
     var tries = 0, iv = setInterval(function () {
       if (window.CMS && window.h) { clearInterval(iv); initPreviews(); }

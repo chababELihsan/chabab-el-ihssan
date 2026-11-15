@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaTimes, FaExpand, FaSearch, FaImages, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { galleryCategories } from '../data/campaigns';
 import { getLocalizedContent } from '../utils/languageUtils';
+import { PLACEHOLDER } from '../utils/placeholder';
 
 const GalleryPage = () => {
     const { t, language } = useLanguage();
@@ -153,12 +154,12 @@ const GalleryPage = () => {
                                     className="break-inside-avoid mb-4 group relative rounded-2xl overflow-hidden shadow-md hover:shadow-2xl cursor-pointer transition-all duration-300"
                                     onClick={() => setLightIndex(index)}
                                 >
-                                    <img
+                                    <img loading="lazy" decoding="async"
                                         src={img.image_url}
                                         alt={getCaption(img) || 'Gallery image'}
                                         className="w-full object-cover group-hover:scale-105 transition-transform duration-500"
                                         loading="lazy"
-                                        onError={e => { e.target.src = 'https://via.placeholder.com/400x300?text=Image'; }}
+                                        onError={e => { e.target.src = PLACEHOLDER; }}
                                     />
                                     {/* Overlay */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
@@ -230,7 +231,7 @@ const GalleryPage = () => {
                                     }}
                                     draggable={false}
                                     className="max-h-full max-w-full object-contain rounded-lg shadow-2xl select-none"
-                                    onError={e => { e.target.src = 'https://via.placeholder.com/800x600?text=Image'; }}
+                                    onError={e => { e.target.src = PLACEHOLDER; }}
                                 />
                             </AnimatePresence>
                             {filtered.length > 1 && (

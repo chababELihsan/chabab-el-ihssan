@@ -1,5 +1,14 @@
 # Changelog
 
+## v10 (v7 de l'admin)
+- Page don : CCP/BaridiMob + CPA, boutons « Copier », code QR, reçu par WhatsApp, montant pré-rempli (?amount=).
+- Mobile : barre « Faire un don » fixe en bas, boutons larges.
+- Mode Ramadan : compte à rebours, couffin, Zakat el-Fitr (réglages dans /admin).
+- Admin : interface stable (écran de chargement, plus d'ouverture automatique de « الرئيسية »), thème moderne aux couleurs de l'association.
+- Admin : images converties en WebP, lot d'images avec un seul message.
+- Traductions séparées (ar inclus, fr/en chargées à la demande) ; spinner traduit ; images en lazy-loading ; images de secours locales.
+- Téléphone et logo lus depuis settings.json (index.html / SEO).
+
 ## v9.0.0
 - Ajout de la interface d'administration `/admin` (Decap CMS) : tout le contenu est maintenant dans `src/content/*.json`.
 - Chiffres « Impact », campagne en vedette, coordonnées et liens sociaux éditables sans toucher au code.

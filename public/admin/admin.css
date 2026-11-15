@@ -189,3 +189,69 @@ button[class*="PublishButton"] { background: var(--red) !important; color: #fff 
 #cei-home .gcap { width: 100%; border: 0; border-top: 1px solid var(--line); padding: 8px; font: 600 12.5px 'Cairo', sans-serif; background: transparent; color: var(--ink); outline: none; }
 #cei-home .gcap:focus { background: #fff7ed; }
 #cei-home-wrap.dark #cei-home .schedtip { background: #3b2a08; border-color: #78560f; color: #fde68a; } #cei-home-wrap.dark #cei-home .gcap:focus { background: #172033; }
+
+/* =====================================================================
+   v7 — مظهر عصري ثابت (ألوان الجمعية) — لا يغيّر أي وظيفة
+   ===================================================================== */
+:root { --brand: #7a1034; --brand-d: #4d0a21; --gold: #f2b705; --surface: #ffffff; --canvas: #f4f2ef; --ring: rgba(122, 16, 52, .28); }
+
+html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+body { background: var(--canvas); }
+::selection { background: rgba(242, 183, 5, .45); }
+
+/* دخول سلس لواجهة Decap بعد شاشة التحميل */
+#nc-root { animation: ceiIn .5s ease both; }
+@keyframes ceiIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* أشرطة تمرير أنيقة */
+* { scrollbar-width: thin; scrollbar-color: #c9bfc4 transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb { background: #c9bfc4; border-radius: 99px; border: 2px solid transparent; background-clip: content-box; }
+*::-webkit-scrollbar-thumb:hover { background: var(--brand); background-clip: content-box; }
+
+/* الأزرار العائمة: تظهر بنعومة بعد الدخول (لا قفزة) */
+#cei-help-btn, #cei-home-btn {
+  opacity: 0; visibility: hidden; transform: translateY(10px); pointer-events: none;
+  transition: opacity .35s ease, transform .35s ease, visibility .35s, background .2s, box-shadow .2s;
+  backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, .18); letter-spacing: .2px;
+}
+body.cei-in #cei-help-btn, body.cei-in #cei-home-btn { opacity: 1; visibility: visible; transform: none; pointer-events: auto; }
+#cei-help-btn { background: linear-gradient(135deg, var(--brand), #c8102e); box-shadow: 0 8px 24px rgba(122, 16, 52, .35); }
+#cei-home-btn { background: linear-gradient(135deg, #1a0a10, #3a1020); box-shadow: 0 8px 24px rgba(0, 0, 0, .3); }
+#cei-help-btn:hover, #cei-home-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0, 0, 0, .35); }
+#cei-help-btn:active, #cei-home-btn:active { transform: scale(.97); }
+
+/* القائمة الجانبية */
+[class*="SidebarNavLink"] { border-radius: 12px !important; transition: background .18s, color .18s, transform .18s; }
+[class*="SidebarNavLink"]:hover { transform: translateX(-2px); }
+[class*="SidebarContainer"] { border-radius: 18px !important; box-shadow: 0 6px 24px rgba(77, 10, 33, .08) !important; }
+
+/* بطاقات المحتوى: ظل ناعم + ارتفاع عند التمرير */
+[class*="ListCard"], [class*="GridCard"], [class*="CollectionTopContainer"], [class*="EditorContainer"] [class*="ControlContainer"] {
+  border-radius: 16px !important; transition: box-shadow .2s ease, transform .2s ease;
+}
+[class*="GridCard"]:hover, [class*="ListCard"]:hover { box-shadow: 0 12px 28px rgba(77, 10, 33, .14) !important; transform: translateY(-3px); }
+
+/* الحقول: حدود واضحة + حلقة تركيز بلون الجمعية */
+input[type="text"], input[type="number"], input[type="date"], input[type="search"], textarea, select {
+  border-radius: 12px !important; transition: border-color .15s, box-shadow .15s;
+}
+input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, input[type="search"]:focus, textarea:focus, select:focus {
+  outline: none !important; border-color: var(--brand) !important; box-shadow: 0 0 0 4px var(--ring) !important;
+}
+:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; }
+
+/* زر النشر والأزرار الرئيسية */
+button[class*="PublishButton"] { background: linear-gradient(135deg, var(--brand), #c8102e) !important; box-shadow: 0 6px 16px rgba(122, 16, 52, .3); transition: transform .15s, box-shadow .15s !important; }
+button[class*="PublishButton"]:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(122, 16, 52, .38); }
+button[class*="PublishButton"]:active { transform: scale(.98); }
+
+/* الإشعارات وشريط النشر: أنعم وأوضح */
+#cei-toast, #cei-busy, #cei-deploy { border-radius: 14px; backdrop-filter: blur(6px); }
+
+/* احترام من يفضّل تقليل الحركة */
+@media (prefers-reduced-motion: reduce) {
+  #nc-root { animation: none; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  #cei-splash i { animation: none; }
+}

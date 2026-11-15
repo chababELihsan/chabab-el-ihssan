@@ -778,6 +778,51 @@ collections:
       format: YYYY-MM-DDTHH:mm:ss
       picker_utc: false
       hint: العدّ التنازلي يتوقف عند هذا التاريخ.
+  - name: ramadan
+    label: 🌙 وضع رمضان (العدّ التنازلي + السلة + زكاة الفطر)
+    file: src/content/ramadan.json
+    format: json
+    fields:
+    - label: تفعيل قسم رمضان
+      name: enabled
+      widget: boolean
+      default: true
+      required: false
+      hint: يظهر القسم تلقائيًا قبل رمضان بعدد الأيام المحدد أدناه، ويختفي بعد نهايته.
+    - label: أول يوم من رمضان
+      name: start_date
+      widget: datetime
+      date_format: YYYY-MM-DD
+      time_format: false
+      format: YYYY-MM-DD
+      picker_utc: false
+      hint: عدّلوه حسب الرؤية الرسمية في الجزائر.
+    - label: عدد أيام رمضان
+      name: days
+      widget: number
+      value_type: int
+      min: 29
+      max: 30
+      default: 30
+    - label: يظهر القسم قبل رمضان بـ (يوم)
+      name: show_days_before
+      widget: number
+      value_type: int
+      min: 0
+      max: 365
+      default: 60
+      hint: ارفعوا الرقم (مثلاً 120) إن أردتم معاينة القسم الآن.
+    - label: سعر سلة رمضان (دج)
+      name: basket_price
+      widget: number
+      value_type: int
+      min: 0
+    - label: زكاة الفطر للفرد (دج)
+      name: fitr_amount
+      widget: number
+      value_type: int
+      min: 0
+      hint: راجعوا القيمة الرسمية التي تعلنها وزارة الشؤون الدينية كل سنة.
   description: الأرقام التي يراها الزائر في الصفحة الرئيسية، والحملة الحالية (المبلغ + العدّ التنازلي).
 - name: testimonials
   label: 💬 آراء المتابعين
@@ -873,6 +918,34 @@ collections:
       name: whatsapp
       widget: string
       hint: 'بدون + ولا مسافات، مثال: 213557343528'
+    - label: حسابات التبرع (صفحة «تبرّع»)
+      name: payment
+      widget: object
+      collapsed: false
+      hint: تظهر كل خانة مملوءة فقط في صفحة التبرع مع زر «نسخ» ورمز QR. اتركوا الفارغ كما هو.
+      fields:
+      - label: اسم صاحب الحساب
+        name: account_name
+        widget: string
+        required: false
+      - label: رقم حساب CCP
+        name: ccp_number
+        widget: string
+        required: false
+        hint: مثال 0012345678 — لبريدي موب.
+      - label: مفتاح CCP (Clé)
+        name: ccp_key
+        widget: string
+        required: false
+      - label: RIP (20 رقمًا)
+        name: rip
+        widget: string
+        required: false
+        hint: يجده المتبرع في تطبيق بريدي موب؛ إن وُضع فهو الذي يُحوَّل إلى QR.
+      - label: رقم الحساب البنكي CPA
+        name: cpa_account
+        widget: string
+        required: false
     - label: العنوان
       name: address
       widget: object

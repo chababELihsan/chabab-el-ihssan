@@ -26,7 +26,7 @@ const GalleryPage = lazy(() => import('./pages/GalleryPage'));
 const SadaqaJariya = lazy(() => import('./pages/SadaqaJariya'));
 
 // Minimal fallback shown while a lazy page chunk loads
-const PageLoader = () => <LoadingSpinner fullScreen={true} message="Loading..." />;
+const PageLoader = () => <LoadingSpinner fullScreen={true} />;
 
 function App() {
     return (

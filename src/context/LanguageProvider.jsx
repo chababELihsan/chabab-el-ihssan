@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { translations } from '../translations';
+import React, { useState, useEffect, useCallback } from 'react';
+import ar from '../translations/ar'; // langue par défaut : incluse dans le bundle principal
 import { LanguageContext } from './LanguageContext';
 
 const SEO = {
@@ -17,9 +17,38 @@ const SEO = {
     },
 };
 
+// fr / en : chargées uniquement quand le visiteur les utilise (gain ~30 Ko gzip pour les visiteurs arabes)
+const loaders = {
+    fr: () => import('../translations/fr'),
+    en: () => import('../translations/en'),
+};
+const cache = { ar };
+const loadLanguage = async (lang) => {
+    if (cache[lang]) return cache[lang];
+    const mod = await loaders[lang]();
+    cache[lang] = mod.default;
+    return cache[lang];
+};
+const savedLanguage = () => {
+    const v = localStorage.getItem('language');
+    return v === 'fr' || v === 'en' ? v : 'ar';
+};
+
 export const LanguageProvider = ({ children }) => {
-    const [language, setLanguage] = useState(localStorage.getItem('language') || 'ar');
-    const t = translations[language];
+    const [state, setState] = useState({ language: 'ar', t: ar, ready: savedLanguage() === 'ar' });
+    const { language, t, ready } = state;
+
+    const changeLanguage = useCallback((lang) => {
+        loadLanguage(lang)
+            .then((dict) => setState({ language: lang, t: dict, ready: true }))
+            .catch(() => setState((s) => ({ ...s, ready: true }))); // réseau coupé : on garde la langue actuelle
+    }, []);
+
+    // Première visite d'un visiteur français/anglais : on charge sa langue avant d'afficher la page
+    useEffect(() => {
+        const saved = savedLanguage();
+        if (saved !== 'ar') changeLanguage(saved);
+    }, [changeLanguage]);
 
     useEffect(() => {
         localStorage.setItem('language', language);
@@ -38,9 +67,7 @@ export const LanguageProvider = ({ children }) => {
         }
     }, [language]);
 
-    const changeLanguage = (lang) => {
-        setLanguage(lang);
-    };
+    if (!ready) return null;
 
     return (
         <LanguageContext.Provider value={{ language, changeLanguage, t }}>

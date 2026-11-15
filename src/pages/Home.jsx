@@ -6,6 +6,7 @@ import Programs from '../components/Programs';
 
 import Impact from '../components/Impact';
 import FeaturedCampaign from '../components/FeaturedCampaign';
+import RamadanSection from '../components/RamadanSection';
 import Branches from '../components/Branches';
 import GetInvolved from '../components/GetInvolved';
 import About from '../components/About';
@@ -51,6 +52,7 @@ const Home = () => {
             transition={{ duration: 0.5 }}
         >
             <Hero />
+            <RamadanSection />
             <FeaturedCampaign />
             <Impact />
             <Mission />

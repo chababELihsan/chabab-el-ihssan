@@ -42,6 +42,7 @@ import branchesJson from '../content/branches.json';
 import projectsJson from '../content/projects.json';
 import mediaJson from '../content/media.json';
 import announcementJson from '../content/announcement.json';
+import ramadanJson from '../content/ramadan.json';
 
 export const settings = settingsJson;
 export const impact = impactJson;
@@ -51,3 +52,4 @@ export const branchesContent = branchesJson;
 export const projects = projectsJson;
 export const media = mediaJson;
 export const announcement = announcementJson;
+export const ramadan = ramadanJson;
