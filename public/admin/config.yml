@@ -916,10 +916,6 @@ collections:
     - label: الهاتف كما يظهر في الموقع
       name: phone_display
       widget: string
-    - label: رقم واتساب بالصيغة الدولية
-      name: whatsapp
-      widget: string
-      hint: 'بدون + ولا مسافات، مثال: 213557343528'
     - label: حسابات التبرع (صفحة «تبرّع»)
       name: payment
       widget: object

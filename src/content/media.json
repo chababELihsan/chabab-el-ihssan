@@ -31,9 +31,9 @@
       },
       "actions": [
         {
-          "ar": "مقرّ الجمعية بالقبة",
-          "fr": "Siège de l'association à Kouba",
-          "en": "Association headquarters, Kouba"
+          "ar": "مقرّ الجمعية الولائية شباب الإحسان بالقبة",
+          "fr": "Siège de l'association de wilaya Chabab El Ihssan, Kouba",
+          "en": "Chabab El Ihssan provincial association headquarters, Kouba"
         },
         {
           "ar": "ملابس العيد 2025 (318 طفلاً)",
@@ -76,6 +76,102 @@
           "ar": "قافلة الإحسان 19/20",
           "fr": "Kafilat Elihssan 19/20",
           "en": "Kafilat Elihssan 19/20"
+        }
+      ]
+    },
+    {
+      "lat": 27.6711,
+      "lng": -8.1474,
+      "name": {
+        "ar": "تندوف",
+        "fr": "Tindouf",
+        "en": "Tindouf"
+      },
+      "actions": [
+        {
+          "ar": "حملة ميدانية للجمعية",
+          "fr": "Campagne de terrain de l'association",
+          "en": "Field campaign by the association"
+        }
+      ]
+    },
+    {
+      "lat": 35.7058,
+      "lng": 4.5419,
+      "name": {
+        "ar": "المسيلة",
+        "fr": "M'sila",
+        "en": "M'sila"
+      },
+      "actions": [
+        {
+          "ar": "حملة ميدانية للجمعية",
+          "fr": "Campagne de terrain de l'association",
+          "en": "Field campaign by the association"
+        }
+      ]
+    },
+    {
+      "lat": 33.6831,
+      "lng": 1.0192,
+      "name": {
+        "ar": "البيض",
+        "fr": "El Bayadh",
+        "en": "El Bayadh"
+      },
+      "actions": [
+        {
+          "ar": "حملة ميدانية للجمعية",
+          "fr": "Campagne de terrain de l'association",
+          "en": "Field campaign by the association"
+        }
+      ]
+    },
+    {
+      "lat": 34.6728,
+      "lng": 3.263,
+      "name": {
+        "ar": "الجلفة",
+        "fr": "Djelfa",
+        "en": "Djelfa"
+      },
+      "actions": [
+        {
+          "ar": "حملة ميدانية للجمعية",
+          "fr": "Campagne de terrain de l'association",
+          "en": "Field campaign by the association"
+        }
+      ]
+    },
+    {
+      "lat": 36.3749,
+      "lng": 3.902,
+      "name": {
+        "ar": "بويرة",
+        "fr": "Bouira",
+        "en": "Bouira"
+      },
+      "actions": [
+        {
+          "ar": "حملة ميدانية للجمعية",
+          "fr": "Campagne de terrain de l'association",
+          "en": "Field campaign by the association"
+        }
+      ]
+    },
+    {
+      "lat": 25.0,
+      "lng": -13.5,
+      "name": {
+        "ar": "الصحراء الغربية",
+        "fr": "Sahara occidental",
+        "en": "Western Sahara"
+      },
+      "actions": [
+        {
+          "ar": "حملة ميدانية للجمعية",
+          "fr": "Campagne de terrain de l'association",
+          "en": "Field campaign by the association"
         }
       ]
     }

@@ -189,6 +189,8 @@ const useInstagramPosts = (feedUrl, manual) => {
 
 const InstagramCard = ({ lb }) => {
     const profile = social.instagram;
+    const handle = igHandle(profile).replace('@', '');
+    const igEmbed = handle ? `https://www.instagram.com/${handle}/embed` : '';
     const { status, posts } = useInstagramPosts(socialFeed.instagram_feed_url, socialFeed.instagram_manual_posts);
 
     return (
@@ -238,7 +240,18 @@ const InstagramCard = ({ lb }) => {
                     </div>
                 )}
 
-                {(status === 'empty' || status === 'error') && (
+                {(status === 'empty' || status === 'error') && igEmbed && (
+                    <iframe
+                        title="Instagram"
+                        src={igEmbed}
+                        className="w-full flex-1 min-h-[540px] rounded-lg bg-white"
+                        style={{ border: 'none' }}
+                        scrolling="no"
+                        loading="lazy"
+                    />
+                )}
+
+                {(status === 'empty' || status === 'error') && !igEmbed && (
                     <div className="flex-1 flex flex-col items-center justify-center text-center gap-5 px-6 py-10 rounded-xl bg-brand-paper">
                         <span className="w-20 h-20 rounded-full bg-[var(--brand-navy)] text-[var(--brand-gold)] flex items-center justify-center text-4xl shadow-lg" aria-hidden="true"><FaImages /></span>
                         <p className="text-[var(--brand-navy)] font-bold text-lg max-w-xs">{lb.igEmpty}</p>

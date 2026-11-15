@@ -100,9 +100,7 @@ const ErrorPage = ({ error, resetErrorBoundary, is404 = false }) => {
                             </div>
                             <div className="text-left">
                                 <p className="font-semibold text-gray-700 dark:text-gray-200">{t.developer_label}</p>
-                                <a href="https://www.linkedin.com/in/oussama-elhadji" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
-                                    Oussama ELHADJI
-                                </a>
+                                <span className="text-blue-600 dark:text-blue-400 font-semibold">Zehani Ferhat</span>
                             </div>
                         </div>
                     </div>

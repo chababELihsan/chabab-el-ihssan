@@ -4,7 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 // removed import { translations } from '../translations';
 import settings, { social } from '../data/settings';
 import { getLocalizedContent } from '../utils/languageUtils';
-import { FaFacebookF, FaInstagram, FaYoutube, FaTiktok, FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaWhatsapp } from 'react-icons/fa';
+import { FaFacebookF, FaInstagram, FaYoutube, FaTiktok, FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock } from 'react-icons/fa';
 
 const Footer = () => {
     const { t, language } = useLanguage();
@@ -49,9 +49,6 @@ const Footer = () => {
                             </a>
                             <a href={social.youtube} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition p-1">
                                 <FaYoutube className="text-2xl" />
-                            </a>
-                            <a href={`https://api.whatsapp.com/send?phone=${settings.whatsapp}`} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition p-1">
-                                <FaWhatsapp className="text-2xl" />
                             </a>
                             <a href={social.tiktok} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition p-1">
                                 <FaTiktok className="text-2xl" />

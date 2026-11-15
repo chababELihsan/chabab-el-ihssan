@@ -2,7 +2,7 @@ import React from 'react';
 import settings from '../data/settings';
 import { useLanguage } from '../context/LanguageContext';
 import { motion } from 'framer-motion';
-import { FaHandPaper, FaEnvelope, FaWhatsapp } from 'react-icons/fa';
+import { FaHandPaper, FaEnvelope } from 'react-icons/fa';
 
 const Volunteer = () => {
     const { t } = useLanguage();
@@ -21,14 +21,6 @@ const Volunteer = () => {
                 </div>
 
                 <div className="p-8 flex flex-col gap-4">
-                    <a
-                        href="https://chat.whatsapp.com/Lmy97p5Q64H8USGhyTT0TN?mode=gi_t"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full flex items-center justify-center gap-3 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition shadow-sm hover:shadow-md"
-                    >
-                        <FaWhatsapp /> WhatsApp
-                    </a>
                     <a
                         href={`mailto:${settings.email}`}
                         className="w-full flex items-center justify-center gap-3 bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg transition shadow-sm hover:shadow-md"

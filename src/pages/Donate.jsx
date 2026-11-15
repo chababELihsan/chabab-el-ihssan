@@ -2,7 +2,7 @@ import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { motion } from 'framer-motion';
-import { FaHeart, FaUniversity, FaMobileAlt, FaWhatsapp } from 'react-icons/fa';
+import { FaHeart, FaUniversity, FaMobileAlt } from 'react-icons/fa';
 import PageHeader from '../components/PageHeader';
 import PayCard from '../components/PayCard';
 import settings from '../data/settings';
@@ -16,9 +16,7 @@ const L = {
         cpaTitle: 'تحويل بنكي (CPA)', cpaAccount: 'رقم الحساب', holder: 'اسم صاحب الحساب',
         qrCpa: 'امسح الرمز لنسخ رقم الحساب',
         amountBanner: (a) => `مبلغ تبرعك: ${a} دج — حوّله إلى أحد الحسابين أدناه`,
-        waBtn: 'أرسل وصل التحويل عبر واتساب',
-        waMsg: (a) => `السلام عليكم، قمت بتبرع${a ? ` بمبلغ ${a} دج` : ''} لجمعية شباب الإحسان، وهذا وصل التحويل.`,
-        steps: 'كيف أتبرع؟ ١) انسخ رقم الحساب ٢) حوّل المبلغ من تطبيق بريدي موب أو بنكك ٣) أرسل لنا الوصل على واتساب لنوثّق تبرعك.',
+        steps: 'كيف أتبرع؟ ١) انسخ رقم الحساب ٢) حوّل المبلغ من تطبيق بريدي موب أو بنكك ٣) أرسل لنا الوصل على بريدنا الإلكتروني لنوثّق تبرعك.',
     },
     fr: {
         copy: 'Copier', copied: 'Copié ✓',
@@ -28,9 +26,7 @@ const L = {
         cpaTitle: 'Virement bancaire (CPA)', cpaAccount: 'N° de compte', holder: 'Titulaire du compte',
         qrCpa: 'Scannez pour récupérer le numéro de compte',
         amountBanner: (a) => `Votre don : ${a} DA — à virer sur l'un des comptes ci-dessous`,
-        waBtn: 'Envoyer le reçu par WhatsApp',
-        waMsg: (a) => `Bonjour, j'ai fait un don${a ? ` de ${a} DA` : ''} à l'association Chabab El Ihssane. Voici le reçu du virement.`,
-        steps: '1) Copiez le numéro de compte 2) Faites le virement depuis BaridiMob ou votre banque 3) Envoyez-nous le reçu sur WhatsApp pour que nous enregistrions votre don.',
+        steps: '1) Copiez le numéro de compte 2) Faites le virement depuis BaridiMob ou votre banque 3) Envoyez-nous le reçu par e-mail pour que nous enregistrions votre don.',
     },
     en: {
         copy: 'Copy', copied: 'Copied ✓',
@@ -40,9 +36,7 @@ const L = {
         cpaTitle: 'Bank transfer (CPA)', cpaAccount: 'Account number', holder: 'Account holder',
         qrCpa: 'Scan to get the account number',
         amountBanner: (a) => `Your donation: ${a} DZD — send it to one of the accounts below`,
-        waBtn: 'Send the receipt on WhatsApp',
-        waMsg: (a) => `Hello, I made a donation${a ? ` of ${a} DZD` : ''} to Chabab El Ihssane. Here is the transfer receipt.`,
-        steps: '1) Copy the account number 2) Transfer from BaridiMob or your bank 3) Send us the receipt on WhatsApp so we can record your gift.',
+        steps: '1) Copy the account number 2) Transfer from BaridiMob or your bank 3) Email us the receipt so we can record your gift.',
     },
 };
 
@@ -52,7 +46,7 @@ const Donate = () => {
     const [params] = useSearchParams();
     const pay = settings.payment || {};
 
-    // ?amount=3000 (envoyé par la section Ramadan) : on l'affiche et on le met dans le message WhatsApp
+    // ?amount=3000 (envoyé par la section Ramadan) : on l'affiche
     const rawAmount = parseInt(params.get('amount'), 10);
     const amount = rawAmount > 0 && rawAmount < 100000000 ? rawAmount.toLocaleString('en-US') : '';
 
@@ -68,9 +62,6 @@ const Donate = () => {
         pay.account_name && { label: lb.holder, value: pay.account_name },
     ].filter(Boolean);
 
-    const waLink = settings.whatsapp
-        ? `https://wa.me/${String(settings.whatsapp).replace(/\D/g, '')}?text=${encodeURIComponent(lb.waMsg(amount))}`
-        : '';
 
     return (
         <motion.div
@@ -111,17 +102,6 @@ const Donate = () => {
                             copyLabel={lb.copy}
                             copiedLabel={lb.copied}
                         />
-                    )}
-
-                    {waLink && (
-                        <a
-                            href={waLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-3 min-h-[56px] rounded-xl bg-green-600 hover:bg-green-700 text-white text-lg font-bold shadow-lg transition active:scale-95"
-                        >
-                            <FaWhatsapp className="text-2xl" /> {lb.waBtn}
-                        </a>
                     )}
                 </div>
 
