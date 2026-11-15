@@ -415,56 +415,48 @@
 
 
   /* ---------------------------------------------------------------
-   * 4) الصفحة الرئيسية للوحة: خريطة الموقع + رفع سريع للصور + حالة النشر
+   * 4) مركز التحكم: خريطة الموقع + تبويبات الصور + معاينة حيّة + آخر التعديلات
    * ------------------------------------------------------------- */
   var REPO = 'chababELihsan/chabab-el-ihssan', BRANCH = 'main', UP_DIR = 'public/images/uploads/';
   var SITE = (location.origin || '') + '/';
-  var thumbs = {};          // zone-id -> رابط صورة حالية
+  var thumbs = {}, tab = 'map', L = { news: null, activities: null, testimonials: null }, G = null, commits = null, loaded = false, lastUndo = null, C = null, P = null, M = null;
 
-  // أقسام الصفحة الرئيسية بنفس ترتيبها الحقيقي في الموقع
-  // drop: يقبل سحب صورة وإفلاتها مباشرة | go: رابط قسم التعديل
   var MAP = [
-    { id: 'logo',  t: 'الشعار', s: 'الشريط العلوي في كل الصفحات', ic: '🏷️', go: '#/collections/settings/entries/settings', drop: 'logo' },
-    { id: 'hero',  t: 'الواجهة الكبيرة', s: 'أول صورة يراها الزائر', ic: '🏠', go: '#/collections/media/entries/media', drop: 'hero', big: 1 },
-    { id: 'camp',  t: 'الحملة الحالية', s: 'المبلغ المجموع والعدّ التنازلي', ic: '💰', go: '#/collections/numbers/entries/campaign' },
-    { id: 'nums',  t: 'أرقام «أثرنا»', s: 'وجبات، قوافل، مستفيدون…', ic: '📊', go: '#/collections/numbers/entries/impact' },
-    { id: 'prog',  t: 'برامجنا (فئات المشاريع)', s: 'بطاقات بصور: مياه، قفة، ملابس…', ic: '🏗️', go: '#/collections/media/entries/projects', thumbKey: 'prog' },
-    { id: 'ba',    t: 'قبل / بعد', s: 'شريط التمرير بين صورتين', ic: '↔️', go: '#/collections/media/entries/media', thumbKey: 'ba' },
-    { id: 'map',   t: 'خريطة الإنجازات', s: 'الولايات والأعمال المنجزة', ic: '🗺️', go: '#/collections/media/entries/media' },
-    { id: 'gal',   t: 'شريط المعرض', s: 'الصور المتحركة + صفحة «المعرض»', ic: '🖼️', go: '#/collections/media/entries/gallery', drop: 'gallery', thumbKey: 'gal' },
-    { id: 'test',  t: 'آراء المتابعين', s: 'صور دائرية مع الآراء', ic: '💬', go: '#/collections/testimonials' },
-    { id: 'soc',   t: 'منشورات فيسبوك وإنستغرام', s: 'روابط التواصل والمنشورات', ic: '📱', go: '#/collections/settings/entries/settings' },
-    { id: 'br',    t: 'الفروع والاتصال', s: 'العناوين، الهاتف، الخريطة', ic: '📍', go: '#/collections/settings/entries/branches' }
+    { id: 'logo', t: 'الشعار', s: 'الشريط العلوي في كل الصفحات', ic: '🏷️', go: '#/collections/settings/entries/settings', drop: 'logo' },
+    { id: 'hero', t: 'الواجهة الكبيرة', s: 'أول صورة يراها الزائر', ic: '🏠', go: '#/collections/media/entries/media', drop: 'hero', big: 1 },
+    { id: 'camp', t: 'الحملة الحالية', s: 'المبلغ المجموع والعدّ التنازلي', ic: '💰', go: '#/collections/numbers/entries/campaign' },
+    { id: 'nums', t: 'أرقام «أثرنا»', s: 'وجبات، قوافل، مستفيدون…', ic: '📊', go: '#/collections/numbers/entries/impact' },
+    { id: 'prog', t: 'برامجنا (فئات المشاريع)', s: 'بطاقات بصور: مياه، قفة، ملابس…', ic: '🏗️', go: '#/collections/media/entries/projects', thumbKey: 'prog' },
+    { id: 'ba', t: 'قبل / بعد', s: 'شريط التمرير بين صورتين', ic: '↔️', go: '#/collections/media/entries/media', thumbKey: 'ba' },
+    { id: 'map', t: 'خريطة الإنجازات', s: 'الولايات والأعمال المنجزة', ic: '🗺️', go: '#/collections/media/entries/media' },
+    { id: 'gal', t: 'شريط المعرض', s: 'الصور المتحركة + صفحة «المعرض»', ic: '🖼️', go: '', drop: 'gallery', thumbKey: 'gal', tab: 'gallery' },
+    { id: 'test', t: 'آراء المتابعين', s: 'صور دائرية مع الآراء', ic: '💬', go: '', tab: 'testimonials' },
+    { id: 'soc', t: 'منشورات فيسبوك وإنستغرام', s: 'روابط التواصل والمنشورات', ic: '📱', go: '#/collections/settings/entries/settings' },
+    { id: 'br', t: 'الفروع والاتصال', s: 'العناوين، الهاتف، الخريطة', ic: '📍', go: '#/collections/settings/entries/branches' }
   ];
-  var PAGES = [
-    { t: '📰 الأخبار', s: 'صفحة /news', go: '#/collections/news', add: '#/collections/news/new' },
-    { t: '🎯 الأنشطة والمشاريع', s: 'صفحة /programs', go: '#/collections/activities', add: '#/collections/activities/new' }
-  ];
+  var TABS = [['map', '🗺️ خريطة الموقع'], ['news', '📰 الأخبار'], ['activities', '🎯 الأنشطة'], ['testimonials', '💬 الآراء'], ['gallery', '🖼️ المعرض'], ['other', '🏗️ صور أخرى']];
+  var COLN = { news: 'خبر', activities: 'نشاط', testimonials: 'رأي' };
 
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function token() {
     try { var u = JSON.parse(localStorage.getItem('decap-cms-user') || localStorage.getItem('netlify-cms-user') || 'null'); return u && u.token; } catch (e) { return null; }
   }
-  function gh(path, opt) {
+  function ghx(p, opt) {
     opt = opt || {};
     var tk = token();
     if (!tk) return Promise.reject(new Error('no-token'));
     opt.headers = Object.assign({ Authorization: 'token ' + tk, Accept: 'application/vnd.github+json' }, opt.headers || {});
-    return fetch('https://api.github.com/repos/' + REPO + '/contents/' + path + (opt.method === 'PUT' ? '' : '?ref=' + BRANCH), opt)
-      .then(function (r) { if (!r.ok) throw new Error('GitHub ' + r.status); return r.json(); });
+    return fetch('https://api.github.com/repos/' + REPO + '/' + p, opt).then(function (r) { if (!r.ok) throw new Error('GitHub ' + r.status); return r.json(); });
   }
+  function gh(path, opt) { return ghx('contents/' + path + (opt && opt.method === 'PUT' ? '' : '?ref=' + BRANCH), opt); }
   function b64utf8(str) { var b = new TextEncoder().encode(str), s = ''; for (var i = 0; i < b.length; i++) s += String.fromCharCode(b[i]); return btoa(s); }
   function utf8b64(b64) { var bin = atob(b64.replace(/\s/g, '')), a = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i); return new TextDecoder().decode(a); }
   function readJson(file) { return gh(file).then(function (r) { return { sha: r.sha, data: JSON.parse(utf8b64(r.content)) }; }); }
   function writeJson(file, sha, data, msg) {
     return gh(file, { method: 'PUT', body: JSON.stringify({ message: msg, branch: BRANCH, sha: sha, content: b64utf8(JSON.stringify(data, null, 2) + '\n') }) });
   }
-  function fileToB64(file) {
-    return new Promise(function (res, rej) { var r = new FileReader(); r.onload = function () { res(String(r.result).split(',')[1]); }; r.onerror = rej; r.readAsDataURL(file); });
-  }
-  function safeName(n) {
-    var m = n.match(/\.[a-z0-9]+$/i), ext = m ? m[0].toLowerCase() : '.jpg';
-    return 'img-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5) + ext;
-  }
+  function fileToB64(file) { return new Promise(function (res, rej) { var r = new FileReader(); r.onload = function () { res(String(r.result).split(',')[1]); }; r.onerror = rej; r.readAsDataURL(file); }); }
+  function safeName(n) { var m = n.match(/\.[a-z0-9]+$/i), ext = m ? m[0].toLowerCase() : '.jpg'; return 'img-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5) + ext; }
   function uploadImage(file) {
     return shrink(file).then(function (f) {
       var name = safeName(f.name);
@@ -473,8 +465,14 @@
       }).then(function () { return '/images/uploads/' + name; });
     });
   }
+  function absUrl(u) { return !u ? '' : /^https?:/.test(u) ? u : SITE.replace(/\/$/, '') + u; }
+  function T3(o) { return (o && (o.ar || o.fr || o.en)) || ''; }
+  function ago(d) {
+    var s = (Date.now() - new Date(d).getTime()) / 1000, m = Math.floor(s / 60), h = Math.floor(m / 60), dd = Math.floor(h / 24);
+    return s < 60 ? 'الآن' : m < 60 ? 'منذ ' + m + ' دقيقة' : h < 24 ? 'منذ ' + h + ' ساعة' : 'منذ ' + dd + ' يوم';
+  }
 
-  // ------ لافتة "جارٍ النشر" مع عدّاد، ثم زر "شاهد النتيجة" ------
+  /* ---- لافتة النشر ---- */
   var banner, bannerT;
   function deployBanner() {
     if (!banner) { banner = document.createElement('div'); banner.id = 'cei-deploy'; document.body.appendChild(banner); }
@@ -485,98 +483,233 @@
       else { banner.innerHTML = '<b>✅ التغيير أصبح مباشراً</b><a href="' + SITE + '?v=' + Date.now() + '" target="_blank" rel="noopener">👁 شاهد الموقع</a><button type="button">إغلاق</button>'; clearInterval(bannerT); }
       banner.style.display = 'flex';
     }
-    paint();
-    bannerT = setInterval(function () { left--; paint(); }, 1000);
+    paint(); bannerT = setInterval(function () { left--; paint(); }, 1000);
     banner.onclick = function (e) { if (e.target.tagName === 'BUTTON') banner.style.display = 'none'; };
   }
+  function busy(on) {
+    var b = document.getElementById('cei-busy');
+    if (!b) { b = document.createElement('div'); b.id = 'cei-busy'; b.textContent = '⏳ جارٍ الرفع… لا تغلق الصفحة'; document.body.appendChild(b); }
+    b.style.display = on ? 'block' : 'none';
+  }
+  function fail(err) {
+    busy(0);
+    toast(err && err.message === 'no-token' ? '⚠️ سجّل الدخول بحساب GitHub أولاً (الرفع السريع لا يعمل في الوضع المحلي)' : '⚠️ تعذّر التنفيذ: ' + (err && err.message) + ' — جرّب من أدوات التحرير');
+  }
+  function done(msg) { busy(0); render(); deployBanner(); toast('✅ ' + msg); }
+  function seq(files, fn) { return files.reduce(function (p, f) { return p.then(function () { return fn(f); }); }, Promise.resolve()); }
 
-  // ------ عمليات الرفع السريع ------
-  function quickApply(kind, file) {
-    var tag = document.querySelector('[data-zone="' + (kind === 'logo' ? 'logo' : kind === 'hero' ? 'hero' : 'gal') + '"]');
-    if (tag) tag.classList.add('busy');
+  /* ---- عمليات ---- */
+  function setHeroLogo(kind, file) {
+    busy(1);
     return uploadImage(file).then(function (url) {
-      if (kind === 'hero') return readJson('src/content/media.json').then(function (r) { r.data.heroImage = url; return writeJson('src/content/media.json', r.sha, r.data, 'تغيير صورة الواجهة'); }).then(function () { return url; });
-      if (kind === 'logo') return readJson('src/content/settings.json').then(function (r) { r.data.logo_url = url; return writeJson('src/content/settings.json', r.sha, r.data, 'تغيير الشعار'); }).then(function () { return url; });
-      return readJson('src/content/gallery.json').then(function (r) {
-        r.data.images = r.data.images || [];
-        r.data.images.unshift({ image_url: url, caption: { ar: '', fr: '', en: '' }, is_featured: false });
-        return writeJson('src/content/gallery.json', r.sha, r.data, 'إضافة صورة للمعرض');
-      }).then(function () { return url; });
-    }).then(function (url) {
-      if (tag) { tag.classList.remove('busy'); }
-      thumbs[kind === 'gallery' ? 'gal' : kind] = url;
-      renderHome(); deployBanner(); toast('✅ تم رفع الصورة ووضعها في الموقع');
-    }).catch(function (err) {
-      if (tag) tag.classList.remove('busy');
-      toast(err.message === 'no-token' ? '⚠️ سجّل الدخول بحساب GitHub أولاً (الرفع السريع لا يعمل في الوضع المحلي)' : '⚠️ تعذّر الرفع: ' + err.message + ' — جرّب من قسم التعديل العادي');
+      var f = kind === 'hero' ? 'src/content/media.json' : 'src/content/settings.json', key = kind === 'hero' ? 'heroImage' : 'logo_url';
+      return modify(f, function (d) { d[key] = url; }, kind === 'hero' ? 'تغيير صورة الواجهة' : 'تغيير الشعار')
+        .then(function () { thumbs[kind] = url; done(kind === 'hero' ? 'تم تغيير صورة الواجهة' : 'تم تغيير الشعار'); });
+    }).catch(fail);
+  }
+  function galleryEdit(fn, msg, okMsg) {
+    busy(1);
+    return modify('src/content/gallery.json', function (d) { d.images = d.images || []; fn(d); }, msg)
+      .then(function (d) { G = d; thumbs.gal = (d.images[0] || {}).image_url; done(okMsg); }).catch(fail);
+  }
+  function addGallery(files) {
+    busy(1); var urls = [];
+    return seq(files, function (f) { return uploadImage(f).then(function (u) { urls.push(u); }); }).then(function () {
+      return galleryEdit(function (d) { urls.slice().reverse().forEach(function (u) { d.images.unshift({ image_url: u, caption: { ar: '', fr: '', en: '' }, is_featured: false }); }); }, 'إضافة صور للمعرض', 'أُضيفت ' + urls.length + ' صورة للمعرض');
+    }).catch(fail);
+  }
+  function swapImage(col, i, file) {
+    if (col === 'slot') return swapSlot(i, file);
+    var it = L[col][i]; busy(1);
+    return uploadImage(file).then(function (url) {
+      return modify(it.path, function (d) { d.image_url = url; }, 'تغيير صورة: ' + (it.data.name || T3(it.data.title)))
+        .then(function () { it.data.image_url = url; done('تم تغيير الصورة'); });
+    }).catch(fail);
+  }
+  function modify(file, fn, msg) {
+    return readJson(file).then(function (r) {
+      var before = JSON.stringify(r.data); fn(r.data);
+      return writeJson(file, r.sha, r.data, msg).then(function () { lastUndo = { file: file, before: before, msg: msg }; return r.data; });
     });
+  }
+  function undo() {
+    if (!lastUndo) return; var u = lastUndo; busy(1);
+    readJson(u.file).then(function (r) { return writeJson(u.file, r.sha, JSON.parse(u.before), 'تراجع: ' + u.msg); })
+      .then(function () { lastUndo = null; done('تم التراجع عن آخر تغيير'); loadAll(); }).catch(fail);
+  }
+  function setPath(d, path, v) { var o = d; for (var i = 0; i < path.length - 1; i++) o = o[path[i]]; o[path[path.length - 1]] = v; }
+  function getPath(d, path) { var o = d; for (var i = 0; i < path.length && o; i++) o = o[path[i]]; return o; }
+  function slots() {
+    var out = [];
+    if (P) (P.categories || []).forEach(function (c, ci) {
+      out.push({ g: 'برامجنا — فئات المشاريع', lbl: T3(c.title), file: 'src/content/projects.json', path: ['categories', ci, 'image'], url: c.image });
+      (c.items || []).forEach(function (it, ii) { out.push({ g: 'برامجنا — مشاريع «' + T3(c.title) + '»', lbl: T3(it.title), file: 'src/content/projects.json', path: ['categories', ci, 'items', ii, 'image'], url: it.image }); });
+    });
+    if (M) (M.beforeAfter || []).forEach(function (b, bi) {
+      out.push({ g: 'قبل / بعد', lbl: T3(b.title) + ' — «قبل»', file: 'src/content/media.json', path: ['beforeAfter', bi, 'before'], url: b.before });
+      out.push({ g: 'قبل / بعد', lbl: T3(b.title) + ' — «بعد»', file: 'src/content/media.json', path: ['beforeAfter', bi, 'after'], url: b.after });
+    });
+    return out;
+  }
+  function swapSlot(i, file) {
+    var s = slots()[i]; if (!s) return; busy(1);
+    return uploadImage(file).then(function (url) {
+      return modify(s.file, function (d) { setPath(d, s.path, url); }, 'تغيير صورة: ' + s.lbl).then(function (d) {
+        if (/projects/.test(s.file)) P = d; else M = d; done('تم تغيير الصورة');
+      });
+    }).catch(fail);
   }
   function pickFiles(multi, cb) {
     var i = document.createElement('input'); i.type = 'file'; i.accept = 'image/*'; i.multiple = !!multi;
-    i.onchange = function () { if (i.files && i.files.length) cb(Array.prototype.slice.call(i.files)); };
-    i.click();
+    i.onchange = function () { if (i.files && i.files.length) cb(Array.prototype.slice.call(i.files)); }; i.click();
   }
-  function absUrl(u) { return !u ? '' : /^https?:/.test(u) ? u : SITE.replace(/\/$/, '') + u; }
 
-  function loadThumbs() {
-    if (!token()) return;
-    readJson('src/content/media.json').then(function (r) {
-      if (r.data.heroImage) thumbs.hero = r.data.heroImage;
-      var b = (r.data.beforeAfter || [])[0]; if (b) thumbs.ba = b.after;
-      renderHome();
+  /* ---- تحميل البيانات ---- */
+  function loadList(col) {
+    return gh('src/content/' + col).then(function (arr) {
+      return Promise.all(arr.filter(function (f) { return /\.json$/.test(f.name); }).map(function (f) {
+        return readJson(f.path).then(function (r) { return { file: f.name.replace(/\.json$/, ''), path: f.path, data: r.data }; });
+      }));
+    }).then(function (items) {
+      items.sort(function (a, b) { return String(b.data.date || '').localeCompare(String(a.data.date || '')); });
+      L[col] = items; render();
     }).catch(function () {});
-    readJson('src/content/settings.json').then(function (r) { thumbs.logo = r.data.logo_url; renderHome(); }).catch(function () {});
-    readJson('src/content/gallery.json').then(function (r) { var f = (r.data.images || [])[0]; if (f) thumbs.gal = f.image_url; thumbs.galN = (r.data.images || []).length; renderHome(); }).catch(function () {});
-    readJson('src/content/projects.json').then(function (r) { var c = (r.data.categories || [])[0]; if (c) thumbs.prog = c.image; renderHome(); }).catch(function () {});
+  }
+  function loadAll() {
+    if (!token()) { loaded = true; render(); return; }
+    ['news', 'activities', 'testimonials'].forEach(loadList);
+    readJson('src/content/media.json').then(function (r) { M = r.data; thumbs.hero = r.data.heroImage; var b = (r.data.beforeAfter || [])[0]; if (b) thumbs.ba = b.after; render(); }).catch(function () {});
+    readJson('src/content/settings.json').then(function (r) { thumbs.logo = r.data.logo_url; render(); }).catch(function () {});
+    readJson('src/content/gallery.json').then(function (r) { G = r.data; thumbs.gal = (r.data.images[0] || {}).image_url; render(); }).catch(function () {});
+    readJson('src/content/projects.json').then(function (r) { P = r.data; var c = (r.data.categories || [])[0]; if (c) thumbs.prog = c.image; render(); }).catch(function () {});
+    readJson('src/content/campaign.json').then(function (r) { C = r.data; render(); }).catch(function () {});
+    ghx('commits?per_page=6&sha=' + BRANCH).then(function (c) { commits = c; render(); }).catch(function () {});
+    loaded = true;
   }
 
-  function renderHome() {
-    var el = document.getElementById('cei-home'); if (!el) return;
+  /* ---- الرسم ---- */
+  function thumbHtml(url, ic) { return url ? '<img src="' + esc(absUrl(url)) + '" alt="" onerror="this.style.display=\'none\'">' : '<span class="ph">' + ic + '</span>'; }
+
+  function viewMap() {
+    var cnt = function (a) { return a ? a.length : '–'; };
+    var stats = '<div class="stats">' +
+      [['📰', cnt(L.news), 'خبر', 'news'], ['🎯', cnt(L.activities), 'نشاط', 'activities'], ['🖼️', G ? (G.images || []).length : '–', 'صورة في المعرض', 'gallery'], ['💬', cnt(L.testimonials), 'رأي', 'testimonials']]
+        .map(function (s) { return '<button data-act="tab" data-v="' + s[3] + '" type="button"><span>' + s[0] + '</span><b>' + s[1] + '</b><small>' + s[2] + '</small></button>'; }).join('') + '</div>';
+    var quick = '<div class="quick"><a href="#/collections/news/new" data-close="1">📰 خبر جديد<small>بصورة ونص</small></a><a href="#/collections/activities/new" data-close="1">🎯 نشاط جديد<small>مشروع / فعالية</small></a><a href="#/collections/testimonials/new" data-close="1">💬 رأي جديد<small>صورة دائرية</small></a><button data-act="addgal" type="button">🖼️ صور للمعرض<small>اختر عدة صور دفعة واحدة</small></button></div>';
+    var camp = '';
+    if (C) { var pc = C.goal ? Math.min(100, Math.round((C.raised || 0) * 100 / C.goal)) : 0;
+      camp = '<div class="camp"><div class="ch"><b>💰 ' + esc(T3(C.title)) + '</b><span>' + pc + '%</span></div><div class="pr"><i style="width:' + pc + '%"></i></div>' +
+        '<div class="cf"><label>المبلغ المجموع (دج)<input id="cei-raised" type="number" min="0" value="' + (C.raised || 0) + '"></label><label>الهدف (دج)<input id="cei-goal" type="number" min="0" value="' + (C.goal || 0) + '"></label><button class="btn red" data-act="saveraised" type="button">💾 حفظ</button></div></div>'; }
     var blocks = MAP.map(function (z) {
       var img = z.drop === 'logo' ? thumbs.logo : z.drop === 'hero' ? thumbs.hero : thumbs[z.thumbKey || ''];
-      var th = img ? '<img src="' + absUrl(img) + '" alt="" onerror="this.style.display=\'none\'">' : '<span class="ph">' + z.ic + '</span>';
-      var drop = z.drop ? '<div class="dz">⬇️ اسحب صورة هنا أو <u>اضغط لاختيارها</u> — تُوضع مباشرة في الموقع</div>' : '<div class="dz soft">اضغط للتعديل ‹</div>';
-      return '<div class="blk' + (z.big ? ' big' : '') + (z.drop ? ' can-drop' : '') + '" data-zone="' + (z.drop === 'gallery' ? 'gal' : z.id) + '" data-go="' + z.go + '" data-drop="' + (z.drop || '') + '">' +
-        '<div class="th">' + th + '</div><div class="tx"><b>' + z.t + '</b><small>' + z.s + '</small>' + drop + '</div></div>';
+      var hint = z.drop ? '<div class="dz">⬇️ اسحب صورة هنا أو <u>اضغط لاختيارها</u> — تُوضع مباشرة في الموقع</div>' : '<div class="dz soft">اضغط للتعديل ‹</div>';
+      return '<div class="blk' + (z.big ? ' big' : '') + (z.drop ? ' can-drop' : '') + '" data-go="' + z.go + '" data-tab="' + (z.tab || '') + '" data-drop="' + (z.drop || '') + '"><div class="th">' + thumbHtml(img, z.ic) + '</div><div class="tx"><b>' + z.t + '</b><small>' + z.s + '</small>' + hint + '</div></div>';
     }).join('');
-    var pages = PAGES.map(function (p) {
-      return '<div class="pg"><a href="' + p.go + '" data-close="1"><b>' + p.t + '</b><small>' + p.s + '</small></a><a class="add" href="' + p.add + '" data-close="1">＋ إضافة</a></div>';
-    }).join('');
-    el.innerHTML =
-      '<div class="hm-top"><div><h1>👋 أهلاً بك في لوحة التحكم</h1><p>اضغط على أي جزء من الموقع لتعديله — أو اسحب صورة فوقه لتغييرها فوراً.</p></div>' +
-      '<div class="hm-act"><a class="btn red" href="' + SITE + '" target="_blank" rel="noopener">👁 فتح الموقع</a><button class="btn dark" data-act="edit" type="button">فتح أدوات التحرير ›</button></div></div>' +
-      '<div class="hm-quick"><button data-act="addgal" type="button">🖼️ أضف صوراً للمعرض<small>اختر عدة صور دفعة واحدة</small></button>' +
-      '<a href="#/collections/news/new" data-close="1">📰 خبر جديد<small>بصورة ونص</small></a>' +
-      '<a href="#/collections/activities/new" data-close="1">🎯 نشاط جديد<small>مشروع / فعالية</small></a>' +
-      '<a href="#/collections/testimonials/new" data-close="1">💬 رأي جديد<small>صورة دائرية</small></a></div>' +
-      '<h2>🗺️ خريطة الصفحة الرئيسية <small>(من الأعلى إلى الأسفل كما يراها الزائر)</small></h2>' +
-      '<div class="hm-map">' + blocks + '</div>' +
-      '<h2>📄 صفحات أخرى في الموقع</h2><div class="hm-pages">' + pages + '</div>' +
-      '<div class="hm-tip">💡 كل تغيير يظهر في الموقع بعد حوالي دقيقة. ستظهر لك لافتة تعدّ الوقت وتفتح لك الموقع عند الجاهزية.<br>💡 الصور تُصغَّر تلقائياً — ارفع الصورة كما هي من الهاتف.<br>💡 للتغييرات من «أدوات التحرير»: لا شيء يتغير في الموقع إلا بعد الضغط على «نشر».</div>';
+    var rec = '';
+    if (commits && commits.length) rec = '<h2>🕒 آخر التعديلات</h2><div class="rec">' + commits.map(function (c) {
+      return '<div><span>' + esc((c.commit.message || '').split('\n')[0]) + '</span><small>' + ago(c.commit.author.date) + '</small></div>'; }).join('') + '</div>';
+    return stats + camp + quick + '<h2>🗺️ خريطة الصفحة الرئيسية <small>(من الأعلى إلى الأسفل كما يراها الزائر)</small></h2><div class="map">' + blocks + '</div>' + rec +
+      '<div class="tipbox">💡 كل تغيير يظهر في الموقع بعد حوالي دقيقة، وستظهر لافتة تعدّ الوقت.<br>💡 الصور تُصغَّر تلقائياً — ارفعها كما هي من الهاتف.<br>💡 زر «معاينة حيّة» يريك الموقع كما يراه الزائر على الكمبيوتر والهاتف.</div>';
+  }
+  function viewList(col) {
+    var items = L[col];
+    var head = '<div class="lh"><h2>' + TABS.filter(function (t) { return t[0] === col; })[0][1] + '</h2><a class="btn red" href="#/collections/' + col + '/new" data-close="1">＋ إضافة ' + COLN[col] + ' جديد</a></div>';
+    if (!token()) return head + '<div class="empty">⚠️ هذه الصفحة تحتاج تسجيل الدخول بحساب GitHub. من أدوات التحرير يمكنك التعديل كالعادة.</div>';
+    if (!items) return head + '<div class="empty">⏳ جارٍ التحميل…</div>';
+    if (!items.length) return head + '<div class="empty">لا يوجد شيء بعد. اضغط «إضافة».</div>';
+    return head + '<input id="cei-q" class="q" placeholder="🔍 ابحث بالعنوان…"><p class="hint">⬇️ اسحب صورة فوق أي بطاقة لتغييرها فوراً، أو اضغط على الصورة.</p><div class="cards">' + items.map(function (it, i) {
+      var d = it.data, title = d.name || T3(d.title);
+      var hid = col === 'testimonials' && d.is_approved === false ? '<em>مخفي</em>' : d.is_pinned ? '<em>📌 مثبّت</em>' : '';
+      return '<div class="card can-drop' + (col === 'testimonials' ? ' round' : '') + '" data-swap="' + col + ':' + i + '"><div class="cimg">' + thumbHtml(d.image_url, '📷') + '<span class="chg">📷 تغيير الصورة</span></div>' +
+        '<div class="cb"><b>' + esc(title) + '</b>' + hid + '<small>' + esc(d.date || T3(d.role) || '') + '</small>' +
+        '<a class="edit" href="#/collections/' + col + '/entries/' + esc(it.file) + '" data-close="1">✏️ تعديل النص</a></div></div>';
+    }).join('') + '</div>';
+  }
+  function viewOther() {
+    var head = '<div class="lh"><h2>🏗️ صور أخرى في الموقع</h2></div>';
+    if (!token()) return head + '<div class="empty">⚠️ هذه الصفحة تحتاج تسجيل الدخول بحساب GitHub.</div>';
+    var ss = slots(); if (!ss.length) return head + '<div class="empty">⏳ جارٍ التحميل…</div>';
+    var last = '', html = '';
+    ss.forEach(function (s, i) {
+      if (s.g !== last) { html += (last ? '</div>' : '') + '<h3>' + esc(s.g) + '</h3><div class="cards">'; last = s.g; }
+      html += '<div class="card can-drop" data-swap="slot:' + i + '"><div class="cimg">' + thumbHtml(s.url, '📷') + '<span class="chg">📷 تغيير الصورة</span></div><div class="cb"><b>' + esc(s.lbl) + '</b></div></div>';
+    });
+    return head + '<p class="hint">⬇️ اسحب صورة فوق أي بطاقة لتغييرها فوراً (فئات البرامج، مشاريعها، وصور قبل/بعد).</p>' + html + '</div>';
+  }
+  function viewGallery() {
+    var head = '<div class="lh"><h2>🖼️ المعرض</h2><button class="btn red" data-act="addgal" type="button">＋ أضف صوراً</button></div>';
+    if (!token()) return head + '<div class="empty">⚠️ هذه الصفحة تحتاج تسجيل الدخول بحساب GitHub.</div>';
+    if (!G) return head + '<div class="empty">⏳ جارٍ التحميل…</div>';
+    var im = G.images || [];
+    return head + '<p class="hint">⬇️ اسحب عدة صور وأفلتها هنا لإضافتها. الصورة الأولى تظهر أولاً في الموقع. لتغيير الأقسام والتعليقات استعمل «أدوات التحرير».</p>' +
+      '<div class="gdrop can-drop" data-drop="gallery">⬇️ أفلت الصور هنا (أو اضغط) — تُضاف في بداية المعرض</div><div class="ggrid">' + im.map(function (g, i) {
+        return '<div class="g"><img src="' + esc(absUrl(g.image_url)) + '" alt="" loading="lazy"><div class="gt"><button data-act="gfeat" data-i="' + i + '" type="button" title="صورة مميزة" class="' + (g.is_featured ? 'on' : '') + '">★</button>' +
+          '<button data-act="gdel" data-i="' + i + '" type="button" title="حذف">🗑</button></div><small>' + esc(T3(g.caption)) + '</small></div>'; }).join('') + '</div>';
   }
 
-  function openHome() { var h = document.getElementById('cei-home-wrap'); if (h) { h.classList.add('open'); renderHome(); loadThumbs(); } }
+  function render() {
+    var el = document.getElementById('cei-home'); if (!el) return;
+    var h = new Date().getHours();
+    var logo = thumbs.logo ? '<img src="' + esc(absUrl(thumbs.logo)) + '" alt="">' : '<span>🤝</span>';
+    var body = tab === 'map' ? viewMap() : tab === 'gallery' ? viewGallery() : tab === 'other' ? viewOther() : viewList(tab);
+    el.innerHTML =
+      '<header class="top"><div class="brand"><div class="lg">' + logo + '</div><div><h1>' + (h < 12 ? '☀️ صباح الخير' : '🌙 مساء الخير') + '، مرحباً بك</h1><p>لوحة تحكم شباب الإحسان</p></div></div>' +
+      '<div class="acts">' + (lastUndo ? '<button class="btn amber" data-act="undo" type="button">↩️ تراجع عن آخر تغيير</button>' : '') + '<button class="btn glass" data-act="dark" type="button" title="الوضع الليلي">🌓</button><button class="btn glass" data-act="live" type="button">🖥️ معاينة حيّة</button><a class="btn glass" href="' + SITE + '" target="_blank" rel="noopener">↗ فتح الموقع</a><button class="btn red" data-act="edit" type="button">أدوات التحرير ›</button></div></header>' +
+      '<nav class="tabs">' + TABS.map(function (t) { return '<button type="button" data-act="tab" data-v="' + t[0] + '" class="' + (tab === t[0] ? 'on' : '') + '">' + t[1] + '</button>'; }).join('') + '</nav>' +
+      '<main>' + body + '</main>';
+  }
+
+  /* ---- معاينة حيّة ---- */
+  function openLive() {
+    var o = document.getElementById('cei-live');
+    if (!o) {
+      o = document.createElement('div'); o.id = 'cei-live';
+      o.innerHTML = '<div class="lb"><b>🖥️ معاينة حيّة للموقع</b><span><button data-m="d" class="on" type="button">💻 كمبيوتر</button><button data-m="m" type="button">📱 هاتف</button><button data-m="r" type="button">↻ تحديث</button><button data-m="x" type="button">✕ إغلاق</button></span></div><div class="lf"><iframe title="live"></iframe></div>';
+      document.body.appendChild(o);
+      o.addEventListener('click', function (e) {
+        var m = e.target.dataset && e.target.dataset.m, f = o.querySelector('iframe'); if (!m) return;
+        if (m === 'x') o.classList.remove('open');
+        if (m === 'r') f.src = SITE + '?v=' + Date.now();
+        if (m === 'd' || m === 'm') { o.classList.toggle('mob', m === 'm'); o.querySelectorAll('[data-m=d],[data-m=m]').forEach(function (b) { b.classList.toggle('on', b.dataset.m === m); }); }
+      });
+    }
+    o.querySelector('iframe').src = SITE + '?v=' + Date.now(); o.classList.add('open');
+  }
+
+  function openHome() { var h = document.getElementById('cei-home-wrap'); if (h) { h.classList.add('open'); render(); loadAll(); } }
   function closeHome() { var h = document.getElementById('cei-home-wrap'); if (h) h.classList.remove('open'); }
 
   function initHome() {
-    var wrap = document.createElement('div'); wrap.id = 'cei-home-wrap';
-    wrap.innerHTML = '<div id="cei-home"></div>';
-    document.body.appendChild(wrap);
-    var fab = document.createElement('button'); fab.id = 'cei-home-btn'; fab.type = 'button'; fab.textContent = '🏠 الرئيسية'; fab.style.display = 'none';
-    fab.onclick = openHome; document.body.appendChild(fab);
+    var wrap = document.createElement('div'); wrap.id = 'cei-home-wrap'; wrap.innerHTML = '<div id="cei-home"></div>'; document.body.appendChild(wrap);
+    var fab = document.createElement('button'); fab.id = 'cei-home-btn'; fab.type = 'button'; fab.textContent = '🏠 الرئيسية'; fab.style.display = 'none'; fab.onclick = openHome; document.body.appendChild(fab);
 
     wrap.addEventListener('click', function (e) {
-      var t = e.target, act = t.closest && t.closest('[data-act]'), go = t.closest && t.closest('[data-go]'), cl = t.closest && t.closest('[data-close]');
+      var t = e.target, q = function (s) { return t.closest && t.closest(s); };
+      var act = q('[data-act]'), blk = q('[data-go],[data-drop],[data-swap]'), cl = q('[data-close]');
       if (cl) { setTimeout(closeHome, 0); return; }
-      if (act && act.dataset.act === 'edit') return closeHome();
-      if (act && act.dataset.act === 'addgal') return pickFiles(true, function (fs) { fs.reduce(function (p, f) { return p.then(function () { return quickApply('gallery', f); }); }, Promise.resolve()); });
-      if (go) {
-        var d = go.dataset.drop;
-        if (d) return pickFiles(d === 'gallery', function (fs) { fs.reduce(function (p, f) { return p.then(function () { return quickApply(d, f); }); }, Promise.resolve()); });
-        location.hash = go.dataset.go; closeHome();
+      if (act) {
+        var a = act.dataset.act, i = +act.dataset.i;
+        if (a === 'edit') return closeHome();
+        if (a === 'live') return openLive();
+        if (a === 'undo') return undo();
+        if (a === 'dark') { var on = !wrap.classList.contains('dark'); wrap.classList.toggle('dark', on); try { localStorage.setItem('cei_dark', on ? '1' : '0'); } catch (x) {} return; }
+        if (a === 'saveraised') {
+          var rv = +document.getElementById('cei-raised').value || 0, gv = +document.getElementById('cei-goal').value || 0; busy(1);
+          return modify('src/content/campaign.json', function (d) { d.raised = rv; d.goal = gv; }, 'تحديث مبلغ الحملة').then(function (d) { C = d; done('تم تحديث مبلغ الحملة'); }).catch(fail);
+        }
+        if (a === 'tab') { tab = act.dataset.v; render(); return; }
+        if (a === 'addgal') return pickFiles(true, addGallery);
+        if (a === 'gdel') return confirm('حذف هذه الصورة من المعرض؟') && galleryEdit(function (d) { d.images.splice(i, 1); }, 'حذف صورة من المعرض', 'تم حذف الصورة');
+        if (a === 'gfeat') return galleryEdit(function (d) { d.images[i].is_featured = !d.images[i].is_featured; }, 'تمييز صورة', 'تم التحديث');
+      }
+      if (blk) {
+        if (blk.dataset.swap) { var s = blk.dataset.swap.split(':'); return pickFiles(false, function (fs) { swapImage(s[0], +s[1], fs[0]); }); }
+        var d = blk.dataset.drop;
+        if (d) return pickFiles(d === 'gallery', function (fs) { d === 'gallery' ? addGallery(fs) : setHeroLogo(d, fs[0]); });
+        if (blk.dataset.tab) { tab = blk.dataset.tab; render(); return; }
+        if (blk.dataset.go) { location.hash = blk.dataset.go; closeHome(); }
       }
     });
-    // سحب وإفلات الصور على الأقسام
     ['dragenter', 'dragover'].forEach(function (n) { wrap.addEventListener(n, function (e) { var b = e.target.closest && e.target.closest('.can-drop'); if (b) { e.preventDefault(); b.classList.add('over'); } }); });
     wrap.addEventListener('dragleave', function (e) { var b = e.target.closest && e.target.closest('.can-drop'); if (b) b.classList.remove('over'); });
     wrap.addEventListener('drop', function (e) {
@@ -584,10 +717,16 @@
       e.preventDefault(); b.classList.remove('over');
       var fs = Array.prototype.slice.call(e.dataTransfer.files || []).filter(function (f) { return /^image\//.test(f.type); });
       if (!fs.length) return toast('⚠️ هذا ليس ملف صورة');
-      var kind = b.dataset.drop; if (kind !== 'gallery') fs = fs.slice(0, 1);
-      fs.reduce(function (p, f) { return p.then(function () { return quickApply(kind, f); }); }, Promise.resolve());
+      if (b.dataset.swap) { var s = b.dataset.swap.split(':'); return swapImage(s[0], +s[1], fs[0]); }
+      if (b.dataset.drop === 'gallery') return addGallery(fs);
+      setHeroLogo(b.dataset.drop, fs[0]);
     });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeHome(); });
+    wrap.addEventListener('input', function (e) {
+      if (e.target.id !== 'cei-q') return; var v = e.target.value.trim().toLowerCase();
+      wrap.querySelectorAll('.card').forEach(function (c) { c.style.display = c.textContent.toLowerCase().indexOf(v) > -1 ? '' : 'none'; });
+    });
+    try { if (localStorage.getItem('cei_dark') === '1') wrap.classList.add('dark'); } catch (x) {}
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { var l = document.getElementById('cei-live'); if (l && l.classList.contains('open')) l.classList.remove('open'); else closeHome(); } });
 
     var auto = false;
     setInterval(function () {
@@ -595,12 +734,9 @@
       fab.style.display = logged ? 'block' : 'none';
       if (logged && !auto) { auto = true; openHome(); }
     }, 500);
-
     if (window.CMS && CMS.registerEventListener) {
       var last = 0;
-      ['postSave', 'postPublish'].forEach(function (n) {
-        try { CMS.registerEventListener({ name: n, handler: function () { if (Date.now() - last > 3000) { last = Date.now(); deployBanner(); } } }); } catch (e) {}
-      });
+      ['postSave', 'postPublish'].forEach(function (n) { try { CMS.registerEventListener({ name: n, handler: function () { if (Date.now() - last > 3000) { last = Date.now(); deployBanner(); } } }); } catch (e) {} });
     }
   }
 

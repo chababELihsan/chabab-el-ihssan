@@ -51,74 +51,127 @@ input, textarea, label, h1, h2, h3, h4, p, a, button, [class*="Label"], [class*=
 input[type="text"], textarea { text-align: start; }
 
 /* =====================================================================
-   لوحة التحكم المطوّرة — الصفحة الرئيسية، لافتة النشر، تحسين الواجهة
+   مركز التحكم المطوّر — شباب الإحسان
    ===================================================================== */
-:root { --red: #c8102e; --red-d: #a30d25; --ink: #111827; --soft: #f3f4f6; }
+:root { --red: #c8102e; --red-d: #a30d25; --ink: #111827; --bg: #f4f4f7; --line: #e5e7eb; }
 
-/* زر "الرئيسية" العائم */
-#cei-home-btn { position: fixed; bottom: 20px; right: 20px; z-index: 99997; background: var(--ink); color: #fff; border: 0;
-  border-radius: 999px; padding: 12px 20px; font: 700 15px 'Cairo', sans-serif; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
-#cei-home-btn:hover { background: #000; }
-
-/* الصفحة الرئيسية (تغطي الشاشة) */
-#cei-home-wrap { position: fixed; inset: 0; z-index: 99996; background: #f6f6f8; overflow: auto; display: none; direction: rtl; font-family: 'Cairo', sans-serif; color: var(--ink); }
+#cei-home-btn { position: fixed; bottom: 20px; right: 20px; z-index: 99997; background: var(--ink); color: #fff; border: 0; border-radius: 999px; padding: 12px 20px; font: 700 15px 'Cairo', sans-serif; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+#cei-home-wrap { position: fixed; inset: 0; z-index: 99996; background: var(--bg); overflow: auto; display: none; direction: rtl; font-family: 'Cairo', sans-serif; color: var(--ink); }
 #cei-home-wrap.open { display: block; }
-#cei-home { max-width: 1040px; margin: 0 auto; padding: 24px 16px 90px; }
-#cei-home * { unicode-bidi: normal; }
-#cei-home h1 { margin: 0; font-size: 26px; }
-#cei-home h2 { margin: 30px 0 12px; font-size: 19px; }
-#cei-home h2 small { font-weight: 400; color: #6b7280; font-size: 13px; }
-#cei-home p { margin: 4px 0 0; color: #4b5563; }
-.hm-top { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
-.hm-act { display: flex; gap: 8px; flex-wrap: wrap; }
-#cei-home .btn { border: 0; border-radius: 12px; padding: 11px 18px; font: 700 14px 'Cairo', sans-serif; cursor: pointer; text-decoration: none; color: #fff; }
-#cei-home .btn.red { background: var(--red); } #cei-home .btn.dark { background: var(--ink); }
+#cei-home, #cei-home * { unicode-bidi: normal; box-sizing: border-box; }
+#cei-home h1, #cei-home h2, #cei-home p { margin: 0; }
+#cei-home .btn { border: 0; border-radius: 12px; padding: 10px 16px; font: 700 14px 'Cairo', sans-serif; cursor: pointer; text-decoration: none; color: #fff; display: inline-block; }
+#cei-home .btn.red { background: var(--red); } #cei-home .btn.red:hover { background: var(--red-d); }
+#cei-home .btn.glass { background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.28); } #cei-home .btn.glass:hover { background: rgba(255,255,255,.25); }
 
-/* اختصارات سريعة */
-.hm-quick { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin-top: 20px; }
-.hm-quick > * { display: block; text-align: start; background: #fff; border: 2px solid #e5e7eb; border-radius: 14px; padding: 14px 16px; font: 700 16px 'Cairo', sans-serif; color: inherit; text-decoration: none; cursor: pointer; }
-.hm-quick > *:hover { border-color: var(--red); background: #fff1f2; }
-.hm-quick small { display: block; font-weight: 400; color: #6b7280; font-size: 12px; margin-top: 2px; }
+/* الشريط العلوي */
+#cei-home .top { background: linear-gradient(135deg, #1a0a10 0%, #5c0a1a 55%, #c8102e 130%); color: #fff; padding: 22px 24px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; }
+#cei-home .brand { display: flex; align-items: center; gap: 14px; }
+#cei-home .lg { width: 58px; height: 58px; border-radius: 16px; background: #fff; display: grid; place-items: center; overflow: hidden; font-size: 28px; flex: none; }
+#cei-home .lg img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+#cei-home .top h1 { font-size: 22px; } #cei-home .top p { opacity: .75; font-size: 13.5px; margin-top: 2px; }
+#cei-home .acts { display: flex; gap: 8px; flex-wrap: wrap; }
 
-/* خريطة الموقع: أقسام مرتبة كما في الموقع */
-.hm-map { background: #fff; border: 2px solid #e5e7eb; border-radius: 18px; padding: 14px; display: grid; gap: 10px; }
-.blk { display: flex; align-items: center; gap: 14px; border: 2px dashed #d1d5db; border-radius: 14px; padding: 10px; background: #fafafa; cursor: pointer; transition: border-color .15s, background .15s; }
-.blk:hover { border-color: var(--red); background: #fff1f2; }
-.blk.big { padding: 16px 10px; }
-.blk .th { flex: 0 0 120px; height: 80px; border-radius: 10px; overflow: hidden; background: #e5e7eb; display: grid; place-items: center; }
-.blk.big .th { flex-basis: 190px; height: 110px; }
-.blk .th img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.blk .ph { font-size: 30px; }
-.blk .tx b { display: block; font-size: 16px; }
-.blk .tx small { display: block; color: #6b7280; font-size: 12.5px; }
-.blk .dz { margin-top: 6px; font-size: 12.5px; color: var(--red); font-weight: 700; }
-.blk .dz.soft { color: #9ca3af; font-weight: 600; }
-.blk.can-drop { border-color: #fca5a5; background: #fff7f7; }
-.blk.over { border-style: solid; border-color: var(--red); background: #ffe4e6; transform: scale(1.01); }
-.blk.busy { opacity: .55; pointer-events: none; }
-.blk.busy .dz::after { content: ' ⏳ جارٍ الرفع…'; }
+/* التبويبات */
+#cei-home .tabs { position: sticky; top: 0; z-index: 5; background: rgba(244,244,247,.94); backdrop-filter: blur(8px); display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; border-bottom: 1px solid var(--line); }
+#cei-home .tabs button { flex: none; border: 2px solid var(--line); background: #fff; color: #374151; border-radius: 999px; padding: 8px 18px; font: 700 14px 'Cairo', sans-serif; cursor: pointer; }
+#cei-home .tabs button:hover { border-color: var(--red); }
+#cei-home .tabs button.on { background: var(--red); border-color: var(--red); color: #fff; }
+#cei-home main { max-width: 1040px; margin: 0 auto; padding: 18px 16px 100px; }
+#cei-home h2 { margin: 28px 0 12px; font-size: 19px; } #cei-home h2 small { font-weight: 400; color: #6b7280; font-size: 13px; }
 
-.hm-pages { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
-.pg { display: flex; gap: 8px; }
-.pg a { text-decoration: none; color: inherit; background: #fff; border: 2px solid #e5e7eb; border-radius: 14px; padding: 12px 14px; }
-.pg a:first-child { flex: 1; } .pg a b { display: block; } .pg a small { color: #6b7280; }
-.pg a.add { display: grid; place-items: center; background: var(--red); color: #fff; font-weight: 700; border-color: var(--red); }
-.pg a:hover { border-color: var(--red); }
-.hm-tip { margin-top: 24px; background: #ecfdf5; border-radius: 14px; padding: 14px 16px; line-height: 2; font-size: 14px; }
-@media (max-width: 600px) { .blk .th, .blk.big .th { flex-basis: 84px; height: 62px; } #cei-home h1 { font-size: 21px; } }
+/* إحصائيات + اختصارات */
+#cei-home .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+#cei-home .stats button { background: #fff; border: 0; border-radius: 16px; padding: 14px; text-align: start; cursor: pointer; font-family: inherit; box-shadow: 0 1px 3px rgba(0,0,0,.08); display: grid; grid-template-columns: auto 1fr; column-gap: 10px; align-items: center; }
+#cei-home .stats button:hover { box-shadow: 0 6px 16px rgba(0,0,0,.12); }
+#cei-home .stats span { grid-row: span 2; font-size: 28px; } #cei-home .stats b { font-size: 26px; line-height: 1; } #cei-home .stats small { color: #6b7280; }
+#cei-home .quick { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin-top: 12px; }
+#cei-home .quick > * { display: block; text-align: start; background: #fff; border: 2px solid var(--line); border-radius: 14px; padding: 14px 16px; font: 700 16px 'Cairo', sans-serif; color: inherit; text-decoration: none; cursor: pointer; }
+#cei-home .quick > *:hover { border-color: var(--red); background: #fff1f2; }
+#cei-home .quick small { display: block; font-weight: 400; color: #6b7280; font-size: 12px; margin-top: 2px; }
 
-/* لافتة النشر */
-#cei-deploy { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 100000; direction: rtl; display: none; align-items: center; gap: 14px;
-  background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 14px; font: 600 14px 'Cairo', sans-serif; box-shadow: 0 10px 30px rgba(0,0,0,.35); overflow: hidden; max-width: 94vw; }
+/* خريطة الموقع */
+#cei-home .map { background: #fff; border: 2px solid var(--line); border-radius: 18px; padding: 14px; display: grid; gap: 10px; }
+#cei-home .blk { display: flex; align-items: center; gap: 14px; border: 2px dashed #d1d5db; border-radius: 14px; padding: 10px; background: #fafafa; cursor: pointer; transition: .15s; }
+#cei-home .blk:hover { border-color: var(--red); background: #fff1f2; }
+#cei-home .blk.big { padding: 16px 10px; }
+#cei-home .blk .th { flex: 0 0 120px; height: 80px; border-radius: 10px; overflow: hidden; background: #e5e7eb; display: grid; place-items: center; }
+#cei-home .blk.big .th { flex-basis: 190px; height: 110px; }
+#cei-home .th img { width: 100%; height: 100%; object-fit: cover; display: block; } #cei-home .ph { font-size: 30px; }
+#cei-home .blk .tx b { display: block; font-size: 16px; } #cei-home .blk .tx small { display: block; color: #6b7280; font-size: 12.5px; }
+#cei-home .dz { margin-top: 6px; font-size: 12.5px; color: var(--red); font-weight: 700; } #cei-home .dz.soft { color: #9ca3af; font-weight: 600; }
+#cei-home .can-drop.blk { border-color: #fca5a5; background: #fff7f7; }
+#cei-home .over { border-style: solid !important; border-color: var(--red) !important; background: #ffe4e6 !important; transform: scale(1.015); }
+
+/* بطاقات الأخبار والأنشطة والآراء */
+#cei-home .lh { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 6px; } #cei-home .lh h2 { margin: 0; }
+#cei-home .hint { color: #4b5563; font-size: 14px; margin: 6px 0 14px; }
+#cei-home .empty { background: #fff; border-radius: 14px; padding: 30px; text-align: center; color: #6b7280; }
+#cei-home .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+#cei-home .card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.08); border: 2px solid transparent; transition: .15s; }
+#cei-home .card:hover { box-shadow: 0 8px 20px rgba(0,0,0,.12); }
+#cei-home .cimg { position: relative; height: 150px; background: #e5e7eb; display: grid; place-items: center; cursor: pointer; overflow: hidden; }
+#cei-home .card.round .cimg { height: 150px; } #cei-home .card.round .cimg img { width: 110px; height: 110px; border-radius: 50%; }
+#cei-home .chg { position: absolute; inset: auto 0 0 0; background: rgba(17,24,39,.78); color: #fff; text-align: center; padding: 7px; font-size: 13px; font-weight: 700; opacity: 0; transition: .15s; }
+#cei-home .cimg:hover .chg, #cei-home .card.over .chg { opacity: 1; }
+#cei-home .cb { padding: 12px 14px; display: grid; gap: 4px; } #cei-home .cb b { font-size: 15.5px; line-height: 1.5; } #cei-home .cb small { color: #6b7280; }
+#cei-home .cb em { font-style: normal; font-size: 12px; background: #fee2e2; color: var(--red-d); border-radius: 6px; padding: 1px 8px; justify-self: start; }
+#cei-home .edit { margin-top: 6px; text-align: center; background: #f3f4f6; color: var(--ink); border-radius: 10px; padding: 7px; text-decoration: none; font-weight: 700; font-size: 13.5px; } #cei-home .edit:hover { background: #fee2e2; }
+
+/* المعرض */
+#cei-home .gdrop { border: 3px dashed #fca5a5; background: #fff7f7; border-radius: 16px; padding: 26px; text-align: center; font-weight: 700; color: var(--red); cursor: pointer; margin-bottom: 14px; }
+#cei-home .ggrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+#cei-home .g { position: relative; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+#cei-home .g img { width: 100%; height: 120px; object-fit: cover; display: block; background: #e5e7eb; }
+#cei-home .g small { display: block; padding: 6px 8px; color: #6b7280; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 28px; }
+#cei-home .gt { position: absolute; top: 6px; inset-inline: 6px; display: flex; justify-content: space-between; }
+#cei-home .gt button { width: 30px; height: 30px; border: 0; border-radius: 50%; background: rgba(17,24,39,.7); color: #fff; cursor: pointer; font-size: 15px; }
+#cei-home .gt button.on { background: #f59e0b; } #cei-home .gt button:hover { background: var(--red); }
+
+#cei-home .rec { background: #fff; border-radius: 14px; padding: 4px 14px; }
+#cei-home .rec div { display: flex; justify-content: space-between; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f3f4f6; font-size: 14px; } #cei-home .rec div:last-child { border: 0; } #cei-home .rec small { color: #6b7280; white-space: nowrap; }
+#cei-home .tipbox { margin-top: 24px; background: #ecfdf5; border-radius: 14px; padding: 14px 16px; line-height: 2; font-size: 14px; }
+@media (max-width: 600px) { #cei-home .blk .th, #cei-home .blk.big .th { flex-basis: 84px; height: 62px; } #cei-home .top h1 { font-size: 18px; } #cei-home .top { padding: 16px; } }
+
+/* المعاينة الحيّة */
+#cei-live { position: fixed; inset: 0; z-index: 100001; background: #0f172a; display: none; flex-direction: column; direction: rtl; font-family: 'Cairo', sans-serif; }
+#cei-live.open { display: flex; }
+#cei-live .lb { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; padding: 10px 14px; color: #fff; }
+#cei-live .lb button { border: 1px solid #475569; background: transparent; color: #e2e8f0; border-radius: 10px; padding: 6px 12px; font: 600 13px 'Cairo', sans-serif; cursor: pointer; margin-inline-start: 6px; }
+#cei-live .lb button.on { background: var(--red); border-color: var(--red); color: #fff; }
+#cei-live .lf { flex: 1; display: grid; justify-items: center; padding: 0 12px 12px; min-height: 0; }
+#cei-live iframe { width: 100%; height: 100%; border: 0; border-radius: 12px; background: #fff; }
+#cei-live.mob iframe { width: 390px; max-width: 100%; border-radius: 28px; border: 8px solid #1e293b; }
+
+/* لافتات */
+#cei-deploy { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 100000; direction: rtl; display: none; align-items: center; gap: 14px; background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 14px; font: 600 14px 'Cairo', sans-serif; box-shadow: 0 10px 30px rgba(0,0,0,.35); overflow: hidden; max-width: 94vw; }
 #cei-deploy i { position: absolute; bottom: 0; right: 0; height: 4px; background: #34d399; transition: width 1s linear; }
 #cei-deploy a { background: #34d399; color: #064e3b; text-decoration: none; padding: 6px 12px; border-radius: 8px; font-weight: 700; }
 #cei-deploy button { background: transparent; color: #cbd5e1; border: 1px solid #475569; border-radius: 8px; padding: 5px 10px; cursor: pointer; font-family: inherit; }
 #cei-deploy span { color: #cbd5e1; }
+#cei-busy { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 100002; display: none; background: #f59e0b; color: #1f2937; padding: 10px 20px; border-radius: 12px; font: 700 14px 'Cairo', sans-serif; direction: rtl; box-shadow: 0 8px 24px rgba(0,0,0,.3); }
 
-/* واجهة التحرير: ألوان الجمعية وأزرار أوضح */
-[class*="SidebarContainer"] [class*="SidebarNavLink"][class*="active"], [class*="SidebarNavLink"][class*="active"] { background: #fee2e2 !important; color: var(--red-d) !important; }
-button[class*="PublishButton"], button[class*="ToolbarButton"][class*="Publish"] { background: var(--red) !important; color: #fff !important; border-radius: 10px !important; }
+/* واجهة التحرير (Decap): ألوان الجمعية */
+[class*="SidebarNavLink"][class*="active"] { background: #fee2e2 !important; color: var(--red-d) !important; }
+button[class*="PublishButton"] { background: var(--red) !important; color: #fff !important; border-radius: 10px !important; }
 [class*="ImageWidget"] img, [class*="ImageWrapper"] img { border-radius: 12px; max-height: 220px; object-fit: cover; }
-[class*="ControlContainer"] button[class*="Button"] { border-radius: 10px; }
-/* بطاقات المكتبة الصور أكبر */
-[class*="CardGrid"] > [class*="Card"], [class*="MediaLibraryCard"] { border-radius: 12px; }
+[class*="ControlContainer"] button[class*="Button"], [class*="MediaLibraryCard"] { border-radius: 10px; }
+
+/* ===== إضافات: الحملة، البحث، الوضع الليلي، صور أخرى ===== */
+#cei-home .btn.amber { background: #f59e0b; color: #1f2937; }
+#cei-home .camp { background: var(--card); border-radius: 16px; padding: 16px; margin-top: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+#cei-home .ch { display: flex; justify-content: space-between; font-size: 16px; } #cei-home .ch span { color: var(--red); font-weight: 700; }
+#cei-home .pr { height: 12px; background: #e5e7eb; border-radius: 99px; overflow: hidden; margin: 10px 0 12px; } #cei-home .pr i { display: block; height: 100%; background: linear-gradient(90deg, #f59e0b, #c8102e); border-radius: 99px; }
+#cei-home .cf { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+#cei-home .cf label { font-size: 13px; color: #6b7280; display: grid; gap: 4px; } #cei-home .cf input { border: 2px solid var(--line); border-radius: 10px; padding: 8px 12px; font: 700 16px 'Cairo', sans-serif; width: 170px; background: var(--card, #fff); color: var(--ink); }
+#cei-home .q { width: 100%; border: 2px solid var(--line); border-radius: 12px; padding: 10px 14px; font: 600 15px 'Cairo', sans-serif; margin: 8px 0 0; background: var(--card, #fff); color: var(--ink); }
+#cei-home h3 { margin: 22px 0 10px; font-size: 16px; color: #374151; }
+
+#cei-home-wrap { --card: #fff; }
+#cei-home-wrap.dark { --ink: #f3f4f6; --card: #1e293b; --bg: #0b1220; --line: #334155; }
+#cei-home-wrap.dark #cei-home .tabs { background: rgba(11,18,32,.94); }
+#cei-home-wrap.dark #cei-home .tabs button, #cei-home-wrap.dark #cei-home .quick > *, #cei-home-wrap.dark #cei-home .map, #cei-home-wrap.dark #cei-home .card, #cei-home-wrap.dark #cei-home .stats button, #cei-home-wrap.dark #cei-home .g, #cei-home-wrap.dark #cei-home .rec, #cei-home-wrap.dark #cei-home .empty { background: var(--card); color: var(--ink); }
+#cei-home-wrap.dark #cei-home .blk { background: #172033; } #cei-home-wrap.dark #cei-home .blk:hover { background: #3b1220; }
+#cei-home-wrap.dark #cei-home .edit { background: #334155; color: #f3f4f6; }
+#cei-home-wrap.dark #cei-home .tipbox { background: #12352b; } #cei-home-wrap.dark #cei-home h3, #cei-home-wrap.dark #cei-home .hint { color: #cbd5e1; }
+#cei-home-wrap.dark #cei-home .tabs button.on { background: var(--red); color: #fff; }
