@@ -1,0 +1,142 @@
+{
+  "categories": [
+    {
+      "id": "ramadan",
+      "label": {
+        "ar": "حملات رمضان",
+        "fr": "Campagnes du Ramadan",
+        "en": "Ramadan campaigns"
+      }
+    },
+    {
+      "id": "eid",
+      "label": {
+        "ar": "ملابس العيد",
+        "fr": "Vêtements de l'Aïd",
+        "en": "Eid clothes"
+      }
+    },
+    {
+      "id": "caravans",
+      "label": {
+        "ar": "قوافل إحسان",
+        "fr": "Kawafil Ihssan",
+        "en": "Ihssan caravans"
+      }
+    },
+    {
+      "id": "water",
+      "label": {
+        "ar": "مشاريع سقيا",
+        "fr": "Projets Siqaya (eau)",
+        "en": "Siqaya (water)"
+      }
+    },
+    {
+      "id": "aid",
+      "label": {
+        "ar": "قفف ومساعدات",
+        "fr": "Couffins et aides",
+        "en": "Baskets & aid"
+      }
+    },
+    {
+      "id": "health",
+      "label": {
+        "ar": "صحة وإسعاف",
+        "fr": "Santé et ambulances",
+        "en": "Health & ambulances"
+      }
+    },
+    {
+      "id": "team",
+      "label": {
+        "ar": "فريقنا",
+        "fr": "Notre équipe",
+        "en": "Our team"
+      }
+    }
+  ],
+  "images": [
+    {
+      "category": "caravans",
+      "image_url": "https://chababelihssan.com/wp-content/uploads/2025/05/IMG_4871-1024x768.jpg",
+      "caption": {
+        "ar": "قافلة الإحسان",
+        "fr": "Kafilat Elihssan",
+        "en": "Kafilat Elihssan"
+      },
+      "is_featured": true
+    },
+    {
+      "category": "eid",
+      "image_url": "https://chababelihssan.com/wp-content/uploads/2023/04/IMG_0123-1024x768.jpg",
+      "caption": {
+        "ar": "ملابس العيد 2025",
+        "fr": "Vêtements de l'Aïd 2025",
+        "en": "Eid Clothes 2025"
+      },
+      "is_featured": false
+    },
+    {
+      "category": "water",
+      "image_url": "https://chababelihssan.com/wp-content/uploads/2025/04/IMG_7799-1024x768.jpg",
+      "caption": {
+        "ar": "بئر ارتوازية",
+        "fr": "Puits artésien",
+        "en": "Artesian well"
+      },
+      "is_featured": false
+    },
+    {
+      "category": "team",
+      "image_url": "https://chababelihssan.com/wp-content/uploads/2025/04/IMG_1464-1-scaled.jpg",
+      "caption": {
+        "ar": "فريقنا",
+        "fr": "Notre équipe",
+        "en": "Our team"
+      },
+      "is_featured": false
+    },
+    {
+      "category": "ramadan",
+      "image_url": "https://chababelihssan.com/wp-content/uploads/2025/10/DigitalTechStore_character-1024x767.jpg",
+      "caption": {
+        "ar": "وجبة السحور 2025",
+        "fr": "Repas du Suhoor 2025",
+        "en": "Suhoor Meals 2025"
+      },
+      "is_featured": false
+    },
+    {
+      "category": "aid",
+      "image_url": "https://chababelihssan.com/wp-content/uploads/2025/05/IMG_5154-scaled.jpg",
+      "caption": {
+        "ar": "قفة الخضر",
+        "fr": "Panier à légumes",
+        "en": "Vegetable basket"
+      },
+      "is_featured": false
+    },
+    {
+      "category": "aid",
+      "image_url": "https://chababelihssan.com/wp-content/uploads/2023/04/IMG_1079-1024x768.jpg",
+      "caption": {
+        "ar": "أجهزة كهرومنزلية",
+        "fr": "Appareils électroménagers",
+        "en": "Household appliances"
+      },
+      "is_featured": false
+    },
+    {
+      "category": "health",
+      "image_url": "https://chababelihssan.com/wp-content/uploads/2025/04/IMG_7194-scaled.jpg",
+      "caption": {
+        "ar": "أجهزة طبية",
+        "fr": "Dispositifs médicaux",
+        "en": "Medical devices"
+      },
+      "is_featured": false
+    }
+  ]
+}

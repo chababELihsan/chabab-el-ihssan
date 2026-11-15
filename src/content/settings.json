@@ -1,0 +1,25 @@
+{
+  "site_url": "https://chababelihssan.com",
+  "logo_url": "https://chababelihssan.com/wp-content/uploads/2025/03/1721052846963.png",
+  "email": "chababelihssan@gmail.com",
+  "phone_display": "0557343528 / 0774068287",
+  "whatsapp": "213557343528",
+  "address": {
+    "ar": "العنوان: Chabab El Ihssan Jolie Vue، القبة، الجزائر",
+    "fr": "Adresse : Chabab El Ihssan Jolie Vue, Kouba, Alger, Algérie",
+    "en": "Address: Chabab El Ihssan Jolie Vue, Kouba, Algiers, Algeria"
+  },
+  "social": {
+    "facebook": "https://web.facebook.com/chababelihssan3",
+    "instagram": "https://www.instagram.com/chababelihssan",
+    "x": "https://x.com/chababelihssan",
+    "youtube": "https://youtube.com/@chababelihssan",
+    "tiktok": "https://tiktok.com/@chababelihssan"
+  },
+  "social_feed": {
+    "enabled": true,
+    "facebook_page_url": "https://www.facebook.com/chababelihssan3",
+    "instagram_feed_url": "",
+    "instagram_manual_posts": []
+  }
+}

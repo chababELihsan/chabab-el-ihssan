@@ -1,0 +1,22 @@
+{
+  "category": "event",
+  "date": "2025-05-01",
+  "end_date": null,
+  "image_url": "https://chababelihssan.com/wp-content/uploads/2025/05/IMG_4871-1024x768.jpg",
+  "is_pinned": false,
+  "title": {
+    "ar": "قافلة الإحسان 19/20: في قلب الصحراء",
+    "fr": "Kafilat Elihssan 19/20 : Au Cœur du Sahara",
+    "en": "Kafilat Elihssan 19/20: In the Heart of the Sahara"
+  },
+  "description": {
+    "ar": "قوافل إنسانية نحو تمنراست وأدرار.",
+    "fr": "Caravanes humanitaires vers Tamanrasset et Adrar.",
+    "en": "Humanitarian caravans to Tamanrasset and Adrar."
+  },
+  "location": {
+    "ar": "تمنراست وأدرار",
+    "fr": "Tamanrasset et Adrar",
+    "en": "Tamanrasset & Adrar"
+  }
+}

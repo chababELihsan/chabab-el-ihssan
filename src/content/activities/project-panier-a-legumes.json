@@ -1,0 +1,22 @@
+{
+  "category": "project",
+  "date": "2025-04-04",
+  "end_date": null,
+  "image_url": "https://chababelihssan.com/wp-content/uploads/2025/05/IMG_5154-scaled.jpg",
+  "is_pinned": false,
+  "title": {
+    "ar": "قفة الخضر",
+    "fr": "Panier à légumes",
+    "en": "Vegetable basket"
+  },
+  "description": {
+    "ar": "مشروع ميداني ملموس لجمعية شباب الإحسان.",
+    "fr": "Projet concret mené sur le terrain par Chabab El Ihssane.",
+    "en": "Concrete field project of Chabab El Ihssane."
+  },
+  "location": {
+    "ar": "الجزائر العاصمة",
+    "fr": "Alger",
+    "en": "Algiers"
+  }
+}
