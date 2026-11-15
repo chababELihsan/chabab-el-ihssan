@@ -22,9 +22,9 @@ const Slider = ({ item, lb, language }) => {
         <div className="max-w-4xl mx-auto">
             <div dir="ltr" className="relative aspect-[4/3] md:aspect-[16/9] overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700 shadow-md bg-gray-200 select-none">
                 {/* After (full) */}
-                <img src={item.after} alt={`${title} — ${lb.after}`} className="absolute inset-0 w-full h-full object-cover" draggable={false} />
+                <img loading="lazy" decoding="async" src={item.after} alt={`${title} — ${lb.after}`} className="absolute inset-0 w-full h-full object-cover" draggable={false} />
                 {/* Before (clipped to the left of the handle) */}
-                <img
+                <img loading="lazy" decoding="async"
                     src={beforeSrc}
                     alt={`${title} — ${lb.before}`}
                     className="absolute inset-0 w-full h-full object-cover"

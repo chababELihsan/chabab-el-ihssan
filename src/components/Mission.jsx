@@ -1,12 +1,10 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { translations } from '../translations';
 import { FaBullseye, FaEye } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 const Mission = () => {
-    const { language } = useLanguage();
-    const t = translations[language];
+    const { t } = useLanguage();
 
     return (
         <section className="py-16 bg-white dark:bg-gray-900 transition-colors duration-300">

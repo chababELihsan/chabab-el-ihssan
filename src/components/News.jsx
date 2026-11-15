@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useData } from '../hooks/useData';
-import { translations } from '../translations';
 import { FaCalendarAlt, FaMapMarkerAlt, FaArrowRight, FaThumbtack } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Modal from './Modal';
 import { formatDateRange, calculateDuration, isExpired } from '../utils/dateUtils';
+import { PLACEHOLDER } from '../utils/placeholder';
 
 const News = () => {
-    const { language } = useLanguage();
+    const { language, t } = useLanguage();
     const { news, events, getLocalizedContent } = useData();
-    const t = translations[language];
     const [selectedNewsId, setSelectedNewsId] = useState(null); // { id, type }
 
     // Derive active item from global state
@@ -59,8 +58,8 @@ const News = () => {
                                 onClick={() => setSelectedNewsId({ id: item.id, type: item.type })}
                             >
                                 <div className="relative">
-                                    <img
-                                        src={item.image_url || "https://via.placeholder.com/300"}
+                                    <img loading="lazy" decoding="async"
+                                        src={item.image_url || PLACEHOLDER}
                                         alt={getLocalizedContent(item.title, language)}
                                         className="w-full h-48 object-cover transition group-hover:scale-105 rounded-t-lg"
                                     />

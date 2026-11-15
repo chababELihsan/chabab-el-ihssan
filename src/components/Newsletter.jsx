@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { translations } from '../translations';
 import toast from 'react-hot-toast';
 
 const Newsletter = () => {
-    const { language } = useLanguage();
-    const t = translations[language];
+    const { t } = useLanguage();
     const [email, setEmail] = useState('');
 
     const handleSubmit = (e) => {

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { translations } from '../translations';
 import { FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation, EffectCoverflow } from 'swiper/modules';
@@ -29,8 +28,7 @@ const ROLE_FALLBACK = {
 };
 
 const Team = () => {
-    const { language } = useLanguage();
-    const t = translations[language];
+    const { language, t } = useLanguage();
     const [season, setSeason] = useState('2026');
 
     const teamMembers = [
@@ -220,7 +218,7 @@ const Team = () => {
                                     {/* Image Container */}
                                     <div className="h-[300px] w-full relative overflow-hidden">
                                         <div className="absolute inset-0 bg-blue-900/10 group-hover:bg-transparent transition-colors duration-300 z-10"></div>
-                                        <img
+                                        <img loading="lazy" decoding="async"
                                             src={member.image}
                                             alt={member.name}
                                             className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"

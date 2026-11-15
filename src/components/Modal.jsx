@@ -2,11 +2,9 @@ import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaTimes } from 'react-icons/fa';
 import { useLanguage } from '../context/LanguageContext';
-import { translations } from '../translations';
 
 const Modal = ({ isOpen, onClose, title, children, heroImage, fullScreen = false }) => {
-    const { language } = useLanguage();
-    const t = translations[language];
+    const { t } = useLanguage();
 
     // Lock body scroll when modal is open
     useEffect(() => {
@@ -68,7 +66,7 @@ const Modal = ({ isOpen, onClose, title, children, heroImage, fullScreen = false
                         {heroImage ? (
                             // Hero Image Mode
                             <div className={`relative flex-shrink-0 bg-gradient-to-br from-[var(--brand-navy)] to-[var(--brand-red)] ${fullScreen ? 'h-48 md:h-64' : 'h-64'}`}>
-                                <img src={heroImage} alt={title} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                                <img loading="lazy" decoding="async" src={heroImage} alt={title} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-6">
                                     <h3 className={`font-bold text-white shadow-sm leading-tight ${fullScreen ? 'text-3xl md:text-5xl container mx-auto px-2 pb-4' : 'text-2xl'}`}>{title}</h3>
                                 </div>

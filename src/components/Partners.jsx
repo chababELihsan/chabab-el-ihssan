@@ -1,12 +1,11 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useData } from '../hooks/useData';
-import { translations } from '../translations';
+import { PLACEHOLDER } from '../utils/placeholder';
 
 const Partners = () => {
-    const { language } = useLanguage();
+    const { t } = useLanguage();
     const { partners } = useData();
-    const t = translations[language];
 
     return (
         <section className="py-16 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
@@ -32,13 +31,13 @@ const Partners = () => {
                                 className="bg-white dark:bg-gray-700 p-6 md:p-8 rounded-lg shadow-sm flex items-center justify-center w-40 h-28 md:w-48 hover:shadow-md transition group"
                                 title={partner.name}
                             >
-                                <img
+                                <img loading="lazy" decoding="async"
                                     src={partner.image_url}
                                     alt={partner.name}
                                     className="max-h-12 w-auto opacity-70 group-hover:opacity-100 transition object-contain"
                                     onError={(e) => {
                                         e.target.onerror = null;
-                                        e.target.src = "https://via.placeholder.com/150?text=" + partner.name.charAt(0);
+                                        e.target.src = PLACEHOLDER;
                                     }}
                                 />
                             </a>

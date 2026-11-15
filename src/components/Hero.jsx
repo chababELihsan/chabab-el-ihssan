@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { translations } from '../translations';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaHeart, FaHandHoldingHeart, FaStar, FaHandsHelping, FaPlay } from 'react-icons/fa';
@@ -10,8 +9,7 @@ import VideoModal from './VideoModal';
 // Poster-style hero matching the 2026 Instagram identity: navy grid paper,
 // torn white paper title, red accents, taped polaroid photo.
 const Hero = () => {
-    const { language } = useLanguage();
-    const t = translations[language];
+    const { language, t } = useLanguage();
     const [playing, setPlaying] = useState(false);
     const hasVideo = !!(heroVideo.src || heroVideo.youtubeId);
     const watchLabel = { ar: 'شاهد الفيديو', fr: 'Voir la vidéo', en: 'Watch the video' }[language] || 'Watch the video';

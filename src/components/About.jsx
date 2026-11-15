@@ -39,7 +39,7 @@ const About = () => {
           */}
                     <div className="hidden md:block">
                         {/* Placeholder for now or check next lines */}
-                        <img
+                        <img loading="lazy" decoding="async"
                             src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=400"
                             alt="About Us"
                             className="rounded-lg shadow-lg w-full h-auto object-cover"

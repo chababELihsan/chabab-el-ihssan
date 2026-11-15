@@ -1,12 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
-import { translations } from '../translations';
 import { FaHandsHelping, FaHandHoldingUsd, FaHandshake } from 'react-icons/fa';
 
 const GetInvolved = () => {
-    const { language } = useLanguage();
-    const t = translations[language];
+    const { t } = useLanguage();
 
     return (
         <section className="py-16 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">

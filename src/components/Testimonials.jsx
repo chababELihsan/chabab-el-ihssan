@@ -1,12 +1,11 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { translations } from '../translations';
 import { FaStar } from 'react-icons/fa';
 import { useData } from '../hooks/useData';
+import { PLACEHOLDER } from '../utils/placeholder';
 
 const Testimonials = () => {
-    const { language } = useLanguage();
-    const t = translations[language];
+    const { language, t } = useLanguage();
     const { testimonials, getLocalizedContent } = useData();
 
     return (
@@ -32,8 +31,8 @@ const Testimonials = () => {
                                 "{getLocalizedContent(item.content, language)}"
                             </p>
                             <div className="flex items-center gap-4">
-                                <img
-                                    src={item.image_url || "https://via.placeholder.com/150"}
+                                <img loading="lazy" decoding="async"
+                                    src={item.image_url || PLACEHOLDER}
                                     alt={item.name}
                                     className="w-12 h-12 rounded-full object-cover"
                                 />

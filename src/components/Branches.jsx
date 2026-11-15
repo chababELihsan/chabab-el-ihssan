@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { translations } from '../translations';
 import { FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
 import { branches } from '../data/siteData';
 import BranchMap from './BranchMap';
 
 const Branches = () => {
-    const { language } = useLanguage();
-    const t = translations[language];
+    const { t } = useLanguage();
     const [selectedCity, setSelectedCity] = useState('');
     const filteredBranches = selectedCity
         ? branches.filter(branch => branch.city.toLowerCase() === selectedCity.toLowerCase())

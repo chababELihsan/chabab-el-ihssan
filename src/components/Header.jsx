@@ -65,7 +65,7 @@ const Header = () => {
                         أنفعهم للناس
                     </p>
                     <Link to="/" onClick={handleScrollToTop} className="shrink-0">
-                        <img src={LOGO} alt="شباب الإحسان" className="h-24 sm:h-32 md:h-40 w-auto object-contain" />
+                        <img src={LOGO} alt="شباب الإحسان" fetchpriority="high" decoding="async" className="h-24 sm:h-32 md:h-40 w-auto object-contain" />
                     </Link>
                     <p className="flex-1 text-right font-display text-xl sm:text-3xl md:text-5xl text-[var(--brand-navy)] dark:text-white leading-tight">
                         خير الناس
