@@ -5,7 +5,7 @@
 # =============================================================================
 backend:
   name: github
-  repo: chababELihsan/chabab-site
+    repo: chababELihsan/chabab-el-ihssan
   branch: main
 local_backend: true
 locale: fr
