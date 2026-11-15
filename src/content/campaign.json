@@ -1,5 +1,5 @@
 {
-  "enabled": false,
+  "enabled": true,
   "endDate": "2027-03-10T23:00:00",
   "goal": 199998,
   "raised": 996,
