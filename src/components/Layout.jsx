@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
+import AnnouncementBar from './AnnouncementBar';
 import Footer from './Footer';
 import ScrollToTop from './ScrollToTop';
 import { Toaster } from 'react-hot-toast';
@@ -17,6 +18,7 @@ const Layout = () => {
             dir={language === 'ar' ? 'rtl' : 'ltr'}
         >
             <a href="#main-content" className="skip-link">{skip}</a>
+            <AnnouncementBar />
             <Header />
             <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col w-full focus:outline-none">
                 <Outlet />

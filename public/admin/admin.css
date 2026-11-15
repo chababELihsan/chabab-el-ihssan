@@ -175,3 +175,17 @@ button[class*="PublishButton"] { background: var(--red) !important; color: #fff 
 #cei-home-wrap.dark #cei-home .edit { background: #334155; color: #f3f4f6; }
 #cei-home-wrap.dark #cei-home .tipbox { background: #12352b; } #cei-home-wrap.dark #cei-home h3, #cei-home-wrap.dark #cei-home .hint { color: #cbd5e1; }
 #cei-home-wrap.dark #cei-home .tabs button.on { background: var(--red); color: #fff; }
+
+/* ===== شريط الإعلان، الجدولة، ترتيب المعرض ===== */
+#cei-home .camp.ann { border: 2px solid var(--line); } #cei-home .camp.ann.on { border-color: #34d399; }
+#cei-home .sw { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 6px; cursor: pointer; } #cei-home .sw input { width: 20px; height: 20px; accent-color: var(--red); }
+#cei-home .cf select, #cei-home .cf input[type=date] { border: 2px solid var(--line); border-radius: 10px; padding: 9px 10px; font: 600 15px 'Cairo', sans-serif; background: var(--card); color: var(--ink); }
+#cei-home .note { display: block; margin-top: 10px; color: #6b7280; font-size: 12.5px; line-height: 1.7; }
+#cei-home .schedtip { margin: 10px 0 0; background: #fffbeb; border: 1px solid #fde68a; color: #78350f; border-radius: 12px; padding: 10px 14px; font-size: 14px; }
+#cei-home .cb em.sch { background: #fef3c7; color: #92400e; }
+#cei-home .g { cursor: grab; transition: transform .12s, box-shadow .12s; } #cei-home .g.dragging { opacity: .35; } #cei-home .g.gover { outline: 3px solid var(--red); transform: scale(1.04); }
+#cei-home .g .gn { position: absolute; bottom: 38px; inset-inline-start: 6px; background: rgba(17,24,39,.75); color: #fff; font-size: 12px; font-weight: 700; border-radius: 8px; padding: 1px 8px; }
+#cei-home .gt { gap: 4px; }
+#cei-home .gcap { width: 100%; border: 0; border-top: 1px solid var(--line); padding: 8px; font: 600 12.5px 'Cairo', sans-serif; background: transparent; color: var(--ink); outline: none; }
+#cei-home .gcap:focus { background: #fff7ed; }
+#cei-home-wrap.dark #cei-home .schedtip { background: #3b2a08; border-color: #78560f; color: #fde68a; } #cei-home-wrap.dark #cei-home .gcap:focus { background: #172033; }

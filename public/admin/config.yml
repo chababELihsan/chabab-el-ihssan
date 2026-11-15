@@ -39,7 +39,7 @@ collections:
   - date
   - is_pinned
   fields:
-  - label: التاريخ
+  - label: تاريخ النشر
     name: date
     widget: datetime
     date_format: YYYY-MM-DD
@@ -47,6 +47,7 @@ collections:
     format: YYYY-MM-DD
     picker_utc: false
     required: true
+    hint: '⏰ للجدولة: اختر تاريخاً في المستقبل — يبقى الخبر مخفياً ويظهر تلقائياً في ذلك اليوم. تاريخ اليوم أو الماضي = ينشر فوراً.'
   - label: الصورة
     name: image_url
     widget: image
@@ -953,6 +954,74 @@ collections:
         required: false
         max: 6
         summary: '{{fields.link}}'
+  - name: announcement
+    label: 📢 شريط الإعلان (أعلى الموقع)
+    file: src/content/announcement.json
+    format: json
+    fields:
+    - label: تفعيل الشريط
+      name: enabled
+      widget: boolean
+      default: false
+      required: false
+      hint: 'شغّله لإظهار الشريط في أعلى كل صفحات الموقع، وأوقفه لإخفائه.'
+    - label: نص الإعلان
+      name: text
+      widget: object
+      collapsed: false
+      fields:
+      - label: العربية
+        name: ar
+        widget: string
+        required: false
+      - label: Français
+        name: fr
+        widget: string
+        required: false
+      - label: English (اختياري)
+        name: en
+        widget: string
+        required: false
+    - label: رابط الزر (اختياري)
+      name: link
+      widget: string
+      required: false
+      hint: 'مثال: /donate للانتقال لصفحة التبرع، أو رابط كامل https://… . اتركه فارغاً لإخفاء الزر.'
+    - label: كلمة الزر
+      name: button
+      widget: object
+      collapsed: true
+      fields:
+      - label: العربية
+        name: ar
+        widget: string
+        required: false
+      - label: Français
+        name: fr
+        widget: string
+        required: false
+      - label: English (اختياري)
+        name: en
+        widget: string
+        required: false
+    - label: لون الشريط
+      name: color
+      widget: select
+      options:
+      - label: أحمر
+        value: red
+      - label: أخضر
+        value: green
+      - label: ذهبي
+        value: gold
+      - label: أسود
+        value: dark
+      default: red
+    - label: يختفي تلقائياً بعد هذا اليوم (اختياري)
+      name: end_date
+      widget: string
+      required: false
+      hint: 'بصيغة 2026-12-31 — اتركه فارغاً ليبقى ظاهراً حتى توقفه يدوياً.'
   - name: branches
     label: 📍 الفروع والخريطة
     file: src/content/branches.json

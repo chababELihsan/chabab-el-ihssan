@@ -18,20 +18,6 @@
         "fr": "D'un terrain aride à une source d'eau durable pour les familles dans le besoin.",
         "en": "From dry land to a lasting water source for families in need."
       }
-    },
-    {
-      "before": "/images/uploads/hh.jpg.webp",
-      "title": {
-        "ar": "sgd",
-        "fr": "gs",
-        "en": "gsg"
-      },
-      "caption": {
-        "ar": "gs",
-        "fr": "gs",
-        "en": "gs"
-      },
-      "after": "/images/uploads/capture-d-ecran-2026-10-09-165705.png"
     }
   ],
   "achievementPlaces": [
@@ -147,6 +133,5 @@
         "en": "Tanks that store water for families in need and serve them permanently."
       }
     }
-  ],
-  "heroImage": "/images/uploads/img-mwi1pwr4ozo.png"
+  ]
 }

@@ -345,6 +345,13 @@
         h('div', { className: 'lbl', style: { marginTop: '14px' } }, [d.email, d.phone_display].filter(Boolean).join(' • ')));
     });
 
+    CMS.registerPreviewTemplate('announcement', function (p) {
+      var d = D(p), bg = { red: '#c8102e', green: '#15803d', gold: '#f59e0b', dark: '#111827' }[d.color] || '#c8102e', fg = d.color === 'gold' ? '#1f2937' : '#fff';
+      return h('div', null, h('div', { className: 'lbl' }, d.enabled ? 'هكذا سيظهر الشريط أعلى الموقع:' : '⚠️ الشريط متوقف حالياً — فعّله ليظهر:'),
+        h('div', { style: { background: bg, color: fg, padding: '10px 16px', borderRadius: '10px', textAlign: 'center', fontWeight: 700 } },
+          T(d.text) || 'اكتب نص الإعلان…', d.link && T(d.button) ? h('u', { style: { marginInlineStart: '10px' } }, T(d.button)) : null));
+    });
+
     CMS.registerPreviewTemplate('campaign', function (p) {
       var d = D(p), pct = d.goal ? Math.min(100, Math.round((d.raised || 0) * 100 / d.goal)) : 0;
       return h('div', { className: 'card' }, h('div', { className: 'body' },
@@ -419,7 +426,8 @@
    * ------------------------------------------------------------- */
   var REPO = 'chababELihsan/chabab-el-ihssan', BRANCH = 'main', UP_DIR = 'public/images/uploads/';
   var SITE = (location.origin || '') + '/';
-  var thumbs = {}, tab = 'map', L = { news: null, activities: null, testimonials: null }, G = null, commits = null, loaded = false, lastUndo = null, C = null, P = null, M = null;
+  var thumbs = {}, tab = 'map', L = { news: null, activities: null, testimonials: null }, G = null, commits = null, loaded = false, lastUndo = null, C = null, P = null, M = null, A = null;
+  function todayStr() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
 
   var MAP = [
     { id: 'logo', t: 'الشعار', s: 'الشريط العلوي في كل الصفحات', ic: '🏷️', go: '#/collections/settings/entries/settings', drop: 'logo' },
@@ -583,6 +591,7 @@
     readJson('src/content/gallery.json').then(function (r) { G = r.data; thumbs.gal = (r.data.images[0] || {}).image_url; render(); }).catch(function () {});
     readJson('src/content/projects.json').then(function (r) { P = r.data; var c = (r.data.categories || [])[0]; if (c) thumbs.prog = c.image; render(); }).catch(function () {});
     readJson('src/content/campaign.json').then(function (r) { C = r.data; render(); }).catch(function () {});
+    readJson('src/content/announcement.json').then(function (r) { A = r.data; render(); }).catch(function () {});
     ghx('commits?per_page=6&sha=' + BRANCH).then(function (c) { commits = c; render(); }).catch(function () {});
     loaded = true;
   }
@@ -600,6 +609,16 @@
     if (C) { var pc = C.goal ? Math.min(100, Math.round((C.raised || 0) * 100 / C.goal)) : 0;
       camp = '<div class="camp"><div class="ch"><b>💰 ' + esc(T3(C.title)) + '</b><span>' + pc + '%</span></div><div class="pr"><i style="width:' + pc + '%"></i></div>' +
         '<div class="cf"><label>المبلغ المجموع (دج)<input id="cei-raised" type="number" min="0" value="' + (C.raised || 0) + '"></label><label>الهدف (دج)<input id="cei-goal" type="number" min="0" value="' + (C.goal || 0) + '"></label><button class="btn red" data-act="saveraised" type="button">💾 حفظ</button></div></div>'; }
+    var ann = '';
+    if (A) {
+      var cols = [['red', 'أحمر'], ['green', 'أخضر'], ['gold', 'ذهبي'], ['dark', 'أسود']];
+      ann = '<div class="camp ann' + (A.enabled ? ' on' : '') + '"><div class="ch"><b>📢 شريط الإعلان (أعلى كل صفحات الموقع)</b><label class="sw"><input id="cei-a-on" type="checkbox"' + (A.enabled ? ' checked' : '') + '> مفعّل</label></div>' +
+        '<div class="cf"><label style="flex:1;min-width:230px">نص الإعلان<input id="cei-a-txt" type="text" style="width:100%" value="' + esc((A.text && A.text.ar) || '') + '" placeholder="مثال: آخر يوم للتبرع هو الجمعة"></label>' +
+        '<label>اللون<select id="cei-a-col">' + cols.map(function (c) { return '<option value="' + c[0] + '"' + (A.color === c[0] ? ' selected' : '') + '>' + c[1] + '</option>'; }).join('') + '</select></label>' +
+        '<label>يختفي بعد يوم<input id="cei-a-end" type="date" value="' + esc(String(A.end_date || '').slice(0, 10)) + '"></label>' +
+        '<button class="btn red" data-act="annsave" type="button">💾 حفظ</button></div>' +
+        '<small class="note">النسخ الفرنسية والإنجليزية تُعدَّل من «أدوات التحرير ← إعدادات الموقع ← شريط الإعلان». عند تغيير النص هنا تُمسح لتجنّب نص قديم.</small></div>';
+    }
     var blocks = MAP.map(function (z) {
       var img = z.drop === 'logo' ? thumbs.logo : z.drop === 'hero' ? thumbs.hero : thumbs[z.thumbKey || ''];
       var hint = z.drop ? '<div class="dz">⬇️ اسحب صورة هنا أو <u>اضغط لاختيارها</u> — تُوضع مباشرة في الموقع</div>' : '<div class="dz soft">اضغط للتعديل ‹</div>';
@@ -608,7 +627,7 @@
     var rec = '';
     if (commits && commits.length) rec = '<h2>🕒 آخر التعديلات</h2><div class="rec">' + commits.map(function (c) {
       return '<div><span>' + esc((c.commit.message || '').split('\n')[0]) + '</span><small>' + ago(c.commit.author.date) + '</small></div>'; }).join('') + '</div>';
-    return stats + camp + quick + '<h2>🗺️ خريطة الصفحة الرئيسية <small>(من الأعلى إلى الأسفل كما يراها الزائر)</small></h2><div class="map">' + blocks + '</div>' + rec +
+    return stats + ann + camp + quick + '<h2>🗺️ خريطة الصفحة الرئيسية <small>(من الأعلى إلى الأسفل كما يراها الزائر)</small></h2><div class="map">' + blocks + '</div>' + rec +
       '<div class="tipbox">💡 كل تغيير يظهر في الموقع بعد حوالي دقيقة، وستظهر لافتة تعدّ الوقت.<br>💡 الصور تُصغَّر تلقائياً — ارفعها كما هي من الهاتف.<br>💡 زر «معاينة حيّة» يريك الموقع كما يراه الزائر على الكمبيوتر والهاتف.</div>';
   }
   function viewList(col) {
@@ -617,9 +636,9 @@
     if (!token()) return head + '<div class="empty">⚠️ هذه الصفحة تحتاج تسجيل الدخول بحساب GitHub. من أدوات التحرير يمكنك التعديل كالعادة.</div>';
     if (!items) return head + '<div class="empty">⏳ جارٍ التحميل…</div>';
     if (!items.length) return head + '<div class="empty">لا يوجد شيء بعد. اضغط «إضافة».</div>';
-    return head + '<input id="cei-q" class="q" placeholder="🔍 ابحث بالعنوان…"><p class="hint">⬇️ اسحب صورة فوق أي بطاقة لتغييرها فوراً، أو اضغط على الصورة.</p><div class="cards">' + items.map(function (it, i) {
+    return head + '<input id="cei-q" class="q" placeholder="🔍 ابحث بالعنوان…">' + (col === 'news' ? '<div class="schedtip">⏰ <b>جدولة خبر:</b> عند إضافة خبر اختر <b>تاريخاً مستقبلياً</b> — يبقى مخفياً ويظهر تلقائياً في ذلك اليوم.</div>' : '') + '<p class="hint">⬇️ اسحب صورة فوق أي بطاقة لتغييرها فوراً، أو اضغط على الصورة.</p><div class="cards">' + items.map(function (it, i) {
       var d = it.data, title = d.name || T3(d.title);
-      var hid = col === 'testimonials' && d.is_approved === false ? '<em>مخفي</em>' : d.is_pinned ? '<em>📌 مثبّت</em>' : '';
+      var hid = col === 'testimonials' && d.is_approved === false ? '<em>مخفي</em>' : col === 'news' && d.date && String(d.date).slice(0, 10) > todayStr() ? '<em class="sch">⏰ مجدول — يُنشر يوم ' + esc(String(d.date).slice(0, 10)) + '</em>' : d.is_pinned ? '<em>📌 مثبّت</em>' : '';
       return '<div class="card can-drop' + (col === 'testimonials' ? ' round' : '') + '" data-swap="' + col + ':' + i + '"><div class="cimg">' + thumbHtml(d.image_url, '📷') + '<span class="chg">📷 تغيير الصورة</span></div>' +
         '<div class="cb"><b>' + esc(title) + '</b>' + hid + '<small>' + esc(d.date || T3(d.role) || '') + '</small>' +
         '<a class="edit" href="#/collections/' + col + '/entries/' + esc(it.file) + '" data-close="1">✏️ تعديل النص</a></div></div>';
@@ -641,10 +660,11 @@
     if (!token()) return head + '<div class="empty">⚠️ هذه الصفحة تحتاج تسجيل الدخول بحساب GitHub.</div>';
     if (!G) return head + '<div class="empty">⏳ جارٍ التحميل…</div>';
     var im = G.images || [];
-    return head + '<p class="hint">⬇️ اسحب عدة صور وأفلتها هنا لإضافتها. الصورة الأولى تظهر أولاً في الموقع. لتغيير الأقسام والتعليقات استعمل «أدوات التحرير».</p>' +
-      '<div class="gdrop can-drop" data-drop="gallery">⬇️ أفلت الصور هنا (أو اضغط) — تُضاف في بداية المعرض</div><div class="ggrid">' + im.map(function (g, i) {
-        return '<div class="g"><img src="' + esc(absUrl(g.image_url)) + '" alt="" loading="lazy"><div class="gt"><button data-act="gfeat" data-i="' + i + '" type="button" title="صورة مميزة" class="' + (g.is_featured ? 'on' : '') + '">★</button>' +
-          '<button data-act="gdel" data-i="' + i + '" type="button" title="حذف">🗑</button></div><small>' + esc(T3(g.caption)) + '</small></div>'; }).join('') + '</div>';
+    return head + '<p class="hint">↔️ <b>اسحب الصورة وأفلتها فوق صورة أخرى</b> لتغيير ترتيبها (أو زر ⏫ لنقلها للأول). اكتب التعليق تحت الصورة ثم اضغط Enter. الصورة الأولى تظهر أولاً في الموقع.</p>' +
+      '<div class="gdrop can-drop" data-drop="gallery">⬇️ أفلت صوراً جديدة هنا (أو اضغط) — تُضاف في بداية المعرض</div><div class="ggrid">' + im.map(function (g, i) {
+        return '<div class="g" draggable="true" data-gi="' + i + '"><img src="' + esc(absUrl(g.image_url)) + '" alt="" loading="lazy" draggable="false"><span class="gn">' + (i + 1) + '</span><div class="gt"><button data-act="gfeat" data-i="' + i + '" type="button" title="صورة مميزة" class="' + (g.is_featured ? 'on' : '') + '">★</button>' +
+          (i ? '<button data-act="gfirst" data-i="' + i + '" type="button" title="نقل للأول">⏫</button>' : '') + '<button data-act="gdel" data-i="' + i + '" type="button" title="حذف">🗑</button></div>' +
+          '<input class="gcap" data-i="' + i + '" value="' + esc((g.caption && g.caption.ar) || '') + '" placeholder="✏️ اكتب تعليقاً…"></div>'; }).join('') + '</div>';
   }
 
   function render() {
@@ -692,6 +712,14 @@
         if (a === 'edit') return closeHome();
         if (a === 'live') return openLive();
         if (a === 'undo') return undo();
+        if (a === 'gfirst') return galleryEdit(function (d) { var x = d.images.splice(i, 1)[0]; d.images.unshift(x); }, 'نقل صورة للأول', 'نُقلت الصورة للأول');
+        if (a === 'annsave') {
+          var on = document.getElementById('cei-a-on').checked, tx = document.getElementById('cei-a-txt').value.trim(), co = document.getElementById('cei-a-col').value, en = document.getElementById('cei-a-end').value; busy(1);
+          return modify('src/content/announcement.json', function (d) {
+            d.text = d.text || {}; if (d.text.ar !== tx) { d.text.ar = tx; d.text.fr = ''; d.text.en = ''; }
+            d.enabled = on; d.color = co; d.end_date = en || '';
+          }, 'تحديث شريط الإعلان').then(function (d) { A = d; done(on ? 'شريط الإعلان مفعّل' : 'شريط الإعلان متوقف'); }).catch(fail);
+        }
         if (a === 'dark') { var on = !wrap.classList.contains('dark'); wrap.classList.toggle('dark', on); try { localStorage.setItem('cei_dark', on ? '1' : '0'); } catch (x) {} return; }
         if (a === 'saveraised') {
           var rv = +document.getElementById('cei-raised').value || 0, gv = +document.getElementById('cei-goal').value || 0; busy(1);
@@ -710,9 +738,20 @@
         if (blk.dataset.go) { location.hash = blk.dataset.go; closeHome(); }
       }
     });
-    ['dragenter', 'dragover'].forEach(function (n) { wrap.addEventListener(n, function (e) { var b = e.target.closest && e.target.closest('.can-drop'); if (b) { e.preventDefault(); b.classList.add('over'); } }); });
+    var dragI = null;
+    ['dragenter', 'dragover'].forEach(function (n) { wrap.addEventListener(n, function (e) { if (dragI != null) return; var b = e.target.closest && e.target.closest('.can-drop'); if (b) { e.preventDefault(); b.classList.add('over'); } }); });
     wrap.addEventListener('dragleave', function (e) { var b = e.target.closest && e.target.closest('.can-drop'); if (b) b.classList.remove('over'); });
+    wrap.addEventListener('dragstart', function (e) { var g = e.target.closest && e.target.closest('.g'); if (g) { dragI = +g.dataset.gi; e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', 'g'); g.classList.add('dragging'); } });
+    wrap.addEventListener('dragend', function () { dragI = null; wrap.querySelectorAll('.dragging,.gover').forEach(function (x) { x.classList.remove('dragging', 'gover'); }); });
+    wrap.addEventListener('dragover', function (e) { if (dragI == null) return; var g = e.target.closest && e.target.closest('.g'); if (g) { e.preventDefault(); wrap.querySelectorAll('.gover').forEach(function (x) { x.classList.remove('gover'); }); g.classList.add('gover'); } });
+    wrap.addEventListener('change', function (e) {
+      var t = e.target; if (!t.classList || !t.classList.contains('gcap')) return; var i = +t.dataset.i, v = t.value.trim();
+      galleryEdit(function (d) { var im = d.images[i]; if (!im) return; im.caption = im.caption || {}; im.caption.ar = v; }, 'تعديل تعليق صورة', 'تم حفظ التعليق');
+    });
     wrap.addEventListener('drop', function (e) {
+      if (dragI != null) { var tg = e.target.closest && e.target.closest('.g'); e.preventDefault(); var from = dragI; dragI = null; wrap.querySelectorAll('.dragging,.gover').forEach(function (x) { x.classList.remove('dragging', 'gover'); });
+        if (tg && +tg.dataset.gi !== from) { var to = +tg.dataset.gi; galleryEdit(function (d) { var x = d.images.splice(from, 1)[0]; d.images.splice(to, 0, x); }, 'ترتيب صور المعرض', 'تم تغيير الترتيب'); }
+        return; }
       var b = e.target.closest && e.target.closest('.can-drop'); if (!b) return;
       e.preventDefault(); b.classList.remove('over');
       var fs = Array.prototype.slice.call(e.dataTransfer.files || []).filter(function (f) { return /^image\//.test(f.type); });

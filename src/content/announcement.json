@@ -1,0 +1,16 @@
+{
+  "enabled": false,
+  "text": {
+    "ar": "حملة رمضان مفتوحة — ساهم معنا بما تستطيع",
+    "fr": "Campagne du Ramadan ouverte — participez à votre mesure",
+    "en": "Ramadan campaign is open — join us"
+  },
+  "link": "/donate",
+  "button": {
+    "ar": "تبرّع الآن",
+    "fr": "Faire un don",
+    "en": "Donate"
+  },
+  "color": "red",
+  "end_date": ""
+}
