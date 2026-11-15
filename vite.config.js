@@ -12,8 +12,9 @@ const siteMeta = () => {
   const base = (process.env.SITE_URL || settings.site_url || '').replace(/\/+$/, '')
   // Logo : accepte une adresse complète OU un chemin local (ex. /images/logo.png)
   const logo = /^https?:/.test(settings.logo_url || '') ? settings.logo_url : base + (settings.logo_url || '')
-  // Téléphone pour Google (JSON-LD) : pris dans settings.json (champ whatsapp, format international)
-  const phone = settings.whatsapp ? '+' + String(settings.whatsapp).replace(/\D/g, '') : ''
+  // Téléphone pour Google (JSON-LD) : premier numéro de phone_display, converti au format international
+  const first = String(settings.phone_display || '').split('/')[0].replace(/\D/g, '')
+  const phone = first ? '+213' + first.replace(/^0/, '') : ''
   const social = Object.values(settings.social || {}).filter(Boolean)
   const pages = ['', '/donate', '/volunteer', '/news', '/programs', '/gallery',
     '/sadaqa-jariya', '/privacy-policy', '/terms-of-use', '/report-problem']
