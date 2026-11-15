@@ -3,6 +3,9 @@
   "main": "worker/index.js",
   "compatibility_date": "2025-11-01",
   "keep_vars": true,
+  "vars": {
+    "GITHUB_CLIENT_ID": "الصق_هنا_الـ_Client_ID"
+  },
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
