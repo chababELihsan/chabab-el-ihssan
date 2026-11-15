@@ -49,3 +49,76 @@ input, textarea, label, h1, h2, h3, h4, p, a, button, [class*="Label"], [class*=
   unicode-bidi: plaintext;
 }
 input[type="text"], textarea { text-align: start; }
+
+/* =====================================================================
+   لوحة التحكم المطوّرة — الصفحة الرئيسية، لافتة النشر، تحسين الواجهة
+   ===================================================================== */
+:root { --red: #c8102e; --red-d: #a30d25; --ink: #111827; --soft: #f3f4f6; }
+
+/* زر "الرئيسية" العائم */
+#cei-home-btn { position: fixed; bottom: 20px; right: 20px; z-index: 99997; background: var(--ink); color: #fff; border: 0;
+  border-radius: 999px; padding: 12px 20px; font: 700 15px 'Cairo', sans-serif; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+#cei-home-btn:hover { background: #000; }
+
+/* الصفحة الرئيسية (تغطي الشاشة) */
+#cei-home-wrap { position: fixed; inset: 0; z-index: 99996; background: #f6f6f8; overflow: auto; display: none; direction: rtl; font-family: 'Cairo', sans-serif; color: var(--ink); }
+#cei-home-wrap.open { display: block; }
+#cei-home { max-width: 1040px; margin: 0 auto; padding: 24px 16px 90px; }
+#cei-home * { unicode-bidi: normal; }
+#cei-home h1 { margin: 0; font-size: 26px; }
+#cei-home h2 { margin: 30px 0 12px; font-size: 19px; }
+#cei-home h2 small { font-weight: 400; color: #6b7280; font-size: 13px; }
+#cei-home p { margin: 4px 0 0; color: #4b5563; }
+.hm-top { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+.hm-act { display: flex; gap: 8px; flex-wrap: wrap; }
+#cei-home .btn { border: 0; border-radius: 12px; padding: 11px 18px; font: 700 14px 'Cairo', sans-serif; cursor: pointer; text-decoration: none; color: #fff; }
+#cei-home .btn.red { background: var(--red); } #cei-home .btn.dark { background: var(--ink); }
+
+/* اختصارات سريعة */
+.hm-quick { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin-top: 20px; }
+.hm-quick > * { display: block; text-align: start; background: #fff; border: 2px solid #e5e7eb; border-radius: 14px; padding: 14px 16px; font: 700 16px 'Cairo', sans-serif; color: inherit; text-decoration: none; cursor: pointer; }
+.hm-quick > *:hover { border-color: var(--red); background: #fff1f2; }
+.hm-quick small { display: block; font-weight: 400; color: #6b7280; font-size: 12px; margin-top: 2px; }
+
+/* خريطة الموقع: أقسام مرتبة كما في الموقع */
+.hm-map { background: #fff; border: 2px solid #e5e7eb; border-radius: 18px; padding: 14px; display: grid; gap: 10px; }
+.blk { display: flex; align-items: center; gap: 14px; border: 2px dashed #d1d5db; border-radius: 14px; padding: 10px; background: #fafafa; cursor: pointer; transition: border-color .15s, background .15s; }
+.blk:hover { border-color: var(--red); background: #fff1f2; }
+.blk.big { padding: 16px 10px; }
+.blk .th { flex: 0 0 120px; height: 80px; border-radius: 10px; overflow: hidden; background: #e5e7eb; display: grid; place-items: center; }
+.blk.big .th { flex-basis: 190px; height: 110px; }
+.blk .th img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.blk .ph { font-size: 30px; }
+.blk .tx b { display: block; font-size: 16px; }
+.blk .tx small { display: block; color: #6b7280; font-size: 12.5px; }
+.blk .dz { margin-top: 6px; font-size: 12.5px; color: var(--red); font-weight: 700; }
+.blk .dz.soft { color: #9ca3af; font-weight: 600; }
+.blk.can-drop { border-color: #fca5a5; background: #fff7f7; }
+.blk.over { border-style: solid; border-color: var(--red); background: #ffe4e6; transform: scale(1.01); }
+.blk.busy { opacity: .55; pointer-events: none; }
+.blk.busy .dz::after { content: ' ⏳ جارٍ الرفع…'; }
+
+.hm-pages { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+.pg { display: flex; gap: 8px; }
+.pg a { text-decoration: none; color: inherit; background: #fff; border: 2px solid #e5e7eb; border-radius: 14px; padding: 12px 14px; }
+.pg a:first-child { flex: 1; } .pg a b { display: block; } .pg a small { color: #6b7280; }
+.pg a.add { display: grid; place-items: center; background: var(--red); color: #fff; font-weight: 700; border-color: var(--red); }
+.pg a:hover { border-color: var(--red); }
+.hm-tip { margin-top: 24px; background: #ecfdf5; border-radius: 14px; padding: 14px 16px; line-height: 2; font-size: 14px; }
+@media (max-width: 600px) { .blk .th, .blk.big .th { flex-basis: 84px; height: 62px; } #cei-home h1 { font-size: 21px; } }
+
+/* لافتة النشر */
+#cei-deploy { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 100000; direction: rtl; display: none; align-items: center; gap: 14px;
+  background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 14px; font: 600 14px 'Cairo', sans-serif; box-shadow: 0 10px 30px rgba(0,0,0,.35); overflow: hidden; max-width: 94vw; }
+#cei-deploy i { position: absolute; bottom: 0; right: 0; height: 4px; background: #34d399; transition: width 1s linear; }
+#cei-deploy a { background: #34d399; color: #064e3b; text-decoration: none; padding: 6px 12px; border-radius: 8px; font-weight: 700; }
+#cei-deploy button { background: transparent; color: #cbd5e1; border: 1px solid #475569; border-radius: 8px; padding: 5px 10px; cursor: pointer; font-family: inherit; }
+#cei-deploy span { color: #cbd5e1; }
+
+/* واجهة التحرير: ألوان الجمعية وأزرار أوضح */
+[class*="SidebarContainer"] [class*="SidebarNavLink"][class*="active"], [class*="SidebarNavLink"][class*="active"] { background: #fee2e2 !important; color: var(--red-d) !important; }
+button[class*="PublishButton"], button[class*="ToolbarButton"][class*="Publish"] { background: var(--red) !important; color: #fff !important; border-radius: 10px !important; }
+[class*="ImageWidget"] img, [class*="ImageWrapper"] img { border-radius: 12px; max-height: 220px; object-fit: cover; }
+[class*="ControlContainer"] button[class*="Button"] { border-radius: 10px; }
+/* بطاقات المكتبة الصور أكبر */
+[class*="CardGrid"] > [class*="Card"], [class*="MediaLibraryCard"] { border-radius: 12px; }

@@ -28,6 +28,11 @@ collections:
   format: json
   create: true
   identifier_field: title.fr
+  thumbnail: image_url
+  view_filters:
+  - label: المثبّتة فقط
+    field: is_pinned
+    pattern: true
   slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
   summary: '{{date}} — {{title.ar}}'
   sortable_fields:
@@ -506,6 +511,7 @@ collections:
   format: json
   create: true
   identifier_field: title.fr
+  thumbnail: image_url
   slug: '{{category}}-{{slug}}'
   summary: '{{category}} — {{title.ar}}'
   sortable_fields:
@@ -780,6 +786,7 @@ collections:
   format: json
   create: true
   identifier_field: name
+  thumbnail: image_url
   slug: avis-{{year}}{{month}}{{day}}-{{hour}}{{minute}}{{second}}
   summary: '{{name}}'
   fields:

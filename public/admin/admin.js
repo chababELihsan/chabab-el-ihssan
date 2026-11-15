@@ -232,7 +232,7 @@
         autoDone = true;
         var seen = false;
         try { seen = localStorage.getItem('cei_guide_seen') === '1'; } catch (e) {}
-        if (!seen) setTimeout(openGuide, 600);
+        /* الصفحة الرئيسية الجديدة تظهر تلقائياً بدل الدليل */
       }
     }, 500);
   }
@@ -413,6 +413,197 @@
     }, true);
   }
 
+
+  /* ---------------------------------------------------------------
+   * 4) الصفحة الرئيسية للوحة: خريطة الموقع + رفع سريع للصور + حالة النشر
+   * ------------------------------------------------------------- */
+  var REPO = 'chababELihsan/chabab-el-ihssan', BRANCH = 'main', UP_DIR = 'public/images/uploads/';
+  var SITE = (location.origin || '') + '/';
+  var thumbs = {};          // zone-id -> رابط صورة حالية
+
+  // أقسام الصفحة الرئيسية بنفس ترتيبها الحقيقي في الموقع
+  // drop: يقبل سحب صورة وإفلاتها مباشرة | go: رابط قسم التعديل
+  var MAP = [
+    { id: 'logo',  t: 'الشعار', s: 'الشريط العلوي في كل الصفحات', ic: '🏷️', go: '#/collections/settings/entries/settings', drop: 'logo' },
+    { id: 'hero',  t: 'الواجهة الكبيرة', s: 'أول صورة يراها الزائر', ic: '🏠', go: '#/collections/media/entries/media', drop: 'hero', big: 1 },
+    { id: 'camp',  t: 'الحملة الحالية', s: 'المبلغ المجموع والعدّ التنازلي', ic: '💰', go: '#/collections/numbers/entries/campaign' },
+    { id: 'nums',  t: 'أرقام «أثرنا»', s: 'وجبات، قوافل، مستفيدون…', ic: '📊', go: '#/collections/numbers/entries/impact' },
+    { id: 'prog',  t: 'برامجنا (فئات المشاريع)', s: 'بطاقات بصور: مياه، قفة، ملابس…', ic: '🏗️', go: '#/collections/media/entries/projects', thumbKey: 'prog' },
+    { id: 'ba',    t: 'قبل / بعد', s: 'شريط التمرير بين صورتين', ic: '↔️', go: '#/collections/media/entries/media', thumbKey: 'ba' },
+    { id: 'map',   t: 'خريطة الإنجازات', s: 'الولايات والأعمال المنجزة', ic: '🗺️', go: '#/collections/media/entries/media' },
+    { id: 'gal',   t: 'شريط المعرض', s: 'الصور المتحركة + صفحة «المعرض»', ic: '🖼️', go: '#/collections/media/entries/gallery', drop: 'gallery', thumbKey: 'gal' },
+    { id: 'test',  t: 'آراء المتابعين', s: 'صور دائرية مع الآراء', ic: '💬', go: '#/collections/testimonials' },
+    { id: 'soc',   t: 'منشورات فيسبوك وإنستغرام', s: 'روابط التواصل والمنشورات', ic: '📱', go: '#/collections/settings/entries/settings' },
+    { id: 'br',    t: 'الفروع والاتصال', s: 'العناوين، الهاتف، الخريطة', ic: '📍', go: '#/collections/settings/entries/branches' }
+  ];
+  var PAGES = [
+    { t: '📰 الأخبار', s: 'صفحة /news', go: '#/collections/news', add: '#/collections/news/new' },
+    { t: '🎯 الأنشطة والمشاريع', s: 'صفحة /programs', go: '#/collections/activities', add: '#/collections/activities/new' }
+  ];
+
+  function token() {
+    try { var u = JSON.parse(localStorage.getItem('decap-cms-user') || localStorage.getItem('netlify-cms-user') || 'null'); return u && u.token; } catch (e) { return null; }
+  }
+  function gh(path, opt) {
+    opt = opt || {};
+    var tk = token();
+    if (!tk) return Promise.reject(new Error('no-token'));
+    opt.headers = Object.assign({ Authorization: 'token ' + tk, Accept: 'application/vnd.github+json' }, opt.headers || {});
+    return fetch('https://api.github.com/repos/' + REPO + '/contents/' + path + (opt.method === 'PUT' ? '' : '?ref=' + BRANCH), opt)
+      .then(function (r) { if (!r.ok) throw new Error('GitHub ' + r.status); return r.json(); });
+  }
+  function b64utf8(str) { var b = new TextEncoder().encode(str), s = ''; for (var i = 0; i < b.length; i++) s += String.fromCharCode(b[i]); return btoa(s); }
+  function utf8b64(b64) { var bin = atob(b64.replace(/\s/g, '')), a = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i); return new TextDecoder().decode(a); }
+  function readJson(file) { return gh(file).then(function (r) { return { sha: r.sha, data: JSON.parse(utf8b64(r.content)) }; }); }
+  function writeJson(file, sha, data, msg) {
+    return gh(file, { method: 'PUT', body: JSON.stringify({ message: msg, branch: BRANCH, sha: sha, content: b64utf8(JSON.stringify(data, null, 2) + '\n') }) });
+  }
+  function fileToB64(file) {
+    return new Promise(function (res, rej) { var r = new FileReader(); r.onload = function () { res(String(r.result).split(',')[1]); }; r.onerror = rej; r.readAsDataURL(file); });
+  }
+  function safeName(n) {
+    var m = n.match(/\.[a-z0-9]+$/i), ext = m ? m[0].toLowerCase() : '.jpg';
+    return 'img-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5) + ext;
+  }
+  function uploadImage(file) {
+    return shrink(file).then(function (f) {
+      var name = safeName(f.name);
+      return fileToB64(f).then(function (b64) {
+        return gh(UP_DIR + name, { method: 'PUT', body: JSON.stringify({ message: 'رفع صورة: ' + name, branch: BRANCH, content: b64 }) });
+      }).then(function () { return '/images/uploads/' + name; });
+    });
+  }
+
+  // ------ لافتة "جارٍ النشر" مع عدّاد، ثم زر "شاهد النتيجة" ------
+  var banner, bannerT;
+  function deployBanner() {
+    if (!banner) { banner = document.createElement('div'); banner.id = 'cei-deploy'; document.body.appendChild(banner); }
+    clearInterval(bannerT);
+    var left = 75;
+    function paint() {
+      if (left > 0) banner.innerHTML = '<b>⏳ تم الحفظ — الموقع يتحدّث الآن</b><span>سيظهر التغيير خلال ' + left + ' ثانية</span><i style="width:' + (100 - left / 75 * 100) + '%"></i>';
+      else { banner.innerHTML = '<b>✅ التغيير أصبح مباشراً</b><a href="' + SITE + '?v=' + Date.now() + '" target="_blank" rel="noopener">👁 شاهد الموقع</a><button type="button">إغلاق</button>'; clearInterval(bannerT); }
+      banner.style.display = 'flex';
+    }
+    paint();
+    bannerT = setInterval(function () { left--; paint(); }, 1000);
+    banner.onclick = function (e) { if (e.target.tagName === 'BUTTON') banner.style.display = 'none'; };
+  }
+
+  // ------ عمليات الرفع السريع ------
+  function quickApply(kind, file) {
+    var tag = document.querySelector('[data-zone="' + (kind === 'logo' ? 'logo' : kind === 'hero' ? 'hero' : 'gal') + '"]');
+    if (tag) tag.classList.add('busy');
+    return uploadImage(file).then(function (url) {
+      if (kind === 'hero') return readJson('src/content/media.json').then(function (r) { r.data.heroImage = url; return writeJson('src/content/media.json', r.sha, r.data, 'تغيير صورة الواجهة'); }).then(function () { return url; });
+      if (kind === 'logo') return readJson('src/content/settings.json').then(function (r) { r.data.logo_url = url; return writeJson('src/content/settings.json', r.sha, r.data, 'تغيير الشعار'); }).then(function () { return url; });
+      return readJson('src/content/gallery.json').then(function (r) {
+        r.data.images = r.data.images || [];
+        r.data.images.unshift({ image_url: url, caption: { ar: '', fr: '', en: '' }, is_featured: false });
+        return writeJson('src/content/gallery.json', r.sha, r.data, 'إضافة صورة للمعرض');
+      }).then(function () { return url; });
+    }).then(function (url) {
+      if (tag) { tag.classList.remove('busy'); }
+      thumbs[kind === 'gallery' ? 'gal' : kind] = url;
+      renderHome(); deployBanner(); toast('✅ تم رفع الصورة ووضعها في الموقع');
+    }).catch(function (err) {
+      if (tag) tag.classList.remove('busy');
+      toast(err.message === 'no-token' ? '⚠️ سجّل الدخول بحساب GitHub أولاً (الرفع السريع لا يعمل في الوضع المحلي)' : '⚠️ تعذّر الرفع: ' + err.message + ' — جرّب من قسم التعديل العادي');
+    });
+  }
+  function pickFiles(multi, cb) {
+    var i = document.createElement('input'); i.type = 'file'; i.accept = 'image/*'; i.multiple = !!multi;
+    i.onchange = function () { if (i.files && i.files.length) cb(Array.prototype.slice.call(i.files)); };
+    i.click();
+  }
+  function absUrl(u) { return !u ? '' : /^https?:/.test(u) ? u : SITE.replace(/\/$/, '') + u; }
+
+  function loadThumbs() {
+    if (!token()) return;
+    readJson('src/content/media.json').then(function (r) {
+      if (r.data.heroImage) thumbs.hero = r.data.heroImage;
+      var b = (r.data.beforeAfter || [])[0]; if (b) thumbs.ba = b.after;
+      renderHome();
+    }).catch(function () {});
+    readJson('src/content/settings.json').then(function (r) { thumbs.logo = r.data.logo_url; renderHome(); }).catch(function () {});
+    readJson('src/content/gallery.json').then(function (r) { var f = (r.data.images || [])[0]; if (f) thumbs.gal = f.image_url; thumbs.galN = (r.data.images || []).length; renderHome(); }).catch(function () {});
+    readJson('src/content/projects.json').then(function (r) { var c = (r.data.categories || [])[0]; if (c) thumbs.prog = c.image; renderHome(); }).catch(function () {});
+  }
+
+  function renderHome() {
+    var el = document.getElementById('cei-home'); if (!el) return;
+    var blocks = MAP.map(function (z) {
+      var img = z.drop === 'logo' ? thumbs.logo : z.drop === 'hero' ? thumbs.hero : thumbs[z.thumbKey || ''];
+      var th = img ? '<img src="' + absUrl(img) + '" alt="" onerror="this.style.display=\'none\'">' : '<span class="ph">' + z.ic + '</span>';
+      var drop = z.drop ? '<div class="dz">⬇️ اسحب صورة هنا أو <u>اضغط لاختيارها</u> — تُوضع مباشرة في الموقع</div>' : '<div class="dz soft">اضغط للتعديل ‹</div>';
+      return '<div class="blk' + (z.big ? ' big' : '') + (z.drop ? ' can-drop' : '') + '" data-zone="' + (z.drop === 'gallery' ? 'gal' : z.id) + '" data-go="' + z.go + '" data-drop="' + (z.drop || '') + '">' +
+        '<div class="th">' + th + '</div><div class="tx"><b>' + z.t + '</b><small>' + z.s + '</small>' + drop + '</div></div>';
+    }).join('');
+    var pages = PAGES.map(function (p) {
+      return '<div class="pg"><a href="' + p.go + '" data-close="1"><b>' + p.t + '</b><small>' + p.s + '</small></a><a class="add" href="' + p.add + '" data-close="1">＋ إضافة</a></div>';
+    }).join('');
+    el.innerHTML =
+      '<div class="hm-top"><div><h1>👋 أهلاً بك في لوحة التحكم</h1><p>اضغط على أي جزء من الموقع لتعديله — أو اسحب صورة فوقه لتغييرها فوراً.</p></div>' +
+      '<div class="hm-act"><a class="btn red" href="' + SITE + '" target="_blank" rel="noopener">👁 فتح الموقع</a><button class="btn dark" data-act="edit" type="button">فتح أدوات التحرير ›</button></div></div>' +
+      '<div class="hm-quick"><button data-act="addgal" type="button">🖼️ أضف صوراً للمعرض<small>اختر عدة صور دفعة واحدة</small></button>' +
+      '<a href="#/collections/news/new" data-close="1">📰 خبر جديد<small>بصورة ونص</small></a>' +
+      '<a href="#/collections/activities/new" data-close="1">🎯 نشاط جديد<small>مشروع / فعالية</small></a>' +
+      '<a href="#/collections/testimonials/new" data-close="1">💬 رأي جديد<small>صورة دائرية</small></a></div>' +
+      '<h2>🗺️ خريطة الصفحة الرئيسية <small>(من الأعلى إلى الأسفل كما يراها الزائر)</small></h2>' +
+      '<div class="hm-map">' + blocks + '</div>' +
+      '<h2>📄 صفحات أخرى في الموقع</h2><div class="hm-pages">' + pages + '</div>' +
+      '<div class="hm-tip">💡 كل تغيير يظهر في الموقع بعد حوالي دقيقة. ستظهر لك لافتة تعدّ الوقت وتفتح لك الموقع عند الجاهزية.<br>💡 الصور تُصغَّر تلقائياً — ارفع الصورة كما هي من الهاتف.<br>💡 للتغييرات من «أدوات التحرير»: لا شيء يتغير في الموقع إلا بعد الضغط على «نشر».</div>';
+  }
+
+  function openHome() { var h = document.getElementById('cei-home-wrap'); if (h) { h.classList.add('open'); renderHome(); loadThumbs(); } }
+  function closeHome() { var h = document.getElementById('cei-home-wrap'); if (h) h.classList.remove('open'); }
+
+  function initHome() {
+    var wrap = document.createElement('div'); wrap.id = 'cei-home-wrap';
+    wrap.innerHTML = '<div id="cei-home"></div>';
+    document.body.appendChild(wrap);
+    var fab = document.createElement('button'); fab.id = 'cei-home-btn'; fab.type = 'button'; fab.textContent = '🏠 الرئيسية'; fab.style.display = 'none';
+    fab.onclick = openHome; document.body.appendChild(fab);
+
+    wrap.addEventListener('click', function (e) {
+      var t = e.target, act = t.closest && t.closest('[data-act]'), go = t.closest && t.closest('[data-go]'), cl = t.closest && t.closest('[data-close]');
+      if (cl) { setTimeout(closeHome, 0); return; }
+      if (act && act.dataset.act === 'edit') return closeHome();
+      if (act && act.dataset.act === 'addgal') return pickFiles(true, function (fs) { fs.reduce(function (p, f) { return p.then(function () { return quickApply('gallery', f); }); }, Promise.resolve()); });
+      if (go) {
+        var d = go.dataset.drop;
+        if (d) return pickFiles(d === 'gallery', function (fs) { fs.reduce(function (p, f) { return p.then(function () { return quickApply(d, f); }); }, Promise.resolve()); });
+        location.hash = go.dataset.go; closeHome();
+      }
+    });
+    // سحب وإفلات الصور على الأقسام
+    ['dragenter', 'dragover'].forEach(function (n) { wrap.addEventListener(n, function (e) { var b = e.target.closest && e.target.closest('.can-drop'); if (b) { e.preventDefault(); b.classList.add('over'); } }); });
+    wrap.addEventListener('dragleave', function (e) { var b = e.target.closest && e.target.closest('.can-drop'); if (b) b.classList.remove('over'); });
+    wrap.addEventListener('drop', function (e) {
+      var b = e.target.closest && e.target.closest('.can-drop'); if (!b) return;
+      e.preventDefault(); b.classList.remove('over');
+      var fs = Array.prototype.slice.call(e.dataTransfer.files || []).filter(function (f) { return /^image\//.test(f.type); });
+      if (!fs.length) return toast('⚠️ هذا ليس ملف صورة');
+      var kind = b.dataset.drop; if (kind !== 'gallery') fs = fs.slice(0, 1);
+      fs.reduce(function (p, f) { return p.then(function () { return quickApply(kind, f); }); }, Promise.resolve());
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeHome(); });
+
+    var auto = false;
+    setInterval(function () {
+      var logged = !!document.querySelector('[class*="SidebarContainer"]');
+      fab.style.display = logged ? 'block' : 'none';
+      if (logged && !auto) { auto = true; openHome(); }
+    }, 500);
+
+    if (window.CMS && CMS.registerEventListener) {
+      var last = 0;
+      ['postSave', 'postPublish'].forEach(function (n) {
+        try { CMS.registerEventListener({ name: n, handler: function () { if (Date.now() - last > 3000) { last = Date.now(); deployBanner(); } } }); } catch (e) {}
+      });
+    }
+  }
+
   /* ------------------------------------------------------------- */
   function start() {
     if (window.CMS) {
@@ -421,6 +612,7 @@
     }
     initGuide();
     initShrink();
+    initHome();
     // Decap يعرّف window.CMS و window.h بعد تحميل السكربت
     var tries = 0, iv = setInterval(function () {
       if (window.CMS && window.h) { clearInterval(iv); initPreviews(); }
