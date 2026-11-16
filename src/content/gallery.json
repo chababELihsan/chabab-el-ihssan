@@ -59,6 +59,16 @@
   ],
   "images": [
     {
+      "category": "water",
+      "image_url": "https://chababelihssan.com/wp-content/uploads/2025/04/IMG_7799-1024x768.jpg",
+      "caption": {
+        "ar": "بئر ارتوازية",
+        "fr": "Puits artésien",
+        "en": "Artesian well"
+      },
+      "is_featured": false
+    },
+    {
       "category": "caravans",
       "image_url": "https://chababelihssan.com/wp-content/uploads/2025/05/IMG_4871-1024x768.jpg",
       "caption": {
@@ -75,16 +85,6 @@
         "ar": "ملابس العيد 2025",
         "fr": "Vêtements de l'Aïd 2025",
         "en": "Eid Clothes 2025"
-      },
-      "is_featured": false
-    },
-    {
-      "category": "water",
-      "image_url": "https://chababelihssan.com/wp-content/uploads/2025/04/IMG_7799-1024x768.jpg",
-      "caption": {
-        "ar": "بئر ارتوازية",
-        "fr": "Puits artésien",
-        "en": "Artesian well"
       },
       "is_featured": false
     },
