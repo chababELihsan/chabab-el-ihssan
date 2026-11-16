@@ -1,13 +1,12 @@
 {
   "name": "chabab-elihssan-web",
-  "version": "9.0.0",
+  "version": "11.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "cms": "npx decap-server"
+    "preview": "vite preview"
   },
   "dependencies": {
     "date-fns": "^4.1.0",

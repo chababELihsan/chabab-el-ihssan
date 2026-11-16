@@ -1,7 +1,7 @@
 # شباب الإحسان — الموقع (النسخة 9)
 
 موقع جمعية شباب الإحسان (القبة، الجزائر) — React + Vite + Tailwind، ثلاث لغات (عربي / Français / English).
-**الجديد في v9:** لوحة تحكم لتعديل المحتوى بدون برمجة، وقسم يعرض آخر منشورات فيسبوك وإنستغرام تلقائيًا.
+**الجديد في v9:** لوحة تحكم لتعديل المحتوى بدون برمجة (v11: لوحة مستقلة + رقم سري)، وقسم يعرض آخر منشورات فيسبوك وإنستغرام تلقائيًا.
 
 ```bash
 npm install
@@ -11,34 +11,33 @@ npm run build     # الناتج في مجلد dist/
 
 ---
 
-## 1) لوحة التحكم (`/admin`)
+## 1) لوحة التحكم (`/admin`) — النسخة 11
 
-كل المحتوى صار في ملفات `src/content/*.json`، ولوحة **Decap CMS** تعدّلها بواجهة سهلة:
-أخبار، أنشطة، **الأرقام** («أثرنا في المجتمع»)، **الحملة** (المبلغ المجموع والعدّ التنازلي)، آراء، معرض الصور، الفروع، الاتصال وروابط التواصل.
-عند الضغط على «Publier» تُحفظ التعديلات في GitHub ثم يُعاد نشر الموقع تلقائيًا خلال دقيقة أو دقيقتين.
+لوحة مستقلة (بدون Decap CMS) بنفس هوية الموقع. **صفحة واحدة هي «الرئيسية»** ومنها تُعدَّل كل أجزاء الموقع.
 
-| أريد أن أغيّر… | أين؟ في `/admin` |
+**الدخول على خطوتين:** ① حساب GitHub المصرّح له ← ② **الرقم السري** (4 أرقام، يُطلب في كل جلسة جديدة؛ بعد 5 محاولات خاطئة يُقفل لمدة دقيقة).
+الرقم السري مخزّن كبصمة SHA-256 في أعلى `public/admin/admin.js` (`PIN_HASH`). لتغييره احسبوا:
+`sha256("cei-admin-v1:" + الرقم_الجديد)` وضعوا الناتج مكان `PIN_HASH`.
+> ⚠️ الرقم السري طبقة إضافية في المتصفح فقط؛ الحماية الحقيقية هي حساب GitHub (يجب أن يكون **Collaborator** في المستودع).
+
+| أريد أن أغيّر… | في الرئيسية |
 |---|---|
-| رقمًا في «أثرنا» | الأرقام والحملة ← أرقام «أثرنا في المجتمع» |
-| المبلغ المجموع / الهدف / تاريخ نهاية الحملة | الأرقام والحملة ← الحملة الحالية |
-| خبرًا جديدًا | الأخبار ← ＋ خبر |
-| صور المعرض | الصور والوسائط ← معرض الصور |
-| الهاتف، البريد، فيسبوك، إنستغرام… | إعدادات الموقع |
+| الصورة الكبيرة / فيديو الواجهة | الواجهة الكبيرة |
+| المبلغ المجموع بسرعة | بطاقة الحملة أعلى الصفحة (حفظ فوري) |
+| عنوان الحملة، نهايتها، رمضان، الأرقام | الحملة الحالية / وضع رمضان / أرقام «أثرنا» |
+| صور وبطاقات «برامجنا» و«قبل/بعد» و«الخريطة» | الأقسام بنفس أسمائها |
+| صور المعرض (إضافة، ترتيب بالسحب، فئات، حذف) | شريط المعرض |
+| خبر، نشاط، رأي (مع جدولة الأخبار) | الأخبار / الأنشطة / آراء المتابعين |
+| الهاتف، البريد، روابط التواصل، الحساب البنكي، الفروع | الشعار والاتصال / التواصل / معلومات التبرع / الفروع |
 
-### الإعداد (مرة واحدة فقط)
+كل «حفظ ونشر» = **commit واحد** على GitHub (النصوص + الصور معاً) ثم يُعاد نشر الموقع تلقائياً خلال دقيقة. زر «تراجع» يعيد آخر قسم عُدّل، و«معاينة حيّة» تُري الموقع على الكمبيوتر والهاتف.
 
-1. ارفعوا هذا المجلد إلى مستودع على **GitHub**.
-2. على **Netlify**: *Add new site ← Import from Git* واختاروا المستودع (الإعدادات جاهزة في `netlify.toml`).
-3. في الملف `public/admin/config.yml` غيّروا السطر
-   `repo: YOUR_GITHUB_USERNAME/YOUR_REPOSITORY` إلى اسم حسابكم/اسم المستودع.
-4. على GitHub: *Settings ← Developer settings ← OAuth Apps ← New OAuth App*
-   - Homepage URL: رابط موقعكم
-   - Authorization callback URL: `https://api.netlify.com/auth/done`
-5. على Netlify: *Site configuration ← Access & security ← OAuth ← Install provider ← GitHub* وألصقوا Client ID و Client Secret.
-6. افتحوا `https://موقعكم/admin` وسجّلوا الدخول بحساب GitHub.
-7. لإضافة عضو: أضيفوه **Collaborator** في المستودع (يحتاج حساب GitHub مجاني).
-
-> لتجربة اللوحة على جهازكم بدون نشر: شغّلوا `npm run cms` في نافذة و `npm run dev` في أخرى، ثم افتحوا `http://localhost:5173/admin/`.
+### الإعداد (مرة واحدة فقط) — لم يتغيّر
+1. المستودع على GitHub والموقع على Cloudflare/Netlify (انظر `wrangler.jsonc` و`netlify.toml`).
+2. GitHub ← Settings ← Developer settings ← OAuth Apps: Callback URL = `https://موقعكم/oauth/callback`، ثم ضعوا `GITHUB_CLIENT_SECRET` في متغيرات البيئة (و`GITHUB_CLIENT_ID` موجود في `wrangler.jsonc`).
+3. افتحوا `https://موقعكم/admin`.
+4. لإضافة عضو: أضيفوه **Collaborator** في المستودع.
+5. إن لم تعمل نافذة GitHub يمكن الدخول بمفتاح شخصي (Personal Access Token بصلاحية `repo`) من «لديك مفتاح GitHub؟».
 
 ---
 
@@ -86,6 +85,5 @@ public/images/uploads/ الصور المرفوعة من اللوحة
 
 ## Français (résumé)
 
-Contenu éditable via `/admin` (Decap CMS, backend GitHub). Configurer `repo` dans `public/admin/config.yml`,
-créer une OAuth App GitHub (callback `https://api.netlify.com/auth/done`) et l'ajouter dans Netlify → Access & security → OAuth.
-Fil Facebook : Page Plugin officiel. Fil Instagram : flux JSON gratuit (behold.so) à coller dans *Paramètres du site*.
+Contenu éditable via `/admin` : tableau de bord unique « الرئيسية » (sans Decap), connexion GitHub puis code PIN. Chaque enregistrement = un seul commit (textes + images). Le PIN est un hash SHA-256 dans `public/admin/admin.js` (`PIN_HASH`).
+L'OAuth GitHub (`/oauth/auth`, `/oauth/callback`) est inchangé.

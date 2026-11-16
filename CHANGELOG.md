@@ -1,5 +1,11 @@
 # Changelog
 
+## 11.0.0
+- لوحة التحكم: استُبدلت واجهة Decap الافتراضية بلوحة مستقلة؛ «الرئيسية» هي الصفحة الوحيدة وكل التعديلات منها.
+- دخول GitHub ثم رقم سري (SHA-256، قفل بعد 5 محاولات).
+- محررات كاملة بالعربية/الفرنسية/الإنجليزية لكل أقسام الموقع، رفع صور مع تصغير تلقائي، commit واحد لكل حفظ، تراجع، معاينة حيّة، وضع ليلي.
+- حُذف `public/admin/config.yml` (خاص بـ Decap) وسكربت `npm run cms`. لم يتغيّر شيء في الموقع نفسه.
+
 ## v10 (v7 de l'admin)
 - Page don : CCP/BaridiMob + CPA, boutons « Copier », code QR, reçu par WhatsApp, montant pré-rempli (?amount=).
 - Mobile : barre « Faire un don » fixe en bas, boutons larges.
