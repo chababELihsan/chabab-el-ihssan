@@ -39,11 +39,11 @@
     },
     {
       "icon": "caravan",
-      "number": "2",
+      "number": "25",
       "label": {
-        "ar": "وجهتان لقوافل الجنوب الكبير (تمنراست وأدرار)",
-        "fr": "Destinations des caravanes du Grand Sud (Tamanrasset et Adrar)",
-        "en": "Great South caravan destinations (Tamanrasset and Adrar)"
+        "ar": "وجهتان لقوافل الجنوب ",
+        "fr": "Destinations des caravanes du Grand Sud ",
+        "en": "Great South caravan destinations "
       }
     }
   ]
