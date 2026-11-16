@@ -1,5 +1,5 @@
 {
-  "enabled": false,
+  "enabled": true,
   "text": {
     "ar": "حملة رمضان مفتوحة",
     "fr": "",
@@ -11,6 +11,6 @@
     "fr": "Faire un don",
     "en": "Donate"
   },
-  "color": "gold",
+  "color": "green",
   "end_date": ""
 }
