@@ -67,15 +67,6 @@
   ],
   "images": [
     {
-      "image_url": "/images/uploads/img-mwiy9t9e8pl.webp",
-      "caption": {
-        "ar": "",
-        "fr": "",
-        "en": ""
-      },
-      "is_featured": false
-    },
-    {
       "category": "water",
       "image_url": "/images/gallery/water/eau-jaillit.webp",
       "caption": {
