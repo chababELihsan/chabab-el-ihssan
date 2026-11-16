@@ -419,23 +419,23 @@
    * ------------------------------------------------------------- */
   var REPO = 'chababELihsan/chabab-el-ihssan', BRANCH = 'main', UP_DIR = 'public/images/uploads/';
   var SITE = (location.origin || '') + '/';
-  var thumbs = {}, tab = 'map', L = { news: null, activities: null, testimonials: null }, G = null, commits = null, loaded = false, lastUndo = null, C = null, P = null, M = null, A = null;
+  var thumbs = {}, tab = 'map', L = { news: null, activities: null, testimonials: null }, G = null, commits = null, loaded = false, lastUndo = null, C = null, P = null, M = null, A = null, I = null;
   function todayStr() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
 
   var MAP = [
     { id: 'logo', t: 'الشعار', s: 'الشريط العلوي في كل الصفحات', ic: '🏷️', go: '#/collections/settings/entries/settings', drop: 'logo' },
     { id: 'hero', t: 'الواجهة الكبيرة', s: 'أول صورة يراها الزائر', ic: '🏠', go: '#/collections/media/entries/media', drop: 'hero', big: 1 },
-    { id: 'camp', t: 'الحملة الحالية', s: 'المبلغ المجموع والعدّ التنازلي', ic: '💰', go: '#/collections/numbers/entries/campaign' },
-    { id: 'nums', t: 'أرقام «أثرنا»', s: 'وجبات، قوافل، مستفيدون…', ic: '📊', go: '#/collections/numbers/entries/impact' },
-    { id: 'prog', t: 'برامجنا (فئات المشاريع)', s: 'بطاقات بصور: مياه، قفة، ملابس…', ic: '🏗️', go: '#/collections/media/entries/projects', thumbKey: 'prog' },
-    { id: 'ba', t: 'قبل / بعد', s: 'شريط التمرير بين صورتين', ic: '↔️', go: '#/collections/media/entries/media', thumbKey: 'ba' },
+    { id: 'camp', t: 'الحملة الحالية', s: 'المبلغ المجموع والعدّ التنازلي', ic: '💰', go: '', tab: 'camp' },
+    { id: 'nums', t: 'أرقام «أثرنا»', s: 'وجبات، قوافل، مستفيدون…', ic: '📊', go: '', tab: 'nums' },
+    { id: 'prog', t: 'برامجنا (فئات المشاريع)', s: 'بطاقات بصور: مياه، قفة، ملابس…', ic: '🏗️', go: '', tab: 'other', thumbKey: 'prog' },
+    { id: 'ba', t: 'قبل / بعد', s: 'شريط التمرير بين صورتين', ic: '↔️', go: '', tab: 'other', thumbKey: 'ba' },
     { id: 'map', t: 'خريطة الإنجازات', s: 'الولايات والأعمال المنجزة', ic: '🗺️', go: '#/collections/media/entries/media' },
     { id: 'gal', t: 'شريط المعرض', s: 'الصور المتحركة + صفحة «المعرض»', ic: '🖼️', go: '', drop: 'gallery', thumbKey: 'gal', tab: 'gallery' },
     { id: 'test', t: 'آراء المتابعين', s: 'صور دائرية مع الآراء', ic: '💬', go: '', tab: 'testimonials' },
     { id: 'soc', t: 'منشورات فيسبوك وإنستغرام', s: 'روابط التواصل والمنشورات', ic: '📱', go: '#/collections/settings/entries/settings' },
     { id: 'br', t: 'الفروع والاتصال', s: 'العناوين، الهاتف، الخريطة', ic: '📍', go: '#/collections/settings/entries/branches' }
   ];
-  var TABS = [['map', '🗺️ خريطة الموقع'], ['news', '📰 الأخبار'], ['activities', '🎯 الأنشطة'], ['testimonials', '💬 الآراء'], ['gallery', '🖼️ المعرض'], ['other', '🏗️ صور أخرى']];
+  var TABS = [['map', '🗺️ خريطة الموقع'], ['news', '📰 الأخبار'], ['activities', '🎯 الأنشطة'], ['testimonials', '💬 الآراء'], ['gallery', '🖼️ المعرض'], ['camp', '💰 الحملة'], ['nums', '📊 الأرقام'], ['other', '🏗️ صور أخرى']];
   var COLN = { news: 'خبر', activities: 'نشاط', testimonials: 'رأي' };
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
@@ -584,6 +584,7 @@
     readJson('src/content/gallery.json').then(function (r) { G = r.data; thumbs.gal = (r.data.images[0] || {}).image_url; render(); }).catch(function () {});
     readJson('src/content/projects.json').then(function (r) { P = r.data; var c = (r.data.categories || [])[0]; if (c) thumbs.prog = c.image; render(); }).catch(function () {});
     readJson('src/content/campaign.json').then(function (r) { C = r.data; render(); }).catch(function () {});
+    readJson('src/content/impact.json').then(function (r) { I = r.data; render(); }).catch(function () {});
     readJson('src/content/announcement.json').then(function (r) { A = r.data; render(); }).catch(function () {});
     ghx('commits?per_page=6&sha=' + BRANCH).then(function (c) { commits = c; render(); }).catch(function () {});
     loaded = true;
@@ -592,16 +593,38 @@
   /* ---- الرسم ---- */
   function thumbHtml(url, ic) { return url ? '<img src="' + esc(absUrl(url)) + '" alt="" onerror="this.style.display=\'none\'">' : '<span class="ph">' + ic + '</span>'; }
 
+  function campHtml() {
+    var camp = '';
+    if (C) { var pc = C.goal ? Math.min(100, Math.round((C.raised || 0) * 100 / C.goal)) : 0;
+      camp = '<div class="camp"><div class="ch"><b>💰 ' + esc(T3(C.title)) + '</b><span>' + pc + '%</span></div><div class="pr"><i style="width:' + pc + '%"></i></div>' +
+        '<div class="cf"><label>المبلغ المجموع (دج)<input id="cei-raised" type="number" min="0" value="' + (C.raised || 0) + '"></label><label>الهدف (دج)<input id="cei-goal" type="number" min="0" value="' + (C.goal || 0) + '"></label><button class="btn red" data-act="saveraised" type="button">💾 حفظ</button></div></div>'; }
+    else camp = '<div class="empty">⏳ جارٍ التحميل…</div>';
+    return camp;
+  }
+  function viewCamp() {
+    var head = '<div class="lh"><h2>💰 الحملة الحالية</h2></div>';
+    if (!token()) return head + '<div class="empty">⚠️ هذه الصفحة تحتاج تسجيل الدخول بحساب GitHub.</div>';
+    return head + campHtml() + '<small class="note">لتعديل العنوان أو النص أو تاريخ نهاية الحملة: «أدوات التحرير ← الأرقام والحملة».</small>';
+  }
+  function viewNums() {
+    var head = '<div class="lh"><h2>📊 أرقام «أثرنا في المجتمع»</h2></div>';
+    if (!token()) return head + '<div class="empty">⚠️ هذه الصفحة تحتاج تسجيل الدخول بحساب GitHub.</div>';
+    if (!I) return head + '<div class="empty">⏳ جارٍ التحميل…</div>';
+    var rows = (I.stats || []).map(function (st, i) {
+      return '<div class="camp"><div class="cf"><label>الرقم<input class="cei-n" data-i="' + i + '" type="text" value="' + esc(st.number) + '"></label>' +
+        '<label style="flex:1;min-width:230px">الوصف<input class="cei-l" data-i="' + i + '" type="text" style="width:100%" value="' + esc((st.label && st.label.ar) || '') + '"></label></div></div>';
+    }).join('');
+    return head + rows + '<div class="camp"><button class="btn red" data-act="savenums" type="button">💾 حفظ الأرقام</button></div>' +
+      '<small class="note">عند تغيير الوصف العربي تُمسح النسخ الفرنسية والإنجليزية لتجنّب نص قديم.</small>';
+  }
+
   function viewMap() {
     var cnt = function (a) { return a ? a.length : '–'; };
     var stats = '<div class="stats">' +
       [['📰', cnt(L.news), 'خبر', 'news'], ['🎯', cnt(L.activities), 'نشاط', 'activities'], ['🖼️', G ? (G.images || []).length : '–', 'صورة في المعرض', 'gallery'], ['💬', cnt(L.testimonials), 'رأي', 'testimonials']]
         .map(function (s) { return '<button data-act="tab" data-v="' + s[3] + '" type="button"><span>' + s[0] + '</span><b>' + s[1] + '</b><small>' + s[2] + '</small></button>'; }).join('') + '</div>';
     var quick = '<div class="quick"><a href="#/collections/news/new" data-close="1">📰 خبر جديد<small>بصورة ونص</small></a><a href="#/collections/activities/new" data-close="1">🎯 نشاط جديد<small>مشروع / فعالية</small></a><a href="#/collections/testimonials/new" data-close="1">💬 رأي جديد<small>صورة دائرية</small></a><button data-act="addgal" type="button">🖼️ صور للمعرض<small>اختر عدة صور دفعة واحدة</small></button></div>';
-    var camp = '';
-    if (C) { var pc = C.goal ? Math.min(100, Math.round((C.raised || 0) * 100 / C.goal)) : 0;
-      camp = '<div class="camp"><div class="ch"><b>💰 ' + esc(T3(C.title)) + '</b><span>' + pc + '%</span></div><div class="pr"><i style="width:' + pc + '%"></i></div>' +
-        '<div class="cf"><label>المبلغ المجموع (دج)<input id="cei-raised" type="number" min="0" value="' + (C.raised || 0) + '"></label><label>الهدف (دج)<input id="cei-goal" type="number" min="0" value="' + (C.goal || 0) + '"></label><button class="btn red" data-act="saveraised" type="button">💾 حفظ</button></div></div>'; }
+    var camp = campHtml();
     var ann = '';
     if (A) {
       var cols = [['red', 'أحمر'], ['green', 'أخضر'], ['gold', 'ذهبي'], ['dark', 'أسود']];
@@ -664,7 +687,7 @@
     var el = document.getElementById('cei-home'); if (!el) return;
     var h = new Date().getHours();
     var logo = thumbs.logo ? '<img src="' + esc(absUrl(thumbs.logo)) + '" alt="">' : '<span>🤝</span>';
-    var body = tab === 'map' ? viewMap() : tab === 'gallery' ? viewGallery() : tab === 'other' ? viewOther() : viewList(tab);
+    var body = tab === 'map' ? viewMap() : tab === 'gallery' ? viewGallery() : tab === 'other' ? viewOther() : tab === 'camp' ? viewCamp() : tab === 'nums' ? viewNums() : viewList(tab);
     el.innerHTML =
       '<header class="top"><div class="brand"><div class="lg">' + logo + '</div><div><h1>' + (h < 12 ? '☀️ صباح الخير' : '🌙 مساء الخير') + '، مرحباً بك</h1><p>لوحة تحكم شباب الإحسان</p></div></div>' +
       '<div class="acts">' + (lastUndo ? '<button class="btn amber" data-act="undo" type="button">↩️ تراجع عن آخر تغيير</button>' : '') + '<button class="btn glass" data-act="dark" type="button" title="الوضع الليلي">🌓</button><button class="btn glass" data-act="live" type="button">🖥️ معاينة حيّة</button><a class="btn glass" href="' + SITE + '" target="_blank" rel="noopener">↗ فتح الموقع</a><button class="btn red" data-act="edit" type="button">أدوات التحرير ›</button></div></header>' +
@@ -692,6 +715,17 @@
   function openHome() { var h = document.getElementById('cei-home-wrap'); if (h) { h.classList.add('open'); render(); loadAll(); } }
   function closeHome() { var h = document.getElementById('cei-home-wrap'); if (h) h.classList.remove('open'); }
 
+  /* إذا فُتحت صفحة التحرير فارغة (بيضاء) نعيد تحميلها مرة واحدة تلقائياً */
+  function guardBlank() {
+    setTimeout(function () {
+      var ok = document.querySelector('[class*="ControlPane"], [class*="EditorControlPane"], [class*="ControlContainer"], [class*="ErrorMessage"]');
+      if (!ok && /#\/collections\/[^/]+\/entries\//.test(location.hash) && !sessionStorage.getItem('cei_reloaded')) {
+        try { sessionStorage.setItem('cei_reloaded', '1'); } catch (e) {}
+        location.reload();
+      } else { try { sessionStorage.removeItem('cei_reloaded'); } catch (e) {} }
+    }, 2500);
+  }
+
   function initHome() {
     var wrap = document.createElement('div'); wrap.id = 'cei-home-wrap'; wrap.innerHTML = '<div id="cei-home"></div>'; document.body.appendChild(wrap);
     var fab = document.createElement('button'); fab.id = 'cei-home-btn'; fab.type = 'button'; fab.textContent = '🏠 الرئيسية'; fab.onclick = openHome; document.body.appendChild(fab);
@@ -699,7 +733,7 @@
     wrap.addEventListener('click', function (e) {
       var t = e.target, q = function (s) { return t.closest && t.closest(s); };
       var act = q('[data-act]'), blk = q('[data-go],[data-drop],[data-swap]'), cl = q('[data-close]');
-      if (cl) { setTimeout(closeHome, 0); return; }
+      if (cl) { setTimeout(closeHome, 0); guardBlank(); return; }
       if (act) {
         var a = act.dataset.act, i = +act.dataset.i;
         if (a === 'edit') return closeHome();
@@ -718,6 +752,15 @@
           var rv = +document.getElementById('cei-raised').value || 0, gv = +document.getElementById('cei-goal').value || 0; busy(1);
           return modify('src/content/campaign.json', function (d) { d.raised = rv; d.goal = gv; }, 'تحديث مبلغ الحملة').then(function (d) { C = d; done('تم تحديث مبلغ الحملة'); }).catch(fail);
         }
+        if (a === 'savenums') {
+          var ns = wrap.querySelectorAll('.cei-n'), ls = wrap.querySelectorAll('.cei-l'); busy(1);
+          return modify('src/content/impact.json', function (d) {
+            (d.stats || []).forEach(function (st, k) {
+              if (ns[k]) st.number = ns[k].value.trim();
+              if (ls[k]) { var v = ls[k].value.trim(); st.label = st.label || {}; if (st.label.ar !== v) { st.label.ar = v; st.label.fr = ''; st.label.en = ''; } }
+            });
+          }, 'تحديث أرقام الأثر').then(function (d) { I = d; done('تم حفظ الأرقام'); }).catch(fail);
+        }
         if (a === 'tab') { tab = act.dataset.v; render(); return; }
         if (a === 'addgal') return pickFiles(true, addGallery);
         if (a === 'gdel') return confirm('حذف هذه الصورة من المعرض؟') && galleryEdit(function (d) { d.images.splice(i, 1); }, 'حذف صورة من المعرض', 'تم حذف الصورة');
@@ -728,7 +771,7 @@
         var d = blk.dataset.drop;
         if (d) return pickFiles(d === 'gallery', function (fs) { d === 'gallery' ? addGallery(fs) : setHeroLogo(d, fs[0]); });
         if (blk.dataset.tab) { tab = blk.dataset.tab; render(); return; }
-        if (blk.dataset.go) { location.hash = blk.dataset.go; closeHome(); }
+        if (blk.dataset.go) { location.hash = blk.dataset.go; closeHome(); guardBlank(); }
       }
     });
     var dragI = null;
