@@ -2,7 +2,7 @@
   "categories": [
     {
       "id": "weekly",
-      "image": "https://picsum.photos/seed/ihssan-weekly/800/600",
+      "image": "/images/gallery/team/nettoyage-lieu-de-culte-01.webp",
       "title": {
         "ar": "حملات أسبوعية",
         "fr": "Campagnes hebdomadaires",
@@ -16,7 +16,7 @@
       "items": [
         {
           "id": "w1",
-          "image": "https://picsum.photos/seed/ihssan-mosque-cleaning/800/600",
+          "image": "/images/gallery/team/nettoyage-lieu-de-culte-02.webp",
           "title": {
             "ar": "تنظيف المسجد",
             "fr": "Nettoyage de la mosquée",
@@ -25,7 +25,7 @@
         },
         {
           "id": "w2",
-          "image": "https://picsum.photos/seed/ihssan-veg-basket/800/600",
+          "image": "/images/gallery/aid/panier-legumes-preparation.webp",
           "title": {
             "ar": "سلة الخضر",
             "fr": "Panier à légumes",
@@ -36,7 +36,7 @@
     },
     {
       "id": "seasonal",
-      "image": "https://picsum.photos/seed/ihssan-seasonal/800/600",
+      "image": "/images/gallery/caravans/kafila-dechargement.webp",
       "title": {
         "ar": "حملات موسمية",
         "fr": "Campagnes saisonnières",
@@ -50,7 +50,7 @@
       "items": [
         {
           "id": "s1",
-          "image": "https://picsum.photos/seed/ihssan-bag/800/600",
+          "image": "/images/gallery/aid/cahiers-scolaires.webp",
           "title": {
             "ar": "حقيبة إحسان",
             "fr": "Cartable Ihssan",
@@ -59,7 +59,7 @@
         },
         {
           "id": "s2",
-          "image": "https://picsum.photos/seed/ihssan-caravan/800/600",
+          "image": "/images/gallery/caravans/kafila-matelas.webp",
           "title": {
             "ar": "قوافل إحسان",
             "fr": "Kawafil Ihssan",
@@ -70,7 +70,7 @@
     },
     {
       "id": "ramadan",
-      "image": "https://picsum.photos/seed/ihssan-ramadan/800/600",
+      "image": "/images/gallery/eid/aid-vetements-fille.webp",
       "title": {
         "ar": "حملات رمضان",
         "fr": "Campagnes du Ramadan",
@@ -102,7 +102,7 @@
         },
         {
           "id": "r3",
-          "image": "https://picsum.photos/seed/ihssan-ramadan-basket/800/600",
+          "image": "/images/gallery/aid/distribution-paniers.webp",
           "title": {
             "ar": "قفة رمضان",
             "fr": "Couffin du Ramadan",
@@ -111,7 +111,7 @@
         },
         {
           "id": "r4",
-          "image": "https://picsum.photos/seed/ihssan-eid-basket/800/600",
+          "image": "/images/gallery/aid/paniers-prets.webp",
           "title": {
             "ar": "قفة العيد",
             "fr": "Couffin de l'Aïd",
@@ -120,7 +120,7 @@
         },
         {
           "id": "r5",
-          "image": "https://picsum.photos/seed/ihssan-eid-clothes/800/600",
+          "image": "/images/gallery/eid/aid-vetements-garcon.webp",
           "title": {
             "ar": "لبسة العيد",
             "fr": "Vêtements de l'Aïd",
@@ -129,7 +129,7 @@
         },
         {
           "id": "r6",
-          "image": "https://picsum.photos/seed/ihssan-zakat-fitr/800/600",
+          "image": "/images/gallery/aid/viande-aid.webp",
           "title": {
             "ar": "زكاة الفطر",
             "fr": "Zakat el-Fitr",
@@ -140,7 +140,7 @@
     },
     {
       "id": "siqaya",
-      "image": "https://picsum.photos/seed/ihssan-siqaya/800/600",
+      "image": "/images/gallery/water/forage-puits-01.webp",
       "title": {
         "ar": "مشاريع سقيا",
         "fr": "Projets Siqaya (eau)",
@@ -154,7 +154,7 @@
       "items": [
         {
           "id": "q1",
-          "image": "https://picsum.photos/seed/ihssan-wells/800/600",
+          "image": "/images/gallery/water/forage-puits-02.webp",
           "title": {
             "ar": "حفر الآبار",
             "fr": "Forage de puits",
@@ -163,7 +163,7 @@
         },
         {
           "id": "q2",
-          "image": "https://picsum.photos/seed/ihssan-tanks/800/600",
+          "image": "/images/gallery/water/chateau-eau.webp",
           "title": {
             "ar": "بناء الخزانات",
             "fr": "Construction de citernes",
@@ -172,7 +172,7 @@
         },
         {
           "id": "q3",
-          "image": "https://picsum.photos/seed/ihssan-coolers/800/600",
+          "image": "/images/gallery/water/fontaine-sadaqa-jariya.webp",
           "title": {
             "ar": "آلات تبريد المياه",
             "fr": "Refroidisseurs d'eau",
@@ -181,7 +181,7 @@
         },
         {
           "id": "q4",
-          "image": "https://picsum.photos/seed/ihssan-water-distribution/800/600",
+          "image": "/images/gallery/water/eau-jaillit.webp",
           "title": {
             "ar": "توزيع المياه",
             "fr": "Distribution d'eau",
@@ -192,7 +192,7 @@
     },
     {
       "id": "okfoulni",
-      "image": "https://picsum.photos/seed/ihssan-okfoulni/800/600",
+      "image": "/images/gallery/aid/mascotte-enfants.webp",
       "title": {
         "ar": "مشاريع اكفلني",
         "fr": "Projets Okfoulni",
@@ -207,7 +207,7 @@
     },
     {
       "id": "wartil",
-      "image": "https://picsum.photos/seed/ihssan-wartil/800/600",
+      "image": "/images/gallery/construction/chantier-structure.webp",
       "title": {
         "ar": "مشروع ورتّل",
         "fr": "Projet Wartil",
@@ -221,7 +221,7 @@
       "items": [
         {
           "id": "a1",
-          "image": "https://picsum.photos/seed/ihssan-build-schools/800/600",
+          "image": "/images/gallery/construction/coulage-dalle.webp",
           "title": {
             "ar": "بناء مدارس",
             "fr": "Construction d'écoles",
@@ -230,18 +230,72 @@
         },
         {
           "id": "a2",
-          "image": "https://picsum.photos/seed/ihssan-renovate-schools/800/600",
+          "image": "/images/gallery/construction/chantier-interieur.webp",
           "title": {
             "ar": "ترميم مدارس",
             "fr": "Rénovation d'écoles",
             "en": "Renovating schools"
+          }
+        },
+        {
+          "id": "a3",
+          "image": "/images/gallery/construction/livraison-briques.webp",
+          "title": {
+            "ar": "تفريغ الآجر",
+            "fr": "Déchargement des briques",
+            "en": "Unloading bricks"
+          }
+        },
+        {
+          "id": "a4",
+          "image": "/images/gallery/construction/ciment.webp",
+          "title": {
+            "ar": "الإسمنت",
+            "fr": "Ciment",
+            "en": "Cement"
+          }
+        },
+        {
+          "id": "a5",
+          "image": "/images/gallery/construction/fer-a-beton.webp",
+          "title": {
+            "ar": "حديد البناء",
+            "fr": "Fer à béton",
+            "en": "Rebar"
+          }
+        },
+        {
+          "id": "a6",
+          "image": "/images/gallery/construction/livraison-sable-01.webp",
+          "title": {
+            "ar": "الرمل",
+            "fr": "Sable",
+            "en": "Sand"
+          }
+        },
+        {
+          "id": "a7",
+          "image": "/images/gallery/construction/carrelage-djemila.webp",
+          "title": {
+            "ar": "الزليج",
+            "fr": "Carrelage",
+            "en": "Tiles"
+          }
+        },
+        {
+          "id": "a8",
+          "image": "/images/gallery/construction/chantier-structure.webp",
+          "title": {
+            "ar": "هيكل البناء",
+            "fr": "Structure du bâtiment",
+            "en": "Building structure"
           }
         }
       ]
     },
     {
       "id": "mouftaraqat",
-      "image": "https://picsum.photos/seed/ihssan-mouftaraqat/800/600",
+      "image": "/images/gallery/aid/livraison-couvertures-huile.webp",
       "title": {
         "ar": "مفترقات",
         "fr": "Mouftaraqat",
@@ -255,7 +309,7 @@
       "items": [
         {
           "id": "m1",
-          "image": "https://picsum.photos/seed/ihssan-baskets/800/600",
+          "image": "/images/gallery/aid/chargement-colis-camion.webp",
           "title": {
             "ar": "توزيع قفف",
             "fr": "Distribution de couffins",
@@ -264,7 +318,7 @@
         },
         {
           "id": "m2",
-          "image": "https://picsum.photos/seed/ihssan-zakat/800/600",
+          "image": "/images/gallery/aid/livraison-couvertures-huile.webp",
           "title": {
             "ar": "زكاة",
             "fr": "Zakat",

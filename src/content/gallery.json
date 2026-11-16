@@ -55,6 +55,14 @@
         "fr": "Notre équipe",
         "en": "Our team"
       }
+    },
+    {
+      "id": "construction",
+      "label": {
+        "ar": "ورشات البناء",
+        "fr": "Chantiers de construction",
+        "en": "Building sites"
+      }
     }
   ],
   "images": [
@@ -368,8 +376,8 @@
       "is_featured": false
     },
     {
-      "category": "aid",
-      "image_url": "/images/gallery/aid/livraison-briques.webp",
+      "category": "construction",
+      "image_url": "/images/gallery/construction/livraison-briques.webp",
       "caption": {
         "ar": "تفريغ الآجر بالرافعة",
         "fr": "Déchargement des briques au chariot élévateur",
@@ -378,8 +386,8 @@
       "is_featured": false
     },
     {
-      "category": "aid",
-      "image_url": "/images/gallery/aid/livraison-carrelage.webp",
+      "category": "construction",
+      "image_url": "/images/gallery/construction/livraison-carrelage.webp",
       "caption": {
         "ar": "تفريغ مواد البناء",
         "fr": "Déchargement de matériaux de construction",
@@ -388,8 +396,8 @@
       "is_featured": false
     },
     {
-      "category": "aid",
-      "image_url": "/images/gallery/aid/carrelage-djemila.webp",
+      "category": "construction",
+      "image_url": "/images/gallery/construction/carrelage-djemila.webp",
       "caption": {
         "ar": "متطوع يحمل صناديق الزليج",
         "fr": "Un bénévole transporte des cartons de carrelage",
@@ -398,8 +406,8 @@
       "is_featured": false
     },
     {
-      "category": "aid",
-      "image_url": "/images/gallery/aid/reception-carrelage.webp",
+      "category": "construction",
+      "image_url": "/images/gallery/construction/reception-carrelage.webp",
       "caption": {
         "ar": "استلام الزليج في ورشة البناء",
         "fr": "Réception du carrelage sur le chantier",
@@ -408,8 +416,8 @@
       "is_featured": false
     },
     {
-      "category": "aid",
-      "image_url": "/images/gallery/aid/livraison-sable-01.webp",
+      "category": "construction",
+      "image_url": "/images/gallery/construction/livraison-sable-01.webp",
       "caption": {
         "ar": "تفريغ الرمل في الورشة",
         "fr": "Livraison de sable pour le chantier",
@@ -418,8 +426,8 @@
       "is_featured": false
     },
     {
-      "category": "aid",
-      "image_url": "/images/gallery/aid/livraison-sable-02.webp",
+      "category": "construction",
+      "image_url": "/images/gallery/construction/livraison-sable-02.webp",
       "caption": {
         "ar": "شاحنة الرمل أثناء التفريغ",
         "fr": "Camion de sable en cours de déchargement",
@@ -428,8 +436,8 @@
       "is_featured": false
     },
     {
-      "category": "aid",
-      "image_url": "/images/gallery/aid/ciment.webp",
+      "category": "construction",
+      "image_url": "/images/gallery/construction/ciment.webp",
       "caption": {
         "ar": "تسليم أكياس الإسمنت",
         "fr": "Livraison des sacs de ciment",
@@ -438,8 +446,8 @@
       "is_featured": false
     },
     {
-      "category": "aid",
-      "image_url": "/images/gallery/aid/fer-a-beton.webp",
+      "category": "construction",
+      "image_url": "/images/gallery/construction/fer-a-beton.webp",
       "caption": {
         "ar": "تسليم حديد البناء",
         "fr": "Livraison du fer à béton",
@@ -448,8 +456,8 @@
       "is_featured": false
     },
     {
-      "category": "aid",
-      "image_url": "/images/gallery/aid/coulage-dalle.webp",
+      "category": "construction",
+      "image_url": "/images/gallery/construction/coulage-dalle.webp",
       "caption": {
         "ar": "صبّ سقف الخرسانة",
         "fr": "Coulage de la dalle en béton",
@@ -458,8 +466,8 @@
       "is_featured": false
     },
     {
-      "category": "aid",
-      "image_url": "/images/gallery/aid/chantier-structure.webp",
+      "category": "construction",
+      "image_url": "/images/gallery/construction/chantier-structure.webp",
       "caption": {
         "ar": "هيكل البناء قيد الإنجاز",
         "fr": "Structure du bâtiment en cours de construction",
@@ -468,8 +476,8 @@
       "is_featured": false
     },
     {
-      "category": "aid",
-      "image_url": "/images/gallery/aid/chantier-interieur.webp",
+      "category": "construction",
+      "image_url": "/images/gallery/construction/chantier-interieur.webp",
       "caption": {
         "ar": "أشغال داخلية في ورشة البناء",
         "fr": "Travaux intérieurs sur le chantier",

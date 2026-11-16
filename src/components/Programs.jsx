@@ -141,27 +141,17 @@ const Programs = () => {
                             onKeyDown={(e) => e.key === 'Enter' && setSelectedId(cat.id)}
                             className="bg-white dark:bg-gray-900 rounded-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer group flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)] max-w-sm border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl overflow-hidden"
                         >
-                            <div className="w-full h-44 bg-gray-200 dark:bg-gray-600 relative overflow-hidden">
+                            <div className="w-full aspect-[4/3] bg-gray-200 dark:bg-gray-600 relative overflow-hidden">
                                 <SafeImg
                                     src={cat.image}
                                     alt={getLocalizedContent(cat.title, language)}
                                     className="w-full h-full transition-transform duration-500 group-hover:scale-110"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
-                                    <span className="text-white font-semibold">{t.learn_more}</span>
+                                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-5 pt-16 text-center">
+                                    <h3 className="text-xl md:text-2xl font-bold text-white drop-shadow">
+                                        {getLocalizedContent(cat.title, language)}
+                                    </h3>
                                 </div>
-                            </div>
-                            <div className="p-5 flex flex-col flex-1 text-center">
-                                <h3 className="text-xl font-bold mb-2 text-blue-900 dark:text-white">
-                                    {getLocalizedContent(cat.title, language)}
-                                </h3>
-                                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4 flex-1">
-                                    {getLocalizedContent(cat.description, language)}
-                                </p>
-                                <span className="inline-flex items-center justify-center text-red-500 group-hover:text-red-600 font-bold uppercase tracking-wide text-sm">
-                                    <span>{t.learn_more}</span>
-                                    <FaArrowRight className={language === 'ar' ? 'mr-2 rotate-180' : 'ml-2'} />
-                                </span>
                             </div>
                         </div>
                     ))}
@@ -200,18 +190,13 @@ const Programs = () => {
                                                     alt={getLocalizedContent(item.title, language)}
                                                     className="w-full h-full transition-transform duration-500 group-hover:scale-110"
                                                 />
-                                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/35 transition-colors flex items-center justify-center">
-                                                    <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 text-[var(--brand-navy)] rounded-full p-4 shadow-lg">
-                                                        <FaExpand />
-                                                    </span>
+                                                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 pt-12 text-center">
+                                                    <h4 className="font-bold text-lg text-white drop-shadow">
+                                                        {getLocalizedContent(item.title, language)}
+                                                    </h4>
                                                 </div>
                                             </div>
-                                            <div className="p-4 text-center">
-                                                <h4 className="font-bold text-lg text-blue-900 dark:text-white">
-                                                    {getLocalizedContent(item.title, language)}
-                                                </h4>
-                                            </div>
-                                        </button>
+</button>
                                     ))}
                                 </div>
                             </>
