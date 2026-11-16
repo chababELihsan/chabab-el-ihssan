@@ -22,158 +22,114 @@
   ],
   "achievementPlaces": [
     {
-      "lat": 36.7538,
-      "lng": 3.0588,
+      "lat": 30.13,
+      "lng": -2.17,
       "name": {
-        "ar": "الجزائر العاصمة",
-        "fr": "Alger",
-        "en": "Algiers"
+        "ar": "بني عباس",
+        "fr": "Béni Abbès",
+        "en": "Béni Abbès"
       },
-      "actions": [
-        {
-          "ar": "مقرّ الجمعية الولائية شباب الإحسان بالقبة",
-          "fr": "Siège de l'association de wilaya Chabab El Ihssan, Kouba",
-          "en": "Chabab El Ihssan provincial association headquarters, Kouba"
-        },
-        {
-          "ar": "ملابس العيد 2025 (318 طفلاً)",
-          "fr": "Vêtements de l'Aïd 2025 (318 enfants)",
-          "en": "Eid clothes 2025 (318 children)"
-        },
-        {
-          "ar": "وجبة السحور (13,000+ وجبة)",
-          "fr": "Repas du Suhoor (13 000+ repas)",
-          "en": "Suhoor meals (13,000+ meals)"
-        }
-      ]
+      "actions": [],
+      "label_side": "left"
     },
     {
-      "lat": 22.785,
-      "lng": 5.5228,
-      "name": {
-        "ar": "تمنراست",
-        "fr": "Tamanrasset",
-        "en": "Tamanrasset"
-      },
-      "actions": [
-        {
-          "ar": "قافلة الإحسان 19/20",
-          "fr": "Kafilat Elihssan 19/20",
-          "en": "Kafilat Elihssan 19/20"
-        }
-      ]
-    },
-    {
-      "lat": 27.8743,
-      "lng": -0.2939,
-      "name": {
-        "ar": "أدرار",
-        "fr": "Adrar",
-        "en": "Adrar"
-      },
-      "actions": [
-        {
-          "ar": "قافلة الإحسان 19/20",
-          "fr": "Kafilat Elihssan 19/20",
-          "en": "Kafilat Elihssan 19/20"
-        }
-      ]
-    },
-    {
-      "lat": 27.6711,
-      "lng": -8.1474,
+      "lat": 27.67,
+      "lng": -8.15,
       "name": {
         "ar": "تندوف",
         "fr": "Tindouf",
         "en": "Tindouf"
       },
-      "actions": [
-        {
-          "ar": "حملة ميدانية للجمعية",
-          "fr": "Campagne de terrain de l'association",
-          "en": "Field campaign by the association"
-        }
-      ]
+      "actions": [],
+      "label_side": "left"
     },
     {
-      "lat": 35.7058,
-      "lng": 4.5419,
+      "lat": 27.87,
+      "lng": -0.29,
       "name": {
-        "ar": "المسيلة",
-        "fr": "M'sila",
-        "en": "M'sila"
+        "ar": "أدرار",
+        "fr": "Adrar",
+        "en": "Adrar"
       },
-      "actions": [
-        {
-          "ar": "حملة ميدانية للجمعية",
-          "fr": "Campagne de terrain de l'association",
-          "en": "Field campaign by the association"
-        }
-      ]
+      "actions": [],
+      "label_side": "left"
     },
     {
-      "lat": 33.6831,
-      "lng": 1.0192,
+      "lat": 29.26,
+      "lng": 0.23,
+      "name": {
+        "ar": "تيميمون",
+        "fr": "Timimoun",
+        "en": "Timimoun"
+      },
+      "actions": [],
+      "label_side": "right"
+    },
+    {
+      "lat": 22.785,
+      "lng": 5.52,
+      "name": {
+        "ar": "تمنراست",
+        "fr": "Tamanrasset",
+        "en": "Tamanrasset"
+      },
+      "actions": [],
+      "label_side": "right"
+    },
+    {
+      "lat": 26.5,
+      "lng": 8.48,
+      "name": {
+        "ar": "إيليزي",
+        "fr": "Illizi",
+        "en": "Illizi"
+      },
+      "actions": [],
+      "label_side": "right"
+    },
+    {
+      "lat": 21.33,
+      "lng": 0.95,
+      "name": {
+        "ar": "برج باجي مختار",
+        "fr": "Bordj Badji Mokhtar",
+        "en": "Bordj Badji Mokhtar"
+      },
+      "actions": [],
+      "label_side": "right"
+    },
+    {
+      "lat": 33.68,
+      "lng": 1.02,
       "name": {
         "ar": "البيض",
         "fr": "El Bayadh",
         "en": "El Bayadh"
       },
-      "actions": [
-        {
-          "ar": "حملة ميدانية للجمعية",
-          "fr": "Campagne de terrain de l'association",
-          "en": "Field campaign by the association"
-        }
-      ]
+      "actions": [],
+      "label_side": "right"
     },
     {
-      "lat": 34.6728,
-      "lng": 3.263,
+      "lat": 33.27,
+      "lng": -0.31,
+      "name": {
+        "ar": "النعامة",
+        "fr": "Naâma",
+        "en": "Naâma"
+      },
+      "actions": [],
+      "label_side": "left"
+    },
+    {
+      "lat": 34.67,
+      "lng": 3.26,
       "name": {
         "ar": "الجلفة",
         "fr": "Djelfa",
         "en": "Djelfa"
       },
-      "actions": [
-        {
-          "ar": "حملة ميدانية للجمعية",
-          "fr": "Campagne de terrain de l'association",
-          "en": "Field campaign by the association"
-        }
-      ]
-    },
-    {
-      "lat": 36.3749,
-      "lng": 3.902,
-      "name": {
-        "ar": "بويرة",
-        "fr": "Bouira",
-        "en": "Bouira"
-      },
-      "actions": [
-        {
-          "ar": "حملة ميدانية للجمعية",
-          "fr": "Campagne de terrain de l'association",
-          "en": "Field campaign by the association"
-        }
-      ]
-    },
-    {
-      "lat": 25,
-      "lng": -13.5,
-      "name": {
-        "ar": "الصحراء الغربية",
-        "fr": "Sahara occidental",
-        "en": "Western Sahara"
-      },
-      "actions": [
-        {
-          "ar": "حملة ميدانية للجمعية",
-          "fr": "Campagne de terrain de l'association",
-          "en": "Field campaign by the association"
-        }
-      ]
+      "actions": [],
+      "label_side": "right"
     }
   ],
   "sadaqaProjects": [
