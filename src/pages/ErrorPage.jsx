@@ -36,7 +36,7 @@ const ErrorPage = ({ error, resetErrorBoundary, is404 = false }) => {
                         <img
                             src={settings.logo_url}
                             alt="Chabab El Ihssane"
-                            className="w-24 h-24 rounded-full object-cover"
+                            className="w-24 h-24 object-contain p-1.5"
                         />
                     </div>
                 </div>

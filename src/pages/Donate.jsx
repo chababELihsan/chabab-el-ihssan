@@ -12,9 +12,7 @@ const L = {
         copy: 'نسخ', copied: 'تم النسخ ✓',
         ccpTitle: 'CCP / بريدي موب (BaridiMob)',
         ccpNumber: 'رقم الحساب البريدي CCP', ccpKey: 'المفتاح (Clé)', rip: 'RIP',
-        qrCcp: 'امسح الرمز لنسخ رقم الحساب داخل تطبيق بريدي موب أو الماسح',
         cpaTitle: 'تحويل بنكي (CPA)', cpaAccount: 'رقم الحساب', holder: 'اسم صاحب الحساب',
-        qrCpa: 'امسح الرمز لنسخ رقم الحساب',
         amountBanner: (a) => `مبلغ تبرعك: ${a} دج — حوّله إلى أحد الحسابين أدناه`,
         steps: 'كيف أتبرع؟ ١) انسخ رقم الحساب ٢) حوّل المبلغ من تطبيق بريدي موب أو بنكك ٣) أرسل لنا الوصل على بريدنا الإلكتروني لنوثّق تبرعك.',
     },
@@ -22,9 +20,7 @@ const L = {
         copy: 'Copier', copied: 'Copié ✓',
         ccpTitle: 'CCP / BaridiMob',
         ccpNumber: 'Numéro de compte CCP', ccpKey: 'Clé', rip: 'RIP',
-        qrCcp: 'Scannez pour récupérer le numéro de compte (BaridiMob ou lecteur QR)',
         cpaTitle: 'Virement bancaire (CPA)', cpaAccount: 'N° de compte', holder: 'Titulaire du compte',
-        qrCpa: 'Scannez pour récupérer le numéro de compte',
         amountBanner: (a) => `Votre don : ${a} DA — à virer sur l'un des comptes ci-dessous`,
         steps: '1) Copiez le numéro de compte 2) Faites le virement depuis BaridiMob ou votre banque 3) Envoyez-nous le reçu par e-mail pour que nous enregistrions votre don.',
     },
@@ -32,9 +28,7 @@ const L = {
         copy: 'Copy', copied: 'Copied ✓',
         ccpTitle: 'CCP / BaridiMob',
         ccpNumber: 'CCP account number', ccpKey: 'Key (Clé)', rip: 'RIP',
-        qrCcp: 'Scan to get the account number (BaridiMob or any QR reader)',
         cpaTitle: 'Bank transfer (CPA)', cpaAccount: 'Account number', holder: 'Account holder',
-        qrCpa: 'Scan to get the account number',
         amountBanner: (a) => `Your donation: ${a} DZD — send it to one of the accounts below`,
         steps: '1) Copy the account number 2) Transfer from BaridiMob or your bank 3) Email us the receipt so we can record your gift.',
     },
@@ -85,8 +79,6 @@ const Donate = () => {
                             icon={<FaMobileAlt />}
                             title={lb.ccpTitle}
                             rows={ccpRows}
-                            qrValue={pay.rip || pay.ccp_number}
-                            qrCaption={lb.qrCcp}
                             copyLabel={lb.copy}
                             copiedLabel={lb.copied}
                         />
@@ -97,8 +89,6 @@ const Donate = () => {
                             icon={<FaUniversity />}
                             title={lb.cpaTitle}
                             rows={cpaRows}
-                            qrValue={pay.cpa_account}
-                            qrCaption={lb.qrCpa}
                             copyLabel={lb.copy}
                             copiedLabel={lb.copied}
                         />
@@ -108,9 +98,6 @@ const Donate = () => {
                 <div className="mt-16 text-center bg-blue-50 dark:bg-gray-800 p-8 md:p-10 rounded-2xl max-w-4xl mx-auto transition-colors duration-300">
                     <FaHeart className="text-red-500 text-5xl mx-auto mb-6 animate-pulse" />
                     <h2 className="font-display text-3xl md:text-4xl text-[var(--brand-navy)] dark:text-white mb-4">{t.impact_title}</h2>
-                    <p className="text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
-                        {t.impact_desc}
-                    </p>
                 </div>
             </div>
         </motion.div>

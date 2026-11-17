@@ -57,9 +57,11 @@ const Impact = () => {
                     <h2 className="font-display text-3xl md:text-4xl text-[var(--brand-navy)] dark:text-gray-100 mb-4">
                         {getLocalizedContent(impact.title, language)}
                     </h2>
-                    <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                        {getLocalizedContent(impact.description, language)}
-                    </p>
+                    {impact.description && getLocalizedContent(impact.description, language) && (
+                        <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                            {getLocalizedContent(impact.description, language)}
+                        </p>
+                    )}
                     <div className="w-24 h-1.5 rounded-full -rotate-2 bg-[var(--brand-red)] mx-auto mt-4"></div>
                 </div>
 

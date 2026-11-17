@@ -53,10 +53,10 @@ const Home = () => {
         >
             <Hero />
             <RamadanSection />
+            <About />
             <FeaturedCampaign />
             <Impact />
             <Mission />
-            <About />
             <Programs />
             <BeforeAfter />
             <AchievementsMap />

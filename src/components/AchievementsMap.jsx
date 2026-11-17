@@ -7,17 +7,22 @@ import { getLocalizedContent } from '../utils/languageUtils';
 import SectionHeading from './SectionHeading';
 
 const L = {
-    ar: { eyebrow: 'حضورنا في الميدان', title: 'خريطة إنجازاتنا', subtitle: 'الولايات التي وصلتها حملاتنا وقوافلنا.', note: 'بتوفيق من الله وفقنا لـ 25 قافلة نحو الولايات المعلَّمة على الخريطة.' },
-    fr: { eyebrow: 'Notre présence sur le terrain', title: 'Carte de nos réalisations', subtitle: 'Les wilayas atteintes par nos campagnes et nos caravanes.', note: 'Par la grâce de Dieu, nous avons réalisé 25 caravanes vers les wilayas indiquées sur la carte.' },
-    en: { eyebrow: 'Our presence on the ground', title: 'Map of our achievements', subtitle: 'The provinces reached by our campaigns and caravans.', note: 'By the grace of God, we completed 25 caravans to the provinces marked on the map.' },
+    ar: { eyebrow: 'حضورنا في الميدان', title: 'خريطة إنجازاتنا', subtitle: 'الولايات التي وصلتها حملاتنا وقوافلنا.', note: (places) => `بتوفيق من الله وفقنا لـ 28 قافلة إحسان للجنوب نحو الولايات المعلَّمة على الخريطة (${places}).` },
+    fr: { eyebrow: 'Notre présence sur le terrain', title: 'Carte de nos réalisations', subtitle: 'Les wilayas atteintes par nos campagnes et nos caravanes.', note: (places) => `Par la grâce de Dieu, nous avons réalisé 28 caravanes de bienfaisance vers le Sud, dans les wilayas indiquées sur la carte (${places}).` },
+    en: { eyebrow: 'Our presence on the ground', title: 'Map of our achievements', subtitle: 'The provinces reached by our campaigns and caravans.', note: (places) => `By the grace of God, we completed 28 charity caravans to the South, reaching the provinces marked on the map (${places}).` },
 };
 
 const ALGERIA_CENTER = [28.2, 2.6];
+const SIDES = { left: [-6, 0], right: [6, 0], top: [0, -8], bottom: [0, 8] };
 
 const AchievementsMap = () => {
     const { language } = useLanguage();
     const lb = L[language] || L.en;
     const dir = language === 'ar' ? 'rtl' : 'ltr';
+    const placesList = achievementPlaces
+        .map((p) => getLocalizedContent(p.name, language))
+        .filter(Boolean)
+        .join(language === 'ar' ? '، ' : ', ');
 
     return (
         <section id="achievements-map" dir={dir} className="py-16 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
@@ -37,7 +42,7 @@ const AchievementsMap = () => {
                                 radius={9}
                                 pathOptions={{ color: '#ffffff', weight: 3, fillColor: '#c8102e', fillOpacity: 0.95 }}
                             >
-                                <Tooltip permanent direction={p.label_side === 'left' ? 'left' : 'right'} offset={[p.label_side === 'left' ? -6 : 6, 0]}>
+                                <Tooltip permanent direction={SIDES[p.label_side] ? p.label_side : 'right'} offset={SIDES[p.label_side] || SIDES.right}>
                                     <span className="font-arabic font-bold">{getLocalizedContent(p.name, language)}</span>
                                 </Tooltip>
                             </CircleMarker>
@@ -46,7 +51,7 @@ const AchievementsMap = () => {
                 </div>
 
                 <p className="text-center font-arabic text-lg md:text-xl font-bold text-[var(--brand-navy)] dark:text-white mt-8 max-w-3xl mx-auto leading-relaxed">
-                    {lb.note}
+                    {lb.note(placesList)}
                 </p>
             </div>
         </section>

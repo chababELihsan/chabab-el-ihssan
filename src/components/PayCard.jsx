@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaCopy, FaCheck } from 'react-icons/fa';
 
@@ -54,20 +54,8 @@ const CopyRow = ({ label, value, copyLabel, copiedLabel }) => {
     );
 };
 
-// Carte de paiement : titre + lignes copiables + code QR (généré à la demande, hors bundle principal).
-const PayCard = ({ icon, title, rows, qrValue, qrCaption, copyLabel, copiedLabel }) => {
-    const [qr, setQr] = useState('');
-
-    useEffect(() => {
-        let alive = true;
-        if (!qrValue) return undefined;
-        import('qrcode')
-            .then((m) => (m.default || m).toDataURL(qrValue, { margin: 1, width: 240, errorCorrectionLevel: 'M' }))
-            .then((url) => { if (alive) setQr(url); })
-            .catch(() => { /* le QR est un bonus : la carte reste utilisable sans lui */ });
-        return () => { alive = false; };
-    }, [qrValue]);
-
+// Carte de paiement : titre + lignes copiables (le code QR a été retiré).
+const PayCard = ({ icon, title, rows, copyLabel, copiedLabel }) => {
     return (
         <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-xl shadow-lg border-t-4 border-[var(--brand-navy)] transition-colors duration-300">
             <div className="text-[var(--brand-navy)] dark:text-[var(--brand-gold)] text-4xl mb-4 flex justify-center">{icon}</div>
@@ -77,12 +65,6 @@ const PayCard = ({ icon, title, rows, qrValue, qrCaption, copyLabel, copiedLabel
                     <CopyRow key={r.label} {...r} copyLabel={copyLabel} copiedLabel={copiedLabel} />
                 ))}
             </div>
-            {qr && (
-                <div className="mt-6 flex flex-col items-center gap-2">
-                    <img src={qr} width="180" height="180" alt={qrCaption} className="rounded-lg bg-white p-2 border border-gray-200" />
-                    <span className="text-sm text-gray-500 dark:text-gray-400 text-center">{qrCaption}</span>
-                </div>
-            )}
         </div>
     );
 };

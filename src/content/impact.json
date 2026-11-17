@@ -4,28 +4,23 @@
     "fr": "Notre Impact dans la Communauté",
     "en": "Our Impact in the Community"
   },
-  "description": {
-    "ar": "بعض إنجازات شباب الإحسان في 2025",
-    "fr": "Quelques réalisations de Chabab El Ihssane en 2025",
-    "en": "Some achievements of Chabab El Ihssane in 2025"
-  },
   "stats": [
     {
       "icon": "meals",
-      "number": "13,000+",
+      "number": "557112",
       "label": {
-        "ar": "وجبة ساخنة وُزّعت على عمّال الليل والمشرّدين",
-        "fr": "Repas chauds distribués aux travailleurs de nuit et aux sans-abris",
-        "en": "Hot meals distributed to night workers and the homeless"
+        "ar": "وجبة موزّعة (رمضان + سحور)",
+        "fr": "Repas distribués (Ramadan + Suhoor)",
+        "en": "Meals distributed (Ramadan + Suhoor)"
       }
     },
     {
       "icon": "clothes",
-      "number": "318",
+      "number": "1450",
       "label": {
-        "ar": "طفل محتاج كُسي في «ملابس العيد 2025»",
-        "fr": "Enfants démunis habillés (Vêtements de l'Aïd 2025)",
-        "en": "Needy children clothed (Eid Clothes 2025)"
+        "ar": "كسوة موزّعة",
+        "fr": "Tenues distribuées",
+        "en": "Outfits distributed"
       }
     },
     {
@@ -39,11 +34,11 @@
     },
     {
       "icon": "caravan",
-      "number": "25",
+      "number": "28",
       "label": {
-        "ar": "وجهتان لقوافل الجنوب ",
-        "fr": "Destinations des caravanes du Grand Sud ",
-        "en": "Great South caravan destinations "
+        "ar": "قافلة إحسان للجنوب",
+        "fr": "Caravanes de bienfaisance vers le Sud",
+        "en": "Charity caravans to the South"
       }
     }
   ]

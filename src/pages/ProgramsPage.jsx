@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useData } from '../hooks/useData';
 import { useLanguage } from '../context/LanguageContext';
@@ -21,14 +21,17 @@ const ProgramsPage = () => {
 
     const [modalState, setModalState] = useState({ id: null, type: 'programs' });
 
-    useEffect(() => {
+    // Ouvre la fenêtre quand on arrive avec un élément sélectionné (ajustement pendant le rendu, sans effet)
+    const [seenNav, setSeenNav] = useState(null);
+    if (location.state !== seenNav) {
+        setSeenNav(location.state);
         if (location.state?.selectedProgram) {
             setModalState({
                 id: location.state.selectedProgram.id,
                 type: location.state.type || 'programs'
             });
         }
-    }, [location.state]);
+    }
 
     // Derive the selected item from the global data to ensure it is always fresh (live attendees count, status)
     const selectedItem = modalState.id

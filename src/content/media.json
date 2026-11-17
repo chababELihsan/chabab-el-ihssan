@@ -22,67 +22,67 @@
   ],
   "achievementPlaces": [
     {
-      "lat": 30.13,
-      "lng": -2.17,
+      "lat": 35.37,
+      "lng": 1.32,
       "name": {
-        "ar": "بني عباس",
-        "fr": "Béni Abbès",
-        "en": "Béni Abbès"
+        "ar": "تيارت",
+        "fr": "Tiaret",
+        "en": "Tiaret"
       },
       "actions": [],
       "label_side": "left"
     },
     {
-      "lat": 27.67,
-      "lng": -8.15,
+      "lat": 36.27,
+      "lng": 2.75,
       "name": {
-        "ar": "تندوف",
-        "fr": "Tindouf",
-        "en": "Tindouf"
+        "ar": "المدية",
+        "fr": "Médéa",
+        "en": "Médéa"
+      },
+      "actions": [],
+      "label_side": "top"
+    },
+    {
+      "lat": 36.26,
+      "lng": 1.97,
+      "name": {
+        "ar": "عين الدفلى",
+        "fr": "Aïn Defla",
+        "en": "Aïn Defla"
       },
       "actions": [],
       "label_side": "left"
     },
     {
-      "lat": 27.87,
-      "lng": -0.29,
+      "lat": 33.8,
+      "lng": 2.86,
       "name": {
-        "ar": "أدرار",
-        "fr": "Adrar",
-        "en": "Adrar"
+        "ar": "الأغواط",
+        "fr": "Laghouat",
+        "en": "Laghouat"
       },
       "actions": [],
-      "label_side": "left"
+      "label_side": "bottom"
     },
     {
-      "lat": 29.26,
-      "lng": 0.23,
+      "lat": 33.68,
+      "lng": 1.02,
       "name": {
-        "ar": "تيميمون",
-        "fr": "Timimoun",
-        "en": "Timimoun"
+        "ar": "البيض",
+        "fr": "El Bayadh",
+        "en": "El Bayadh"
       },
       "actions": [],
-      "label_side": "right"
+      "label_side": "top"
     },
     {
-      "lat": 22.785,
-      "lng": 5.52,
+      "lat": 31.95,
+      "lng": 5.32,
       "name": {
-        "ar": "تمنراست",
-        "fr": "Tamanrasset",
-        "en": "Tamanrasset"
-      },
-      "actions": [],
-      "label_side": "right"
-    },
-    {
-      "lat": 26.5,
-      "lng": 8.48,
-      "name": {
-        "ar": "إيليزي",
-        "fr": "Illizi",
-        "en": "Illizi"
+        "ar": "ورقلة",
+        "fr": "Ouargla",
+        "en": "Ouargla"
       },
       "actions": [],
       "label_side": "right"
@@ -99,15 +99,114 @@
       "label_side": "right"
     },
     {
-      "lat": 33.68,
-      "lng": 1.02,
+      "lat": 30.13,
+      "lng": -2.17,
       "name": {
-        "ar": "البيض",
-        "fr": "El Bayadh",
-        "en": "El Bayadh"
+        "ar": "بني عباس",
+        "fr": "Béni Abbès",
+        "en": "Béni Abbès"
+      },
+      "actions": [],
+      "label_side": "left"
+    },
+    {
+      "lat": 33.37,
+      "lng": 6.86,
+      "name": {
+        "ar": "الوادي",
+        "fr": "El Oued",
+        "en": "El Oued"
       },
       "actions": [],
       "label_side": "right"
+    },
+    {
+      "lat": 26.5,
+      "lng": 8.48,
+      "name": {
+        "ar": "إيليزي",
+        "fr": "Illizi",
+        "en": "Illizi"
+      },
+      "actions": [],
+      "label_side": "right"
+    },
+    {
+      "lat": 34.43,
+      "lng": 5.07,
+      "name": {
+        "ar": "أولاد جلال",
+        "fr": "Ouled Djellal",
+        "en": "Ouled Djellal"
+      },
+      "actions": [],
+      "label_side": "right"
+    },
+    {
+      "lat": 33.95,
+      "lng": 5.92,
+      "name": {
+        "ar": "المغير",
+        "fr": "El Meghaïer",
+        "en": "El Meghaïer"
+      },
+      "actions": [],
+      "label_side": "bottom"
+    },
+    {
+      "lat": 22.785,
+      "lng": 5.52,
+      "name": {
+        "ar": "تمنراست",
+        "fr": "Tamanrasset",
+        "en": "Tamanrasset"
+      },
+      "actions": [],
+      "label_side": "right"
+    },
+    {
+      "lat": 27.87,
+      "lng": -0.29,
+      "name": {
+        "ar": "أدرار",
+        "fr": "Adrar",
+        "en": "Adrar"
+      },
+      "actions": [],
+      "label_side": "left"
+    },
+    {
+      "lat": 30.58,
+      "lng": 2.88,
+      "name": {
+        "ar": "المنيعة",
+        "fr": "El Menia",
+        "en": "El Menia"
+      },
+      "actions": [],
+      "label_side": "right"
+    },
+    {
+      "lat": 29.26,
+      "lng": 0.23,
+      "name": {
+        "ar": "تيميمون",
+        "fr": "Timimoun",
+        "en": "Timimoun"
+      },
+      "actions": [],
+      "label_side": "right"
+    },
+    {
+      "lat": 27.67,
+      "lng": -8.15,
+      "name": {
+        "ar": "تندوف",
+        "fr": "Tindouf",
+        "en": "Tindouf"
+      },
+      "actions": [],
+      "label_side": "left"
     },
     {
       "lat": 33.27,
@@ -129,7 +228,7 @@
         "en": "Djelfa"
       },
       "actions": [],
-      "label_side": "right"
+      "label_side": "top"
     }
   ],
   "sadaqaProjects": [
