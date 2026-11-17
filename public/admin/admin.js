@@ -145,30 +145,64 @@
   }
 
   /* ---------------- الصور ---------------- */
-  var MAX_SIDE = 1600, MIN_BYTES = 300 * 1024;
+  var MAX_SIDE = 1600;
+  var IMG_EXT = /\.(jpe?g|png|webp|gif|bmp|avif|heic|heif|tiff?|jfif|svg)$/i;
+  function isImage(f) { return !!f && (/^image\//.test(f.type) || IMG_EXT.test(f.name || '')); }
+  /* يفكّ أي صورة (jpg, png, webp, gif, bmp, avif, heic عند دعم المتصفح…) إلى عنصر قابل للرسم */
+  function decode(file) {
+    if (window.createImageBitmap) {
+      return createImageBitmap(file, { imageOrientation: 'from-image' }).catch(function () { return createImageBitmap(file); }).catch(function () { return viaImg(file); });
+    }
+    return viaImg(file);
+  }
+  function viaImg(file) {
+    return new Promise(function (res, rej) {
+      var u = URL.createObjectURL(file), im = new Image();
+      im.onload = function () { URL.revokeObjectURL(u); res(im); };
+      im.onerror = function () { URL.revokeObjectURL(u); rej(new Error('decode')); };
+      im.src = u;
+    });
+  }
+  function toBlob(c, type, q) { return new Promise(function (res) { try { c.toBlob(res, type, q); } catch (e) { res(null); } }); }
+  /* كل صورة تُحوَّل تلقائياً إلى WebP (أو JPEG) ومصغّرة إلى 1600px → تُقبل دائماً وتظهر في الموقع */
   function shrink(file) {
-    if (!/^image\/(jpeg|png|webp)$/.test(file.type) || file.size < MIN_BYTES || !window.createImageBitmap) return Promise.resolve(file);
-    return createImageBitmap(file).then(function (bmp) {
-      var s = Math.min(1, MAX_SIDE / Math.max(bmp.width, bmp.height)), w = Math.round(bmp.width * s), h = Math.round(bmp.height * s);
-      var c = document.createElement('canvas'); c.width = w; c.height = h; c.getContext('2d').drawImage(bmp, 0, 0, w, h);
-      return new Promise(function (res) { c.toBlob(res, 'image/webp', 0.82); }).then(function (blob) {
-        if (!blob || blob.type !== 'image/webp' || blob.size >= file.size) return file;
-        return new File([blob], file.name.replace(/\.[^.]+$/, '') + '.webp', { type: 'image/webp' });
+    if (/svg/i.test(file.type) || /\.svg$/i.test(file.name || '')) return Promise.resolve(file);
+    return decode(file).then(function (bmp) {
+      var bw = bmp.width || bmp.naturalWidth, bh = bmp.height || bmp.naturalHeight;
+      if (!bw || !bh) throw new Error('size');
+      var s = Math.min(1, MAX_SIDE / Math.max(bw, bh)), w = Math.max(1, Math.round(bw * s)), h = Math.max(1, Math.round(bh * s));
+      var c = document.createElement('canvas'); c.width = w; c.height = h;
+      c.getContext('2d').drawImage(bmp, 0, 0, w, h);
+      if (bmp.close) bmp.close();
+      var base = (file.name || 'image').replace(/\.[^.]+$/, '');
+      return toBlob(c, 'image/webp', 0.82).then(function (blob) {
+        if (blob && blob.type === 'image/webp') return new File([blob], base + '.webp', { type: 'image/webp' });
+        return toBlob(c, 'image/jpeg', 0.85).then(function (jb) {
+          if (!jb) throw new Error('encode');
+          return new File([jb], base + '.jpg', { type: 'image/jpeg' });
+        });
       });
-    }).catch(function () { return file; });
+    }).catch(function () {
+      /* تعذّر التحويل: نُبقي الملف الأصلي فقط إن كان بصيغة يعرضها المتصفح مباشرة */
+      if (/^image\/(jpeg|png|webp|gif|avif)$/.test(file.type)) return file;
+      throw new Error('تعذّر قراءة هذه الصورة — جرّب صورة JPG أو PNG');
+    });
   }
   function fileToB64(file) { return new Promise(function (res, rej) { var r = new FileReader(); r.onload = function () { res(String(r.result).split(',')[1]); }; r.onerror = rej; r.readAsDataURL(file); }); }
   /* تُحفظ الصورة في الذاكرة وتُرفع مع الحفظ في commit واحد */
   function addPending(file) {
-    if (!/^image\//.test(file.type)) return Promise.reject(new Error('هذا ليس ملف صورة'));
+    if (!isImage(file)) return Promise.reject(new Error('هذا ليس ملف صورة'));
     return shrink(file).then(function (f) {
-      var m = f.name.match(/\.[a-z0-9]+$/i), name = 'img-' + uid() + (m ? m[0].toLowerCase() : '.jpg'), url = '/images/uploads/' + name;
+      var m = f.name.match(/\.([a-z0-9]+)$/i), ext = m ? m[1].toLowerCase() : '';
+      if (ext === 'jpeg' || ext === 'jfif') ext = 'jpg';
+      if (!/^(jpg|png|webp|gif|avif|svg)$/.test(ext)) ext = 'jpg';
+      var name = 'img-' + uid() + '.' + ext, url = '/images/uploads/' + name;
       return fileToB64(f).then(function (b64) { S.pending[url] = { path: UP_DIR + name, b64: b64, blob: URL.createObjectURL(f) }; return url; });
     });
   }
   function imgSrc(v) { if (!v) return ''; if (S.pending[v]) return S.pending[v].blob; return /^https?:/.test(v) ? v : location.origin + v; }
   function pickFiles(multi, cb) {
-    var i = document.createElement('input'); i.type = 'file'; i.accept = 'image/*'; i.multiple = !!multi;
+    var i = document.createElement('input'); i.type = 'file'; i.accept = 'image/*,.heic,.heif,.avif,.jfif'; i.multiple = !!multi;
     i.onchange = function () { if (i.files && i.files.length) cb(Array.prototype.slice.call(i.files)); }; i.click();
   }
 
@@ -243,7 +277,7 @@
         L3('name', 'اسم الولاية', { req: true }),
         { k: 'lat', t: 'num', l: 'خط العرض (Latitude)', step: 0.0001, min: -90, max: 90 },
         { k: 'lng', t: 'num', l: 'خط الطول (Longitude)', step: 0.0001, min: -180, max: 180 },
-        { k: 'label_side', t: 'select', l: 'جهة ظهور الاسم على الخريطة', o: [['right', 'يمين'], ['left', 'يسار']] },
+        { k: 'label_side', t: 'select', l: 'جهة ظهور الاسم على الخريطة', o: [['right', 'يمين'], ['left', 'يسار'], ['top', 'فوق'], ['bottom', 'تحت']] },
         { k: 'actions', t: 'list', l: 'الأعمال المنجزة هناك', add: 'عمل جديد', lab: function (it) { return T3(it); }, f: [
           { k: 'ar', t: 'text', l: 'العربية' }, { k: 'fr', t: 'text', l: 'Français' }, { k: 'en', t: 'text', l: 'English' }
         ] }
@@ -421,7 +455,7 @@
   }
   function afterAuth() { S.screen = pinOk() ? 'app' : 'pin'; pin = ''; render(); if (S.screen === 'app') enterApp(); }
   function loginGithub() {
-    S.loginErr = ''; var w = window.open('/oauth/auth?provider=github&scope=repo,user', 'cei_oauth', 'width=620,height=760');
+    S.loginErr = ''; var w = window.open('/oauth/auth?provider=github', 'cei_oauth', 'width=620,height=760');
     if (!w) { S.loginErr = 'المتصفح منع النافذة المنبثقة. اسمح بها ثم أعد المحاولة.'; return render(); }
     function onMsg(e) {
       if (e.origin !== location.origin || typeof e.data !== 'string') return;
@@ -724,7 +758,7 @@
   function addGallery(files) {
     var e = S.edit, sel = document.getElementById('gnew'), cat = sel ? sel.value : '', urls = [];
     S.gnew = cat; busy(true, 'جارٍ تجهيز الصور');
-    files.filter(function (f) { return /^image\//.test(f.type); }).reduce(function (p, f) { return p.then(function () { return addPending(f).then(function (u) { urls.push(u); }); }); }, Promise.resolve()).then(function () {
+    files.filter(isImage).reduce(function (p, f) { return p.then(function () { return addPending(f).then(function (u) { urls.push(u); }); }); }, Promise.resolve()).then(function () {
       urls.slice().reverse().forEach(function (u) { e.data.images.unshift({ image_url: u, caption: { ar: '', fr: '', en: '' }, category: cat, is_featured: false }); });
       markDirty(); busy(false); toast('✅ أُضيفت ' + urls.length + ' صورة — اضغط «حفظ ونشر» لتظهر في الموقع'); render();
     }).catch(fail);
@@ -802,7 +836,7 @@
         return render();
       }
       var b = e.target.closest && e.target.closest('.can-drop'); if (!b) return; e.preventDefault(); b.classList.remove('over');
-      var fs = Array.prototype.slice.call(e.dataTransfer.files || []).filter(function (f) { return /^image\//.test(f.type); });
+      var fs = Array.prototype.slice.call(e.dataTransfer.files || []).filter(isImage);
       if (!fs.length) return toast('⚠️ هذا ليس ملف صورة', true);
       if (b.dataset.gdrop) return addGallery(fs);
       if (b.dataset.ip) setImage(b.dataset.ip, fs[0]);

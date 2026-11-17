@@ -26,21 +26,26 @@ export async function onRequestGet({ request, env }) {
       : 'authorization:github:error:' + JSON.stringify(data)
   }
 
+  const origin = url.origin
+  const safe = JSON.stringify(message).replace(/</g, '\\u003c')
   const html = `<!doctype html><html><body><script>
 (function () {
-  var msg = ${JSON.stringify(message)};
+  var msg = ${safe};
+  var target = ${JSON.stringify(origin)};
   function receive(e) {
-    window.opener.postMessage(msg, e.origin);
+    if (e.origin !== target) return;
+    window.opener.postMessage(msg, target);
     window.removeEventListener('message', receive, false);
   }
   window.addEventListener('message', receive, false);
-  window.opener.postMessage('authorizing:github', '*');
+  window.opener.postMessage('authorizing:github', target);
 })();
 </script></body></html>`
 
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html;charset=UTF-8',
+      'Cache-Control': 'no-store',
       'Set-Cookie': 'oauth_state=; Path=/oauth; Max-Age=0',
     },
   })

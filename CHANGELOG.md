@@ -1,3 +1,15 @@
+## 11.2.0 — Nouveau logo
+- Logo : remplacement de l'ancien logo (adresse externe chababelihssan.com) par le logo officiel (coupole, mains jointes, lauriers) : `public/images/logo.png` (emblème, fond clair), `logo-full.png` (avec texte blanc, fond sombre), `og-image.png` (partage).
+- Favicon, apple-touch-icon, Open Graph, Twitter Card et JSON-LD pointent vers les nouveaux fichiers ; ajout des favicons à `/admin`.
+- Page d'erreur : le logo n'est plus rogné dans un cercle.
+
+## 11.1.0 — Audit & corrections
+- Sécurité : le jeton OAuth n'est plus envoyé qu'à l'origine du site (plus de `postMessage('*')`), portée GitHub réduite à `repo`, réponses OAuth en `no-store`.
+- Confidentialité : suppression d'un document administratif personnel et de captures d'écran étrangères du dossier `public/images/uploads`.
+- Contenu : retrait d'une image de galerie (capture YouTube) et remplacement de l'image d'une activité (capture d'exercice).
+- Nettoyage : suppression de `public/admin/config.yml` (Decap, obsolète), du dossier `admin/` dupliqué et d'une note parasite.
+- Qualité : `npm run lint` sans erreur (ProgramsPage, vite.config.js), ajout de `.env.example`.
+
 # Changelog
 
 ## 11.0.0
