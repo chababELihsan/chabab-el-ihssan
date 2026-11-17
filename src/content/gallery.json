@@ -67,6 +67,26 @@
   ],
   "images": [
     {
+      "category": "construction",
+      "image_url": "/images/gallery/construction/chantier-structure.webp",
+      "caption": {
+        "ar": "هيكل البناء قيد الإنجاز",
+        "fr": "Structure du bâtiment en cours de construction",
+        "en": "Building structure under construction"
+      },
+      "is_featured": false
+    },
+    {
+      "category": "aid",
+      "image_url": "//images/gallery/aid/livraison-couvertures-huile.webp",
+      "caption": {
+        "ar": "تفريغ البطانيات والزيت من الشاحنة",
+        "fr": "Déchargement de couvertures et d'huile",
+        "en": "Unloading blankets and cooking oil"
+      },
+      "is_featured": true
+    },
+    {
       "category": "water",
       "image_url": "/images/gallery/water/eau-jaillit.webp",
       "caption": {
@@ -298,16 +318,6 @@
     },
     {
       "category": "aid",
-      "image_url": "//images/gallery/aid/livraison-couvertures-huile.webp",
-      "caption": {
-        "ar": "تفريغ البطانيات والزيت من الشاحنة",
-        "fr": "Déchargement de couvertures et d'huile",
-        "en": "Unloading blankets and cooking oil"
-      },
-      "is_featured": false
-    },
-    {
-      "category": "aid",
       "image_url": "//images/gallery/aid/chargement-colis-camion.webp",
       "caption": {
         "ar": "تحميل الطرود داخل الشاحنة",
@@ -453,16 +463,6 @@
         "ar": "صبّ سقف الخرسانة",
         "fr": "Coulage de la dalle en béton",
         "en": "Pouring the concrete slab"
-      },
-      "is_featured": false
-    },
-    {
-      "category": "construction",
-      "image_url": "/images/gallery/construction/chantier-structure.webp",
-      "caption": {
-        "ar": "هيكل البناء قيد الإنجاز",
-        "fr": "Structure du bâtiment en cours de construction",
-        "en": "Building structure under construction"
       },
       "is_featured": false
     },
