@@ -16,7 +16,7 @@
     "tiktok": "https://tiktok.com/@chababelihssan"
   },
   "social_feed": {
-    "enabled": true,
+    "enabled": false,
     "facebook_page_url": "https://www.facebook.com/chababelihssan3",
     "instagram_feed_url": "",
     "instagram_manual_posts": []
