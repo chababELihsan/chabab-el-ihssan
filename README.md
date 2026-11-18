@@ -67,7 +67,7 @@ src/content/
   branches.json        الفروع
   media.json           فيديو، قبل/بعد، خريطة، صدقة جارية
   settings.json        الاتصال، الروابط، قسم السوشيال
-public/admin/          لوحة التحكم (config.yml يعرّف الحقول)
+public/admin/          لوحة التحكم (index.html, admin.js, admin.css)
 public/images/uploads/ الصور المرفوعة من اللوحة
 ```
 

@@ -1,3 +1,8 @@
+## 11.4.0 — Fluidité perçue & contrôle qualité
+- Squelettes de chargement : `Skeleton.jsx` / `PageSkeleton` (en-tête et pied de page restent visibles pendant le chargement d'une page) et `SmartImage.jsx` (image avec fond animé puis apparition en fondu) pour actualités, galerie, programmes et « À propos ».
+- Transitions de page (framer-motion, désactivées si « réduire les animations »).
+- Ajout de `lighthouserc.json` et `.github/workflows/lighthouse.yml` (performance, accessibilité, SEO) : sur Pull Request, chaque lundi et à la demande.
+
 ## 11.3.0 — Déploiement DZSecurity (cPanel)
 - Ajout de `public/.htaccess` (réécriture SPA, compression, cache, en-têtes de sécurité) et `public/admin/.htaccess` (admin jamais mis en cache).
 - Ajout de `.github/workflows/deploy-dzsecurity.yml` : à chaque push sur `main` (y compris les enregistrements de /admin), le site est compilé puis envoyé par FTP vers DZSecurity.
@@ -52,3 +57,6 @@ Version fournie.
 - تصغير الصور تلقائياً قبل الرفع (أكبر ضلع 1600px).
 - واجهة عربية، وأقسام مرتبة حسب الأكثر استعمالاً، وعناصر القوائم بعناوينها بدل «No id».
 - الملفات: public/admin/{index.html, admin.js, admin.css, config.yml}
+
+## Optimisations (images locales, polices locales, cache, sécurité)
+Voir `OPTIMIZATIONS-README.md`.
