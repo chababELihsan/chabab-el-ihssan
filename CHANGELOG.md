@@ -1,3 +1,9 @@
+## 11.3.0 — Déploiement DZSecurity (cPanel)
+- Ajout de `public/.htaccess` (réécriture SPA, compression, cache, en-têtes de sécurité) et `public/admin/.htaccess` (admin jamais mis en cache).
+- Ajout de `.github/workflows/deploy-dzsecurity.yml` : à chaque push sur `main` (y compris les enregistrements de /admin), le site est compilé puis envoyé par FTP vers DZSecurity.
+- Nettoyage : suppression de l'ancien dossier `admin/` dupliqué, de `public/admin/config.yml` (inutilisé), de la note parasite et de 6 images non utilisées de `public/images/uploads` (dont un document administratif personnel et des captures d'écran).
+- `package.json` aligné sur la version du changelog.
+
 ## 11.2.0 — Nouveau logo
 - Logo : remplacement de l'ancien logo (adresse externe chababelihssan.com) par le logo officiel (coupole, mains jointes, lauriers) : `public/images/logo.png` (emblème, fond clair), `logo-full.png` (avec texte blanc, fond sombre), `og-image.png` (partage).
 - Favicon, apple-touch-icon, Open Graph, Twitter Card et JSON-LD pointent vers les nouveaux fichiers ; ajout des favicons à `/admin`.
