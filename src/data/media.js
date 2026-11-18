@@ -7,4 +7,4 @@ export const beforeAfterProjects = withIds(media.beforeAfter, 'ba');
 export const achievementPlaces = withIds(media.achievementPlaces, 'place', (p) => p.name?.fr || p.name?.ar)
     .map((p) => ({ ...p, actions: p.actions || [] }));
 export const sadaqaProjects = withIds(media.sadaqaProjects, 'sadaqa', (p) => p.icon);
-export const heroImage = media.heroImage || 'https://chababelihssan.com/wp-content/uploads/2025/05/IMG_5154-scaled.jpg';
+export const heroImage = media.heroImage || '/images/gallery/team/benevoles-en-route.webp';

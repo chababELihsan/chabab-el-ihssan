@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { LanguageProvider } from './context/LanguageProvider';
 import Layout from './components/Layout';
@@ -6,7 +6,6 @@ import { DataProvider } from './context/DataContext';
 import { ThemeProvider } from './context/ThemeContext';
 import ErrorBoundary from './components/ErrorBoundary';
 import ScrollToTopWrapper from './components/ScrollToTopWrapper';
-import LoadingSpinner from './components/LoadingSpinner';
 // ErrorPage is statically imported (not lazy) because ErrorBoundary uses it
 // synchronously — lazy() here would conflict with the static import and produce a Vite warning.
 import ErrorPage from './pages/ErrorPage';
@@ -25,8 +24,7 @@ const ReportProblem = lazy(() => import('./pages/ReportProblem'));
 const GalleryPage = lazy(() => import('./pages/GalleryPage'));
 const SadaqaJariya = lazy(() => import('./pages/SadaqaJariya'));
 
-// Minimal fallback shown while a lazy page chunk loads
-const PageLoader = () => <LoadingSpinner fullScreen={true} />;
+// Le Suspense (squelette de page) est dans Layout : en-tête et pied de page restent visibles.
 
 function App() {
     return (
@@ -36,7 +34,6 @@ function App() {
                         <Router>
                             <ScrollToTopWrapper />
                             <ErrorBoundary>
-                                <Suspense fallback={<PageLoader />}>
                                     <Routes>
                                         <Route path="/" element={<Layout />}>
                                             <Route index element={<Home />} />
@@ -55,7 +52,6 @@ function App() {
                                             <Route path="*" element={<ErrorPage is404={true} />} />
                                         </Route>
                                     </Routes>
-                                </Suspense>
                             </ErrorBoundary>
                         </Router>
                     </DataProvider>

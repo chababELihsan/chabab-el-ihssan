@@ -7,6 +7,7 @@ import { formatDateRange, calculateDuration } from '../utils/dateUtils';
 import PageHeader from '../components/PageHeader';
 import { PLACEHOLDER } from '../utils/placeholder';
 
+import SmartImage from '../components/SmartImage';
 const NewsPage = () => {
     const { news, events, getLocalizedContent } = useData();
     const { language, t } = useLanguage();
@@ -32,7 +33,7 @@ const NewsPage = () => {
                             {news.map((item) => {
                                 return (
                                     <div key={item.id} className="bg-transparent rounded-xl flex flex-col hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 overflow-hidden">
-                                        <img loading="lazy" decoding="async"
+                                        <SmartImage loading="lazy" decoding="async"
                                             src={item.image_url || item.image || PLACEHOLDER}
                                             alt={getLocalizedContent(item.title, language)}
                                             className="h-48 w-full object-cover"
@@ -84,7 +85,7 @@ const NewsPage = () => {
                             {events.map((item) => {
                                 return (
                                     <div key={item.id} className="bg-transparent rounded-xl flex flex-col hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 overflow-hidden">
-                                        <img loading="lazy" decoding="async"
+                                        <SmartImage loading="lazy" decoding="async"
                                             src={item.image_url || item.image || PLACEHOLDER}
                                             alt={getLocalizedContent(item.title, language)}
                                             className="h-48 w-full object-cover"

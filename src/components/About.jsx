@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import SmartImage from './SmartImage';
 // removed import { translations } from '../translations';
 
 const About = () => {
@@ -39,8 +40,8 @@ const About = () => {
           */}
                     <div className="hidden md:block">
                         {/* Placeholder for now or check next lines */}
-                        <img loading="lazy" decoding="async"
-                            src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=400"
+                        <SmartImage loading="lazy" decoding="async"
+                            src="/images/gallery/team/benevoles-en-route.webp"
                             alt="About Us"
                             className="rounded-lg shadow-lg w-full h-auto object-cover"
                         />

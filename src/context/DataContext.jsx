@@ -28,7 +28,6 @@ const value = {
     projects: activities.filter(a => a.category === 'project'),
     projectCategories: site.projectCategories,
     testimonials: site.testimonials,
-    partners: site.partners,
     galleryImages: site.galleryImages,
     getLocalizedContent,
     loading: false,

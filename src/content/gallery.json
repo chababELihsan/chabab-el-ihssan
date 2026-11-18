@@ -117,52 +117,12 @@
       "is_featured": false
     },
     {
-      "category": "team",
-      "image_url": "https://chababelihssan.com/wp-content/uploads/2025/04/IMG_1464-1-scaled.jpg",
-      "caption": {
-        "ar": "فريقنا",
-        "fr": "Notre équipe",
-        "en": "Our team"
-      },
-      "is_featured": false
-    },
-    {
       "category": "ramadan",
-      "image_url": "https://chababelihssan.com/wp-content/uploads/2025/10/DigitalTechStore_character-1024x767.jpg",
-      "caption": {
-        "ar": "وجبة السحور 2025",
-        "fr": "Repas du Suhoor 2025",
-        "en": "Suhoor Meals 2025"
-      },
-      "is_featured": false
-    },
-    {
-      "category": "aid",
-      "image_url": "/images/gallery/aid/panier-legumes-preparation.webp",
+      "image_url": "/images/gallery/ramadan/panier-legumes-preparation.webp",
       "caption": {
         "ar": "قفة الخضر",
         "fr": "Panier à légumes",
         "en": "Vegetable basket"
-      },
-      "is_featured": false
-    },
-    {
-      "category": "aid",
-      "image_url": "https://chababelihssan.com/wp-content/uploads/2023/04/IMG_1079-1024x768.jpg",
-      "caption": {
-        "ar": "أجهزة كهرومنزلية",
-        "fr": "Appareils électroménagers",
-        "en": "Household appliances"
-      },
-      "is_featured": false
-    },
-    {
-      "category": "health",
-      "image_url": "https://chababelihssan.com/wp-content/uploads/2025/04/IMG_7194-scaled.jpg",
-      "caption": {
-        "ar": "أجهزة طبية",
-        "fr": "Dispositifs médicaux",
-        "en": "Medical devices"
       },
       "is_featured": false
     },
@@ -267,8 +227,8 @@
       "is_featured": false
     },
     {
-      "category": "aid",
-      "image_url": "/images/gallery/aid/distribution-paniers.webp",
+      "category": "ramadan",
+      "image_url": "/images/gallery/ramadan/distribution-paniers.webp",
       "caption": {
         "ar": "توزيع القفف على الأسر",
         "fr": "Distribution de paniers aux familles",
@@ -277,8 +237,8 @@
       "is_featured": false
     },
     {
-      "category": "aid",
-      "image_url": "/images/gallery/aid/paniers-prets.webp",
+      "category": "ramadan",
+      "image_url": "/images/gallery/ramadan/paniers-prets.webp",
       "caption": {
         "ar": "قفف جاهزة للتوزيع",
         "fr": "Paniers prêts à être distribués",
@@ -287,8 +247,8 @@
       "is_featured": false
     },
     {
-      "category": "aid",
-      "image_url": "/images/gallery/aid/viande-aid.webp",
+      "category": "eid",
+      "image_url": "/images/gallery/eid/viande-aid.webp",
       "caption": {
         "ar": "توزيع اللحوم",
         "fr": "Distribution de viande",
@@ -298,7 +258,7 @@
     },
     {
       "category": "aid",
-      "image_url": "/images/gallery/aid/fournitures-scolaires.webp",
+      "image_url": "/images/gallery/education/fournitures-scolaires.webp",
       "caption": {
         "ar": "أدوات مدرسية",
         "fr": "Fournitures scolaires",
@@ -338,7 +298,7 @@
     },
     {
       "category": "aid",
-      "image_url": "//images/gallery/aid/cahiers-scolaires.webp",
+      "image_url": "//images/gallery/education/cahiers-scolaires.webp",
       "caption": {
         "ar": "كراريس وأدوات مدرسية",
         "fr": "Cahiers et fournitures scolaires",

@@ -14,7 +14,6 @@ const fr = (o) => o?.fr || o?.ar || o?.en || '';
 export const news = newsEntries;
 export const activities = activityEntries;
 export const testimonials = testimonialEntries;
-export const partners = [];
 export const branches = withIds(branchesContent.branches, 'branch', (b) => b.name || b.city);
 export const galleryImages = withIds(gallery.images, 'img');
 export const projectCategories = withIds(projects.categories, 'cat', (c) => fr(c.title)).map((c) => ({

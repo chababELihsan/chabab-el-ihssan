@@ -8,6 +8,7 @@ import { galleryCategories } from '../data/campaigns';
 import { getLocalizedContent } from '../utils/languageUtils';
 import { PLACEHOLDER } from '../utils/placeholder';
 
+import SmartImage from '../components/SmartImage';
 const GalleryPage = () => {
     const { t, language } = useLanguage();
     const { galleryImages } = useData();
@@ -154,11 +155,10 @@ const GalleryPage = () => {
                                     className="break-inside-avoid mb-4 group relative rounded-2xl overflow-hidden shadow-md hover:shadow-2xl cursor-pointer transition-all duration-300"
                                     onClick={() => setLightIndex(index)}
                                 >
-                                    <img loading="lazy" decoding="async"
+                                    <SmartImage loading="lazy" decoding="async"
                                         src={img.image_url}
                                         alt={getCaption(img) || 'Gallery image'}
                                         className="w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                        loading="lazy"
                                         onError={e => { e.target.src = PLACEHOLDER; }}
                                     />
                                     {/* Overlay */}

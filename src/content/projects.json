@@ -25,7 +25,7 @@
         },
         {
           "id": "w2",
-          "image": "/images/gallery/aid/panier-legumes-preparation.webp",
+          "image": "/images/gallery/ramadan/panier-legumes-preparation.webp",
           "title": {
             "ar": "سلة الخضر",
             "fr": "Panier à légumes",
@@ -50,7 +50,7 @@
       "items": [
         {
           "id": "s1",
-          "image": "/images/gallery/aid/cahiers-scolaires.webp",
+          "image": "/images/gallery/education/cahiers-scolaires.webp",
           "title": {
             "ar": "حقيبة إحسان",
             "fr": "Cartable Ihssan",
@@ -84,7 +84,7 @@
       "items": [
         {
           "id": "r1",
-          "image": "https://picsum.photos/seed/ihssan-restaurant/800/600",
+          "image": "/images/gallery/ramadan/paniers-prets.webp",
           "title": {
             "ar": "مطعم إحسان",
             "fr": "Restaurant Ihssan",
@@ -93,7 +93,7 @@
         },
         {
           "id": "r2",
-          "image": "https://picsum.photos/seed/ihssan-suhoor/800/600",
+          "image": "/images/gallery/ramadan/distribution-paniers.webp",
           "title": {
             "ar": "السحور",
             "fr": "Repas du Suhoor",
@@ -102,7 +102,7 @@
         },
         {
           "id": "r3",
-          "image": "/images/gallery/aid/distribution-paniers.webp",
+          "image": "/images/gallery/ramadan/distribution-paniers.webp",
           "title": {
             "ar": "قفة رمضان",
             "fr": "Couffin du Ramadan",
@@ -111,7 +111,7 @@
         },
         {
           "id": "r4",
-          "image": "/images/gallery/aid/paniers-prets.webp",
+          "image": "/images/gallery/ramadan/paniers-prets.webp",
           "title": {
             "ar": "قفة العيد",
             "fr": "Couffin de l'Aïd",
@@ -129,7 +129,7 @@
         },
         {
           "id": "r6",
-          "image": "/images/gallery/aid/viande-aid.webp",
+          "image": "/images/gallery/eid/viande-aid.webp",
           "title": {
             "ar": "زكاة الفطر",
             "fr": "Zakat el-Fitr",

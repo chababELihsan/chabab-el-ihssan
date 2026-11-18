@@ -7,6 +7,8 @@ import { FaArrowRight, FaImages } from 'react-icons/fa';
 import { galleryCategories } from '../data/campaigns';
 import { getLocalizedContent } from '../utils/languageUtils';
 
+import { PLACEHOLDER } from '../utils/placeholder';
+import SmartImage from './SmartImage';
 // Inject keyframes once into the document head
 const KEYFRAMES_ID = 'gallery-marquee-keyframes';
 if (typeof document !== 'undefined' && !document.getElementById(KEYFRAMES_ID)) {
@@ -29,14 +31,14 @@ if (typeof document !== 'undefined' && !document.getElementById(KEYFRAMES_ID)) {
 
 // Fallback placeholder images for when gallery is empty
 const PLACEHOLDER_IMAGES = [
-    'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=400&q=80',
-    'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=400&q=80',
-    'https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=400&q=80',
-    'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=400&q=80',
-    'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=400&q=80',
-    'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=400&q=80',
-    'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=400&q=80',
-    'https://images.unsplash.com/photo-1460518451285-97b6aa326961?w=400&q=80',
+    '/images/gallery/team/benevoles-en-route.webp',
+    '/images/gallery/ramadan/distribution-paniers.webp',
+    '/images/gallery/caravans/kafila-enfants.webp',
+    '/images/gallery/water/eau-jaillit.webp',
+    '/images/gallery/ramadan/panier-legumes-preparation.webp',
+    '/images/gallery/caravans/kafila-sahara-rencontre.webp',
+    '/images/gallery/eid/aid-vetements-fille.webp',
+    '/images/gallery/construction/coulage-dalle.webp',
 ];
 
 const GalleryPreview = () => {
@@ -97,12 +99,12 @@ const GalleryPreview = () => {
                             key={`${img.id}-${idx}`}
                             className="relative flex-shrink-0 w-56 h-40 md:w-72 md:h-52 rounded-2xl overflow-hidden shadow-lg group cursor-pointer"
                         >
-                            <img
+                            <SmartImage
                                 src={img.url}
                                 alt={img.caption || 'Gallery'}
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                 loading="lazy"
-                                onError={e => { e.target.src = 'https://placehold.co/300x200?text=Photo'; }}
+                                onError={e => { e.target.onerror = null; e.target.src = PLACEHOLDER; }}
                             />
                             {/* Hover tint */}
                             <div className="absolute inset-0 bg-blue-900/0 group-hover:bg-blue-900/30 transition-colors duration-300" />

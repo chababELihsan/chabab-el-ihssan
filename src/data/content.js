@@ -1,7 +1,7 @@
 // ============================================================================
 //  CHARGEMENT DU CONTENU
 //  Tout le contenu du site vit dans src/content/*.json.
-//  Ces fichiers sont modifiés depuis l'interface /admin (Decap CMS) — pas besoin
+//  Ces fichiers sont modifiés depuis l'interface /admin — pas besoin
 //  de toucher au code. Ce module ne fait que les lire.
 // ============================================================================
 

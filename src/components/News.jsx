@@ -7,6 +7,7 @@ import Modal from './Modal';
 import { formatDateRange, calculateDuration, isExpired } from '../utils/dateUtils';
 import { PLACEHOLDER } from '../utils/placeholder';
 
+import SmartImage from './SmartImage';
 const News = () => {
     const { language, t } = useLanguage();
     const { news, events, getLocalizedContent } = useData();
@@ -58,7 +59,7 @@ const News = () => {
                                 onClick={() => setSelectedNewsId({ id: item.id, type: item.type })}
                             >
                                 <div className="relative">
-                                    <img loading="lazy" decoding="async"
+                                    <SmartImage loading="lazy" decoding="async"
                                         src={item.image_url || PLACEHOLDER}
                                         alt={getLocalizedContent(item.title, language)}
                                         className="w-full h-48 object-cover transition group-hover:scale-105 rounded-t-lg"

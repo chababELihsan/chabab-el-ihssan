@@ -8,6 +8,7 @@ import { formatDateRange, calculateDuration, isExpired } from '../utils/dateUtil
 import PageHeader from '../components/PageHeader';
 import { PLACEHOLDER } from '../utils/placeholder';
 
+import SmartImage from '../components/SmartImage';
 const ProgramsPage = () => {
     const { programs, projects, getLocalizedContent } = useData();
     const { language, t } = useLanguage();
@@ -51,7 +52,7 @@ const ProgramsPage = () => {
                 onClick={() => setModalState({ id: item.id, type })}
             >
                 <div className="relative md:w-1/3 shrink-0">
-                    <img loading="lazy" decoding="async"
+                    <SmartImage loading="lazy" decoding="async"
                         src={item.image_url || PLACEHOLDER}
                         alt={getLocalizedContent(item.title, language)}
                         className="h-64 w-full md:h-full object-cover"
