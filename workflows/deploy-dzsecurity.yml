@@ -8,7 +8,7 @@ on:
 
 concurrency:
   group: deploy-dzsecurity
-  cancel-in-progress: false:   # لا نقطع رفعًا جاريًا (حتى لا يبقى الموقع نصف مرفوع)؛ يُنتظر ثم يُنشر آخر تعديل
+  cancel-in-progress: false   # لا نقطع رفعًا جاريًا (حتى لا يبقى الموقع نصف مرفوع)؛ يُنتظر ثم يُنشر آخر تعديل
 
 jobs:
   build-and-deploy:
